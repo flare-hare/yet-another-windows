@@ -1,0 +1,107 @@
+{
+  "extends": ["stylelint-config-standard"],
+  "plugins": ["stylelint-order"],
+  "rules": {
+    "no-empty-source": null,
+    "order/properties-order": [
+      [
+        {
+          "groupName": "Позиционирование",
+          "properties": ["content", "position", "z-index", "top", "right", "bottom", "left"]
+        },
+        {
+          "groupName": "Блочная модель",
+          "properties": [
+            "display",
+            "flex",
+            "flex-grow",
+            "flex-shrink",
+            "flex-basis",
+            "flex-direction",
+            "flex-wrap",
+            "justify-content",
+            "align-items",
+            "align-content",
+            "align-self",
+            "gap",
+            "grid",
+            "grid-template-columns",
+            "grid-template-rows",
+            "grid-template-areas",
+            "grid-column",
+            "grid-row",
+            "order",
+            "float",
+            "clear",
+            "box-sizing",
+            "width",
+            "min-width",
+            "max-width",
+            "height",
+            "min-height",
+            "max-height",
+            "margin",
+            "margin-top",
+            "margin-right",
+            "margin-bottom",
+            "margin-left",
+            "padding",
+            "padding-top",
+            "padding-right",
+            "padding-bottom",
+            "padding-left",
+            "overflow",
+            "overflow-x",
+            "overflow-y"
+          ]
+        },
+        {
+          "groupName": "Оформление",
+          "properties": [
+            "border",
+            "border-width",
+            "border-style",
+            "border-color",
+            "border-radius",
+            "outline",
+            "background",
+            "background-color",
+            "background-image",
+            "background-position",
+            "background-size",
+            "background-repeat",
+            "box-shadow",
+            "opacity",
+            "cursor"
+          ]
+        },
+        {
+          "groupName": "Текст",
+          "properties": [
+            "color",
+            "font",
+            "font-family",
+            "font-size",
+            "font-weight",
+            "font-style",
+            "line-height",
+            "letter-spacing",
+            "text-align",
+            "text-decoration",
+            "text-transform",
+            "white-space",
+            "word-break"
+          ]
+        },
+        {
+          "groupName": "Анимация и прочее",
+          "properties": ["transition", "transform", "animation", "will-change"]
+        }
+      ],
+      {
+        "unspecified": "bottomAlphabetical",
+        "severity": "warning"
+      }
+    ]
+  }
+}
