@@ -47,6 +47,7 @@
          const sizeField = createSizeField(startType, (size) => {
            setState({ width: size.width, height: size.height });
          });
+         sizeFieldRef = sizeField; // ссылка наружу для синхрона с размерами на превью
 
          const openingField = createOpeningField(startType, data.openingTypes, (openings) => {
            setState({ openings });
@@ -116,6 +117,8 @@
 
        // Отписка для синхрона открывания (пересоздаётся при каждом buildPanel)
        let openingSyncUnsub = null;
+       // Ссылка на текущее поле размеров (для синхрона с input на превью)
+       let sizeFieldRef = null;
 
        // Первое построение
        buildPanel();
@@ -135,7 +138,18 @@
        // --- Превью окна: перерисовка при изменении state и при ресайзе ---
        const previewContainer = document.querySelector('[data-window-preview]');
        const selectSash = (index) => setState({ activeSash: index });
-       const drawPreview = () => renderWindowPreview(previewContainer, getState(), data, selectSash);
+       // Изменение размера через input на превью: пишем в state + синхроним слайдеры
+       const changeSize = ({ axis, value }) => {
+         if (axis === 'width') {
+           setState({ width: value });
+           sizeFieldRef?.syncFromState(value, null);
+         } else {
+           setState({ height: value });
+           sizeFieldRef?.syncFromState(null, value);
+         }
+       };
+       const drawPreview = () =>
+         renderWindowPreview(previewContainer, getState(), data, selectSash, changeSize);
 
        subscribe(drawPreview);
        drawPreview();

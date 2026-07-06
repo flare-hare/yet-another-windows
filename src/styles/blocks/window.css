@@ -24,8 +24,8 @@
       0 12px 28px var(--depth);
   }
 
-  /* Обёртка: рама + ряд шестерён под ней. Тут же общие переменные, чтобы их
-         наследовали и рама (.win), и ряд шестерён (.win__gears). */
+  /* Обёртка: сцена с окном. Тут же общие переменные, чтобы их
+           наследовали и рама (.win), и ряд шестерён (.win__gears). */
   .win-wrap {
     --pad: 12px;
     --gap: 8px;
@@ -33,9 +33,113 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: var(--space-3);
     max-width: 100%;
     max-height: 100%;
+  }
+
+  /* Сцена: рама + размерные линии (absolute) + шестерни. Ширина = ширине рамы. */
+  .win-stage {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    width: fit-content;
+    max-width: 100%;
+  }
+
+  /* --------------------------- Размерные линии ------------------------------ */
+  .win-dim {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--color-text-secondary);
+  }
+
+  /* Ширина — над рамой */
+  .win-dim--width {
+    top: -28px;
+    right: 0;
+    left: 0;
+    flex-direction: row;
+  }
+
+  /* Высота — справа от рамы (вертикально) */
+  .win-dim--height {
+    top: 0;
+    right: -32px;
+    bottom: 44px; /* оставляем место под ряд шестерён снизу */
+    flex-direction: column;
+  }
+
+  /* Пунктирная линия между засечками */
+  .win-dim__line {
+    flex: 1;
+    border-top: 1px dashed var(--color-border-strong);
+  }
+
+  .win-dim--height .win-dim__line {
+    border-left: 1px dashed var(--color-border-strong);
+    border-top: none;
+  }
+
+  /* Засечки на концах (перпендикуляр) */
+  .win-dim__tick {
+    flex-shrink: 0;
+    background-color: var(--color-border-strong);
+  }
+
+  .win-dim--width .win-dim__tick {
+    width: 1px;
+    height: 8px;
+  }
+
+  .win-dim--height .win-dim__tick {
+    width: 8px;
+    height: 1px;
+  }
+
+  /* Поле значения по центру линии */
+  .win-dim__value {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 2px;
+    padding: 1px var(--space-2);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xs);
+    background-color: var(--color-surface);
+    transition: border-color var(--transition-fast);
+  }
+
+  .win-dim__value:focus-within {
+    border-color: var(--color-accent);
+  }
+
+  .win-dim__input {
+    width: 3ch;
+    border: none;
+    background: none;
+    color: var(--color-text);
+    font-family: var(--font-heading);
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-bold);
+    text-align: right;
+    appearance: textfield;
+  }
+
+  .win-dim__input:focus {
+    outline: none;
+  }
+
+  .win-dim__input::-webkit-outer-spin-button,
+  .win-dim__input::-webkit-inner-spin-button {
+    margin: 0;
+    appearance: none;
+  }
+
+  .win-dim__unit {
+    color: var(--color-text-muted);
+    font-size: var(--fs-xs);
   }
 
   /* Ячейка створки внутри рамы (flex:1, тянется по высоте рамы) */

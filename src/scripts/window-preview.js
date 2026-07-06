@@ -56,6 +56,48 @@
    }
 
    /**
+    * Создаёт размерную линию (пунктир с засечками на концах) + редактируемый input.
+    * @param {Object} cfg
+    * @param {'width'|'height'} cfg.axis - ось (ширина=горизонт., высота=вертик.)
+    * @param {number} cfg.value - текущее значение, см
+    * @param {number} cfg.min
+    * @param {number} cfg.max
+    * @param {(v:number)=>void} cfg.onChange
+    * @returns {HTMLElement}
+    */
+   function createDimLine({ axis, value, min, max, onChange }) {
+     const line = el('div', { className: `win-dim win-dim--${axis}` });
+
+     // Пунктир с засечками: два «уголка» по краям + линия между ними
+     line.append(el('span', { className: 'win-dim__tick win-dim__tick--start' }));
+     line.append(el('span', { className: 'win-dim__line' }));
+     line.append(el('span', { className: 'win-dim__tick win-dim__tick--end' }));
+
+     // Поле значения (по центру линии)
+     const input = el('input', {
+       className: 'win-dim__input',
+       value: String(value),
+       attrs: {
+         type: 'number',
+         min: String(min),
+         max: String(max),
+         inputmode: 'numeric',
+         'aria-label': axis === 'width' ? 'Ширина, см' : 'Высота, см',
+       },
+     });
+     const unit = el('span', { className: 'win-dim__unit', textContent: 'см' });
+     const box = el('span', { className: 'win-dim__value' }, [input, unit]);
+     line.append(box);
+
+     input.addEventListener('input', () => {
+       const v = parseInt(input.value, 10);
+       if (!Number.isNaN(v) && typeof onChange === 'function') onChange(v);
+     });
+
+     return line;
+   }
+
+   /**
     * Строит DOM окна.
     * @returns {HTMLElement}
     */
@@ -68,6 +110,8 @@
      handleSides = [],
      activeSash = 0,
      onSashSelect,
+     onSizeChange,
+     constraints = {},
      avail,
    }) {
      // Обёртка: рама сверху + ряд шестерён снизу (шестерни ВНЕ рамы)
@@ -152,14 +196,33 @@
        gears.append(gear);
      }
 
-     wrap.append(frame, gears);
+     // Размерные линии (позиционируются absolute относительно рамы)
+     const widthDim = createDimLine({
+       axis: 'width',
+       value: width,
+       min: constraints.minWidth ?? 1,
+       max: constraints.maxWidth ?? 9999,
+       onChange: (v) => onSizeChange?.({ axis: 'width', value: v }),
+     });
+     const heightDim = createDimLine({
+       axis: 'height',
+       value: height,
+       min: constraints.minHeight ?? 1,
+       max: constraints.maxHeight ?? 9999,
+       onChange: (v) => onSizeChange?.({ axis: 'height', value: v }),
+     });
+
+     // Рама + линии + шестерни в одной колонке-сцене (ширина = ширине рамы)
+     frame.append(); // (frame уже наполнен створками выше)
+     const stage = el('div', { className: 'win-stage' }, [widthDim, frame, gears, heightDim]);
+     wrap.append(stage);
      return wrap;
    }
 
    /**
     * Рендерит окно в контейнер по состоянию.
     */
-   export function renderWindowPreview(container, state, data, onSashSelect) {
+   export function renderWindowPreview(container, state, data, onSashSelect, onSizeChange) {
      if (!container) return;
      const type = data.windowTypes.find((t) => t.id === state.typeId) || data.windowTypes[0];
      const color = data.colors.find((c) => c.id === state.colorId) || data.colors[0];
@@ -184,6 +247,8 @@
        handleSides: state.handleSides,
        activeSash: state.activeSash ?? 0,
        onSashSelect,
+       onSizeChange,
+       constraints: type.constraints,
        avail,
      });
 
