@@ -1,0 +1,88 @@
+:root {
+  --accent-hue: 190;
+  --accent-sat: 30%;
+  --neutral-hue: 190;
+  --neutral-sat: 10%;
+  --color-accent: hsl(var(--accent-hue) var(--accent-sat) 59%);
+  --color-accent-hover: hsl(var(--accent-hue) var(--accent-sat) 52%);
+  --color-accent-active: hsl(var(--accent-hue) var(--accent-sat) 46%);
+  --color-accent-soft: hsl(var(--accent-hue) 70% 94%);
+  --color-accent-glow: hsl(var(--accent-hue) var(--accent-sat) 59% / 0.35);
+  --color-on-accent: hsl(var(--accent-hue) 80% 98%);
+  --color-bg: hsl(var(--neutral-hue) 30% 98%);
+  --color-surface: hsl(0 0% 100%); /* карточки/панели (чистый белый) */
+  --color-surface-2: hsl(var(--neutral-hue) 20% 96%); /* второстепенные */
+  --color-border: hsl(var(--neutral-hue) 18% 90%);
+  --color-border-strong: hsl(var(--neutral-hue) 16% 82%);
+  --color-border-soft: hsl(var(--accent-hue) 60% 85%);
+  --color-text: hsl(var(--neutral-hue) 22% 16%); /* основной */
+  --color-text-secondary: hsl(var(--neutral-hue) 12% 38%); /* вторичный */
+  --color-text-muted: hsl(var(--neutral-hue) 10% 52%); /* приглушённый */
+  --color-text-on-dark: hsl(var(--neutral-hue) 15% 92%); /* на тёмном фоне */
+  --color-success: hsl(145 45% 42%);
+  --color-success-soft: hsl(145 50% 94%);
+  --color-danger: hsl(2 70% 55%);
+  --color-danger-soft: hsl(2 75% 95%);
+  --window-frame: hsl(var(--neutral-hue) 20% 94%); /* белый профиль */
+  --window-frame-edge: hsl(var(--neutral-hue) 14% 80%);
+  --window-glass-top: hsl(200 35% 92%);
+  --window-glass-bottom: hsl(205 30% 84%);
+  --window-handle: hsl(var(--neutral-hue) 10% 62%);
+  --font-heading: 'Manrope', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', roboto, sans-serif;
+  --fs-display: clamp(2rem, 1.4rem + 3vw, 3.25rem); /* крупный H1 */
+  --fs-h1: clamp(1.75rem, 1.4rem + 1.8vw, 2.5rem);
+  --fs-h2: clamp(1.4rem, 1.2rem + 1vw, 1.9rem);
+  --fs-h3: clamp(1.15rem, 1.05rem + 0.5vw, 1.35rem);
+  --fs-lead: clamp(1.05rem, 1rem + 0.3vw, 1.2rem); /* подзаголовок */
+  --fs-base: 1rem; /* 16px базовый */
+  --fs-sm: 0.875rem; /* 14px */
+  --fs-xs: 0.75rem; /* 12px */
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  --fw-bold: 700;
+  --fw-extrabold: 800;
+  --lh-tight: 1.15;
+  --lh-heading: 1.25;
+  --lh-base: 1.55;
+  --radius-xs: 6px;
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-pill: 999px;
+  --shadow-xs: 0 1px 2px hsl(var(--neutral-hue) 25% 20% / 0.05);
+  --shadow-sm:
+    0 1px 2px hsl(var(--neutral-hue) 25% 20% / 0.04),
+    0 4px 12px hsl(var(--neutral-hue) 25% 20% / 0.06);
+  --shadow-md:
+    0 4px 8px hsl(var(--neutral-hue) 25% 20% / 0.05),
+    0 16px 40px hsl(var(--neutral-hue) 25% 20% / 0.1);
+  --shadow-lg:
+    0 8px 16px hsl(var(--neutral-hue) 25% 20% / 0.06),
+    0 24px 60px hsl(var(--neutral-hue) 25% 20% / 0.14);
+  --shadow-accent: 0 8px 22px var(--color-accent-glow);
+  --grad-accent: linear-gradient(
+    135deg,
+    hsl(var(--accent-hue) var(--accent-sat) 64%) 0%,
+    hsl(var(--accent-hue) var(--accent-sat) 52%) 100%
+  );
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+  --container-max: 1440px;
+  --container-pad: 24px;
+  --transition-fast: 0.15s ease;
+  --transition: 0.2s ease;
+  --header-height: 68px;
+  --z-header: 100;
+  --z-modal: 1000;
+}

@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none">
+  <!-- =========================================================================
+       SVG-СПРАЙТ иконок конструктора.
+       Каждая иконка = <symbol> со своим id (совпадает с id типа в windows.json).
+       Используется так: <use href="images/svg/sprite.svg#single"></use>
+       Все symbol имеют одинаковый viewBox, чтобы иконки были одного масштаба.
+       Заменяй/дорисовывай пути — id и viewBox лучше оставить прежними.
+       ========================================================================= -->
+
+  <!-- Одностворчатое -->
+  <symbol id="single" viewBox="0 0 68 40" fill="none">
+    <rect width="24" height="30" x="22" y="5" stroke="currentColor" rx="4" stroke-width="1.5"/>
+  </symbol>
+
+  <!-- Двухстворчатое -->
+  <symbol id="double" viewBox="0 0 68 40" fill="none">
+    <rect width="21" height="30" x="11" y="5" stroke="currentColor" rx="4" stroke-width="1.5"/>
+    <rect width="21" height="30" x="36" y="5" stroke="currentColor" rx="4" stroke-width="1.5"/>
+  </symbol>
+
+  <!-- Трёхстворчатое -->
+  <symbol id="triple" viewBox="0 0 68 40" fill="none">
+    <rect width="18" height="30" x="3" y="5" stroke="currentColor" rx="4" stroke-width="1.5"/>
+    <rect width="18" height="30" x="25" y="5" stroke="currentColor" rx="4" stroke-width="1.5"/>
+    <rect width="18" height="30" x="47" y="5" stroke="currentColor" rx="4" stroke-width="1.5"/>
+  </symbol>
+
+  <!-- Балконный блок (окно + дверь) -->
+  <symbol id="balcony" viewBox="0 0 68 40" fill="none">
+    <rect width="16" height="30" x="12" y="5" stroke="currentColor" rx="4" stroke-width="1.5"/>
+    <rect width="24" height="15" x="32" y="5" stroke="currentColor" rx="4" stroke-width="1.5"/>
+  </symbol>
+</svg>

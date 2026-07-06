@@ -1,0 +1,28 @@
+/* =============================================================================
+   MAIN — точка входа стилей.
+   Порядок @import важен: переменные → шрифты → сброс/глобальные → блоки.
+   Gulp (postcss-import) склеит всё это в один файл dist/styles/main.css.
+   ============================================================================= */
+
+/* 1. Дизайн-система: переменные (используются всеми остальными файлами) */
+@import 'variables.css';
+
+/* 2. Подключение локальных шрифтов */
+@import 'fonts.css';
+
+/* 3. Сброс, базовые стили документа, утилиты */
+@import 'global.css';
+
+/* 4. Блоки (по секциям страницы) */
+@import 'blocks/button.css';
+@import 'blocks/header.css';
+@import 'blocks/hero.css';
+@import 'blocks/advantages.css';
+@import 'blocks/constructor.css';
+@import 'blocks/preview.css';
+@import 'blocks/window.css';
+@import 'blocks/cart.css';
+@import 'blocks/panel.css';
+@import 'blocks/field.css';
+@import 'blocks/extras.css';
+@import 'blocks/footer.css';

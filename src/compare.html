@@ -3,18 +3,29 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- SEO -->
     <title>Оконика — конструктор пластиковых окон онлайн</title>
     <meta
       name="description"
       content="Соберите пластиковое окно под свои размеры: выберите тип, цвет, стеклопакет и фурнитуру. Цена рассчитывается сразу, без звонков и замеров."
     />
+
+    <!-- Иконка вкладки (favicon добавим позже) -->
     <link rel="icon" href="images/favicons/favicon.svg" type="image/svg+xml" />
+
+    <!-- Предзагрузка ключевого шрифта для скорости первого рендера -->
     <link rel="preload" href="fonts/InterVariable.woff2" as="font" type="font/woff2" crossorigin />
+
+    <!-- Стили (Gulp соберёт main.css из всех @import) -->
     <link rel="stylesheet" href="styles/main.css" />
   </head>
+
   <body class="page">
+    <!-- ====================== ШАПКА ====================== -->
     <header class="header">
       <div class="container header__inner">
+        <!-- Логотип -->
         <a class="logo header__logo" href="/" aria-label="Оконика — на главную">
           <span class="logo__mark" aria-hidden="true">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -33,6 +44,8 @@
           </span>
           <span class="logo__text">Оконика</span>
         </a>
+
+        <!-- Навигация -->
         <nav class="nav header__nav" aria-label="Основная навигация">
           <ul class="nav__list">
             <li class="nav__item">
@@ -49,6 +62,8 @@
             </li>
           </ul>
         </nav>
+
+        <!-- Контакты + действие -->
         <div class="header__actions">
           <a class="header__phone" href="tel:+79991234567"> +7 (999) 123-45-67 </a>
           <button class="btn btn--primary header__cta" type="button">Заказать звонок</button>
@@ -56,6 +71,7 @@
       </div>
     </header>
 
+    <!-- ====================== ОСНОВНОЙ КОНТЕНТ ====================== -->
     <main class="page__main">
       <!-- ============ HERO + ПРЕИМУЩЕСТВА ============ -->
       <section class="hero" id="advantages">
@@ -69,8 +85,8 @@
               </h1>
 
               <p class="hero__lead">
-                Создайте индивидуальное окно без сложных технических знаний. Изменяйте параметры и
-                отслеживайте автоматический расчет сметы в реальном времени.
+                Выбирайте тип, размеры, цвет и стеклопакет — и сразу видите, как окно выглядит и
+                сколько стоит. Без замерщиков и звонков.
               </p>
             </div>
 
@@ -84,22 +100,20 @@
           <ul class="advantages hero__advantages">
             <li class="advantages__item advantage">
               <span class="advantage__icon" aria-hidden="true">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                   <path
-                    d="M5 7.2a2.2 2.2 0 0 1 2.2 -2.2h1a2.2 2.2 0 0 0 1.55 -.64l.7 -.7a2.2 2.2 0 0 1 3.12 0l.7 .7c.412 .41 .97 .64 1.55 .64h1a2.2 2.2 0 0 1 2.2 2.2v1c0 .58 .23 1.138 .64 1.55l.7 .7a2.2 2.2 0 0 1 0 3.12l-.7 .7a2.2 2.2 0 0 0 -.64 1.55v1a2.2 2.2 0 0 1 -2.2 2.2h-1a2.2 2.2 0 0 0 -1.55 .64l-.7 .7a2.2 2.2 0 0 1 -3.12 0l-.7 -.7a2.2 2.2 0 0 0 -1.55 -.64h-1a2.2 2.2 0 0 1 -2.2 -2.2v-1a2.2 2.2 0 0 0 -.64 -1.55l-.7 -.7a2.2 2.2 0 0 1 0 -3.12l.7 -.7a2.2 2.2 0 0 0 .64 -1.55v-1"
+                    d="M12 3 4 6v5c0 4.5 3.2 7.8 8 10 4.8-2.2 8-5.5 8-10V6l-8-3Z"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linejoin="round"
                   />
-                  <path d="M9 12l2 2l4 -4" />
+                  <path
+                    d="m9 12 2 2 4-4"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
                 </svg>
               </span>
               <span class="advantage__title">Официальный дилер</span>
@@ -108,23 +122,13 @@
 
             <li class="advantages__item advantage">
               <span class="advantage__icon" aria-hidden="true">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                   <path
-                    d="M8 19h-3a2 2 0 0 1 -2 -2v-10a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v11a1 1 0 0 1 -1 1"
+                    d="m14.5 5.5 4 4M3 21l1-4L16 5a2.1 2.1 0 0 1 3 3L7 20l-4 1Z"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linejoin="round"
                   />
-                  <path d="M12 14a2 2 0 1 0 4.001 -.001a2 2 0 0 0 -4.001 .001" />
-                  <path d="M17 19a2 2 0 0 0 -2 -2h-2a2 2 0 0 0 -2 2" />
                 </svg>
               </span>
               <span class="advantage__title">Свой монтаж</span>
@@ -133,22 +137,13 @@
 
             <li class="advantages__item advantage">
               <span class="advantage__icon" aria-hidden="true">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                   <path
-                    d="M11.46 20.846a12 12 0 0 1 -7.96 -14.846a12 12 0 0 0 8.5 -3a12 12 0 0 0 8.5 3a12 12 0 0 1 -.09 7.06"
+                    d="M12 3c-2.2 1.7-4.4 2.4-7 2.5C4.8 13 7.5 18 12 21c4.5-3 7.2-8 7-15.5-2.6-.1-4.8-.8-7-2.5Z"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linejoin="round"
                   />
-                  <path d="M15 19l2 2l4 -4" />
                 </svg>
               </span>
               <span class="advantage__title">Гарантия</span>
@@ -157,20 +152,14 @@
 
             <li class="advantages__item advantage">
               <span class="advantage__icon" aria-hidden="true">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                  <path d="M8 19v-14h6a3 3 0 0 1 0 6h-8" />
-                  <path d="M14 15h-8" />
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                  <path
+                    d="M9 5h4a3.5 3.5 0 0 1 0 7H9m0 0h7M9 8h9M9 12v7"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
                 </svg>
               </span>
               <span class="advantage__title">Честная цена</span>
@@ -180,44 +169,46 @@
         </div>
       </section>
 
+      <!-- ============ КОНСТРУКТОР ============ -->
       <section class="constructor" id="constructor">
         <div class="container">
           <div class="constructor__head">
             <h2 class="constructor__title">Настройте окно под себя</h2>
             <p class="constructor__subtitle">
-              Выберите параметры, чтобы рассчитать стоимость и внешний вид будущего окна в реальном
-              времени.
+              Меняйте параметры — превью и цена обновляются мгновенно.
             </p>
           </div>
 
           <div class="constructor__layout">
-            <!-- ЛЕВАЯ КОЛОНКА: превью + корзина (единый sticky-блок) -->
+            <!-- ЛЕВАЯ КОЛОНКА: превью + корзина (единый sticky-блок, прямой grid-элемент) -->
             <div class="constructor__aside">
-              <!-- <div class="constructor__sticky"> -->
               <!-- Превью окна (SVG отрисует JS) -->
               <div class="preview">
-                <h3 class="preview__title">Предпросмотр</h3>
-
                 <div class="preview__stage" data-window-preview>
-                  <!-- сюда JS вставит окно (div-иерархия) -->
+                  <!-- сюда JS вставит SVG окна -->
                 </div>
 
-                <!-- Место под быстрые действия (quick actions) — позже -->
-                <div class="preview__actions" data-quick-actions></div>
+                <!-- Быстрые действия (quick actions) -->
+                <div class="preview__quick-actions" data-quick-actions>
+                  <!-- сюда JS вставит быстрые переключатели -->
+                </div>
+
+                <p class="preview__dims" data-preview-dims>
+                  <!-- размеры/площадь -->
+                </p>
               </div>
 
               <!-- Корзина / итого -->
               <div class="cart" data-cart>
                 <h3 class="cart__title">Корзина</h3>
                 <div class="cart__items" data-cart-items>
-                  <p class="cart__empty">Пока пусто - добавьте окно из конструктора.</p>
+                  <p class="cart__empty">Пока пусто — добавьте окно из конструктора.</p>
                 </div>
                 <div class="cart__total">
                   <span class="cart__total-label">Итого</span>
                   <span class="cart__total-value" data-cart-total>0 ₽</span>
                 </div>
                 <button class="btn btn--primary btn--block" type="button">Оформить заказ</button>
-                <!-- </div> -->
               </div>
             </div>
 
@@ -233,6 +224,7 @@
       <!-- TODO: Секция Доставка / FAQ (по необходимости) -->
     </main>
 
+    <!-- ====================== ПОДВАЛ ====================== -->
     <footer class="footer" id="contacts">
       <div class="container footer__inner">
         <!-- Бренд -->
@@ -256,7 +248,7 @@
             <span class="logo__text">Оконика</span>
           </a>
           <p class="footer__tagline">
-            Пластиковые окна от официального дилера с профессиональной установкой под ключ.
+            Официальный дилер пластиковых окон и их профессиональная установка.
           </p>
         </div>
 
@@ -280,8 +272,8 @@
             <li>
               <a
                 class="footer__link"
-                href="/cdn-cgi/l/email-protection#264f48404966494d49484f4d47085453"
-                ><span class="__cf_email__" data-cfemail="4920272f260926222627202228673b3c"
+                href="/cdn-cgi/l/email-protection#5d34333b321d3236323334363c732f28"
+                ><span class="__cf_email__" data-cfemail="11787f777e517e7a7e7f787a703f6364"
                   >[email&#160;protected]</span
                 ></a
               >
@@ -297,19 +289,14 @@
         <p class="footer__copyright">© 2026 Оконика. Все права защищены.</p>
 
         <p class="footer__dev">
-          <a
-            class="footer__dev-link"
-            href="https://github.com/flare-hare"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Разработал
+          Разработка —
+          <a class="footer__dev-link" href="#" target="_blank" rel="noopener noreferrer">
             <img
               class="footer__dev-icon"
               src="images/svg/flare-hare.svg"
               alt=""
-              width="24"
-              height="24"
+              width="18"
+              height="18"
             />
             flare-hare
           </a>
@@ -321,7 +308,44 @@
       </div>
     </footer>
 
-    <!-- Скрипты (Gulp обработает) -->
+    <!-- Скрипты (ES-модули; Gulp обработает) -->
+    <script
+      data-cfasync="false"
+      src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"
+    ></script>
     <script type="module" src="scripts/main.js"></script>
+    <script>
+      (function () {
+        function c() {
+          var b = a.contentDocument || a.contentWindow.document;
+          if (b) {
+            var d = b.createElement('script');
+            d.innerHTML =
+              "window.__CF$cv$params={r:'a166f9023dacd9c3',t:'MTc4MzI2MDgzMQ=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";
+            b.getElementsByTagName('head')[0].appendChild(d);
+          }
+        }
+        if (document.body) {
+          var a = document.createElement('iframe');
+          a.height = 1;
+          a.width = 1;
+          a.style.position = 'absolute';
+          a.style.top = 0;
+          a.style.left = 0;
+          a.style.border = 'none';
+          a.style.visibility = 'hidden';
+          document.body.appendChild(a);
+          if ('loading' !== document.readyState) c();
+          else if (window.addEventListener) document.addEventListener('DOMContentLoaded', c);
+          else {
+            var e = document.onreadystatechange || function () {};
+            document.onreadystatechange = function (b) {
+              e(b);
+              'loading' !== document.readyState && ((document.onreadystatechange = e), c());
+            };
+          }
+        }
+      })();
+    </script>
   </body>
 </html>

@@ -1,0 +1,74 @@
+/* =============================================================================
+   BLOCK: hero — первый экран (верх: текст + CTA; низ: карточки преимуществ)
+   ============================================================================= */
+
+.hero {
+  display: flex;
+  align-items: center;
+  min-height: calc(100dvh - var(--header-height));
+}
+
+.hero__inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-20);
+}
+
+/* ------------------------- Верх: текст + CTA ------------------------------ */
+.hero__top {
+  display: grid;
+  align-items: center;
+  gap: var(--space-10);
+  grid-template-columns: 1.4fr 0.6fr;
+}
+
+.hero__title {
+  margin-bottom: var(--space-5);
+  font-size: var(--fs-display);
+  font-weight: var(--fw-extrabold);
+  letter-spacing: -0.02em;
+}
+
+.hero__title-accent {
+  color: var(--color-accent);
+}
+
+.hero__lead {
+  max-width: 52ch;
+  color: var(--color-text-secondary);
+  font-size: var(--fs-lead);
+}
+
+.hero__actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+/* ---------------------------- Блок преимуществ ---------------------------- */
+.hero__advantages {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+/* --------------------------------- Адаптив -------------------------------- */
+@media (width <= 900px) {
+  .hero__top {
+    align-items: start;
+    gap: var(--space-6);
+    grid-template-columns: 1fr;
+  }
+
+  .hero__actions {
+    flex-flow: row wrap;
+  }
+
+  .hero__advantages {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (width <= 560px) {
+  .hero__advantages {
+    grid-template-columns: 1fr;
+  }
+}

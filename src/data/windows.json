@@ -1,0 +1,262 @@
+{
+  "meta": {
+    "currency": "₽",
+    "priceUnitNote": "Цены пока 0 — заполнить реальными значениями. См. windows.schema.md рядом.",
+    "priceTypes": {
+      "perM2": "Умножается на площадь окна (м²). Для профиля и стеклопакета.",
+      "multiplier": "Множитель к промежуточной цене (напр. 1.15 = +15%). Для цвета/ламинации.",
+      "fixed": "Фиксированная надбавка за штуку. Для доп. опций, фурнитуры, открывания."
+    }
+  },
+
+  "windowTypes": [
+    {
+      "id": "single",
+      "name": "Одностворчатое",
+      "description": "Уютный формат для кухни и ванной комнаты.",
+      "sashes": 1,
+      "constraints": {
+        "minWidth": 40,
+        "maxWidth": 90,
+        "minHeight": 40,
+        "maxHeight": 160
+      },
+      "defaultSizes": [
+        { "width": 60, "height": 90, "label": "Кухня", "note": "Компактное окно для кухни" },
+        { "width": 70, "height": 120, "label": "Комната", "note": "Стандарт для жилой комнаты" }
+      ],
+      "basePrice": 0
+    },
+    {
+      "id": "double",
+      "name": "Двухстворчатое",
+      "description": "Частый выбор для спальни и гостиной.",
+      "sashes": 2,
+      "constraints": {
+        "minWidth": 90,
+        "maxWidth": 180,
+        "minHeight": 50,
+        "maxHeight": 210
+      },
+      "defaultSizes": [
+        {
+          "width": 130,
+          "height": 140,
+          "label": "Стандарт",
+          "note": "Удобный стандарт для квартиры"
+        },
+        { "width": 150, "height": 150, "label": "Гостиная", "note": "Больше света для гостиной" }
+      ],
+      "basePrice": 0
+    },
+    {
+      "id": "triple",
+      "name": "Трёхстворчатое",
+      "description": "Для широких проёмов и панорамного света.",
+      "sashes": 3,
+      "constraints": {
+        "minWidth": 170,
+        "maxWidth": 270,
+        "minHeight": 50,
+        "maxHeight": 210
+      },
+      "defaultSizes": [
+        {
+          "width": 210,
+          "height": 140,
+          "label": "Панорама",
+          "note": "Широкий обзор для больших комнат"
+        }
+      ],
+      "basePrice": 0
+    },
+    {
+      "id": "balcony",
+      "name": "Балконный блок",
+      "description": "Связка дверь + окно на балкон.",
+      "available": false,
+      "sashes": 2,
+      "constraints": {
+        "minWidth": 150,
+        "maxWidth": 240,
+        "minHeight": 200,
+        "maxHeight": 240
+      },
+      "defaultSizes": [
+        { "width": 180, "height": 220, "label": "Стандарт", "note": "Типовой балконный блок" }
+      ],
+      "basePrice": 0
+    }
+  ],
+
+  "openingTypes": [
+    {
+      "id": "fixed",
+      "name": "Глухое",
+      "description": "Не открывается, максимум света.",
+      "priceType": "fixed",
+      "price": 0
+    },
+    {
+      "id": "tilt",
+      "name": "Откидное",
+      "description": "Откидывается сверху для проветривания.",
+      "priceType": "fixed",
+      "price": 0
+    },
+    {
+      "id": "turn-tilt",
+      "name": "Поворотно-откидное",
+      "description": "Можно откинуть верх для проветривания.",
+      "priceType": "fixed",
+      "price": 0
+    }
+  ],
+
+  "profiles": [
+    {
+      "id": "econom",
+      "name": "Эконом",
+      "description": "Практичный вариант для дачи и техпомещений.",
+      "chambers": 3,
+      "priceType": "perM2",
+      "price": 0
+    },
+    {
+      "id": "standard",
+      "name": "Стандарт",
+      "description": "Универсальное решение для квартиры.",
+      "chambers": 4,
+      "priceType": "perM2",
+      "price": 0
+    },
+    {
+      "id": "premium",
+      "name": "Премиум",
+      "description": "Больше камер и тише в комнате.",
+      "chambers": 5,
+      "priceType": "perM2",
+      "price": 0
+    }
+  ],
+
+  "colors": [
+    {
+      "id": "white",
+      "name": "Белый",
+      "hex": "#f0ebe3",
+      "priceType": "multiplier",
+      "price": 1
+    },
+    {
+      "id": "gray",
+      "name": "Серый",
+      "hex": "#8a8f94",
+      "priceType": "multiplier",
+      "price": 1
+    },
+    {
+      "id": "golden-oak",
+      "name": "Золотой дуб",
+      "hex": "#b3763b",
+      "priceType": "multiplier",
+      "price": 1
+    },
+    {
+      "id": "nut",
+      "name": "Орех",
+      "hex": "#6b4a2f",
+      "priceType": "multiplier",
+      "price": 1
+    },
+    {
+      "id": "anthracite",
+      "name": "Антрацит",
+      "hex": "#3a3a3a",
+      "priceType": "multiplier",
+      "price": 1
+    }
+  ],
+
+  "glazings": [
+    {
+      "id": "single",
+      "name": "Однокамерный",
+      "description": "Оптимален для неотапливаемых и тёплых помещений.",
+      "chambers": 1,
+      "priceType": "perM2",
+      "price": 0
+    },
+    {
+      "id": "double",
+      "name": "Двухкамерный",
+      "description": "Лучше сохраняет тепло и снижает шум.",
+      "chambers": 2,
+      "priceType": "perM2",
+      "price": 0
+    },
+    {
+      "id": "double-energy",
+      "name": "Двухкамерный с энергосбережением",
+      "description": "Максимальная энергоэффективность и комфорт.",
+      "chambers": 2,
+      "priceType": "perM2",
+      "price": 0
+    }
+  ],
+
+  "hardware": [
+    {
+      "id": "basic",
+      "name": "Базовая",
+      "description": "Стандартный надёжный комплект.",
+      "priceType": "fixed",
+      "price": 0
+    },
+    {
+      "id": "comfort",
+      "name": "Комфорт",
+      "description": "Более плавный ход и мягкое закрывание.",
+      "priceType": "fixed",
+      "price": 0
+    },
+    {
+      "id": "premium",
+      "name": "Премиум",
+      "description": "Тихая работа и расширенный ресурс.",
+      "priceType": "fixed",
+      "price": 0
+    }
+  ],
+
+  "extras": [
+    {
+      "id": "mosquito-net",
+      "name": "Москитная сетка",
+      "description": "Защита от насекомых, съёмная конструкция.",
+      "priceType": "fixed",
+      "price": 0
+    },
+    {
+      "id": "sill",
+      "name": "Подоконник и откосы",
+      "description": "Чистовая отделка оконного проёма после монтажа.",
+      "priceType": "fixed",
+      "price": 0
+    },
+    {
+      "id": "installation",
+      "name": "Монтаж",
+      "description": "Установка по ГОСТ с герметизацией швов.",
+      "priceType": "fixed",
+      "price": 0
+    },
+    {
+      "id": "disposal",
+      "name": "Вывоз старого окна",
+      "description": "Демонтаж и вывоз старых рам и мусора.",
+      "priceType": "fixed",
+      "price": 0
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+/* =============================================================================
+   BLOCK: advantages — карточки преимуществ (о компании)
+   Grid внутри карточки: [иконка][заголовок] в одной строке (выровнены),
+   описание — под ними на всю ширину. Без hover (не интерактивны).
+   Раскладку сетки карточек задаёт родитель (напр. .hero__advantages).
+   ============================================================================= */
+
+.advantages {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.advantage {
+  display: grid;
+  align-items: center; /* иконка и заголовок по одному уровню */
+  gap: var(--space-2) var(--space-3);
+  grid-template-columns: auto 1fr; /* иконка по контенту + заголовок */
+  padding: var(--space-5);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.advantage__icon {
+  display: grid;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-accent-soft);
+  color: var(--color-accent);
+  place-items: center;
+}
+
+.advantage__title {
+  font-family: var(--font-heading);
+  font-size: var(--fs-base);
+  font-weight: var(--fw-bold);
+}
+
+/* Описание — во всю ширину карточки, под иконкой и заголовком */
+.advantage__text {
+  grid-column: 1 / -1;
+  color: var(--color-text-muted);
+  font-size: var(--fs-sm);
+  line-height: 1.45;
+}
