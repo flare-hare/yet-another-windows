@@ -14,6 +14,7 @@
    import { renderWindowPreview } from './window-preview.js';
    import { setupCartPosition } from './cart-position.js';
    import { setupHowto } from './howto.js';
+   import { setupQuickActions } from './quick-actions.js';
 
    /**
     * Инициализация конструктора.
@@ -97,6 +98,7 @@
          width: startSize.width,
          height: startSize.height,
          openings: openingField.getOpenings(),
+         handleSides: openingField.getOpenings().map((_, i) => (i === 0 ? 'right' : 'left')),
          profileId: startProfile.profileId,
          colorId: startProfile.colorId,
          glazingId: glazingField.getValue(),
@@ -106,6 +108,31 @@
 
        // Корзина: на мобайле/планшете переезжает вниз страницы
        setupCartPosition();
+
+       // Синхрон: если открывание меняют в quick actions — обновляем панель
+       subscribe((s) => openingField.syncFromState(s.openings));
+
+       // Quick actions под превью (открывание + сторона ручки по створкам)
+       const quickContainer = document.querySelector('[data-quick-actions]');
+       setupQuickActions(quickContainer, data, {
+         onReset: () => {
+           // Сброс размеров и открывания к дефолту текущего типа
+           const t = data.windowTypes.find((x) => x.id === getState().typeId) || data.windowTypes[0];
+           sizeField.setType(t);
+           openingField.setType(t);
+           const openings = openingField.getOpenings();
+           setState({
+             width: sizeField.getSize().width,
+             height: sizeField.getSize().height,
+             openings,
+             handleSides: openings.map((_, i) => (i === 0 ? 'right' : 'left')),
+           });
+         },
+         onAddToCart: () => {
+           // заглушка — логику корзины сделаем позже
+           console.log('Добавить в корзину (заглушка):', getState());
+         },
+       });
 
        // --- Превью окна: перерисовываем при изменении состояния и при ресайзе ---
        const previewContainer = document.querySelector('[data-window-preview]');

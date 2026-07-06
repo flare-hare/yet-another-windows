@@ -9,6 +9,7 @@
  * @property {number} width     - ширина, см
  * @property {number} height    - высота, см
  * @property {string[]} openings - id способа открывания по каждой створке
+ * @property {string[]} handleSides - сторона ручки по каждой створке ('left'|'right')
  * @property {string} profileId - id профиля
  * @property {string} colorId   - id цвета
  * @property {string} glazingId - id стеклопакета
@@ -22,6 +23,7 @@ const state = {
   width: 0,
   height: 0,
   openings: [],
+  handleSides: [],
   profileId: null,
   colorId: null,
   glazingId: null,
