@@ -1,98 +1,98 @@
 /* =============================================================================
-   BLOCK: win — окно в превью. «Профиль» рисуется тенями; рама/створка
-   прозрачные (виден polka dot). Размеры задаются только раме (aspect-ratio),
-   вложенные блоки — flex:1.
+   BLOCK: win — окно в превью. «Профиль» рисуется тенями цвета --profile;
+   рама/створка прозрачные (виден polka dot). Размеры задаёт JS (вписывает
+   окно в сцену с сохранением пропорций), вложенные блоки — flex:1.
    --frame-color — цвет профиля (из JS). --pad — профиль, --gap — промежуток.
    ============================================================================= */
 
-.win {
-  --pad: 12px;
-  --gap: 8px;
-  --profile: rgb(from var(--frame-color) r g b / 1);
-  --depth: hsl(var(--neutral-hue) 25% 20% / 0.22);
+   .win {
+    --pad: 12px;
+    --gap: 8px;
+    --profile: rgb(from var(--frame-color) r g b / 1);
+    --depth: hsl(var(--neutral-hue) 25% 20% / 0.22);
 
-  display: flex;
-  gap: var(--gap);
-  min-width: 100px;
-  max-width: 100%;
-  max-height: 100%;
-  padding: var(--pad);
-  border: 1px solid var(--color-border-strong);
-  border-radius: 12px;
+    display: flex;
+    gap: var(--gap);
+    min-width: 100px;
+    max-width: 100%;
+    max-height: 100%;
+    padding: var(--pad);
+    border: 1px solid var(--color-border-strong);
+    border-radius: 12px;
 
-  /* inset «профиль» рамы (spread = pad + 2px) + объёмная тень окна */
-  box-shadow:
-    inset 0 0 0 calc(var(--pad) + 2px) #fff,
-    0 12px 28px var(--depth);
-}
+    /* inset «профиль» рамы (spread = pad + 2px) цвета профиля + объёмная тень */
+    box-shadow:
+      inset 0 0 0 calc(var(--pad) + 2px) var(--profile),
+      0 12px 28px var(--depth);
+  }
 
-/* Створка: flex:1, свой профиль (inset) + shadow(gap) закрывает промежуток */
-.win__sash {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  flex: 1;
-  min-width: 0;
-  padding: var(--pad);
-  border: 1px solid var(--color-border);
-  border-radius: 8px;
-  box-shadow:
-    var(--shadow-sm),
-    inset 0 0 0 calc(var(--pad) + 2px) #fff,
-    0 0 0 calc(var(--gap) + 2px) #fff;
-}
+  /* Створка: flex:1, свой профиль (inset) + shadow(gap) закрывает промежуток */
+  .win__sash {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex: 1;
+    min-width: 0;
+    padding: var(--pad);
+    border: 1px solid var(--color-border-strong);
+    border-radius: 8px;
+    box-shadow:
+      var(--shadow-sm),
+      inset 0 0 0 calc(var(--pad) + 2px) var(--profile),
+      0 0 0 calc(var(--gap)) var(--profile);
+  }
 
-/* Стекло: flex:1, margin 4px, shadow(gap) закрывает промежуток рамы */
-.win__glass {
-  position: relative;
-  flex: 1;
-  min-width: 0;
-  margin: 4px;
-  overflow: hidden;
-  border: 1px solid var(--color-border-strong);
-  border-radius: 4px;
-  background: linear-gradient(
-    225deg,
-    rgb(230 255 255 / 0.15) 0%,
-    rgb(61 198 198 / 0.05) 50%,
-    rgb(230 255 255 / 0.15) 100%
-  );
-  box-shadow:
-    var(--shadow-xs),
-    0 0 0 calc(var(--gap) + 4px) #fff;
-  backdrop-filter: blur(1.5px);
-}
+  /* Стекло: flex:1, margin 4px, shadow(gap) закрывает промежуток рамы */
+  .win__glass {
+    position: relative;
+    flex: 1;
+    min-width: 0;
+    margin: 4px;
+    overflow: hidden;
+    border: 1px solid var(--color-border-strong);
+    border-radius: 4px;
+    background: linear-gradient(
+      225deg,
+      rgb(230 255 255 / 0.15) 0%,
+      rgb(61 198 198 / 0.05) 50%,
+      rgb(230 255 255 / 0.15) 100%
+    );
+    box-shadow:
+      var(--shadow-xs),
+      0 0 0 calc(var(--gap) + 4px) var(--profile);
+    backdrop-filter: blur(1.5px);
+  }
 
-/* Ручка: absolute, отступ 4px от края, центр по вертикали */
-.win__handle {
-  position: absolute;
-  z-index: 2;
-  top: 50%;
-  width: 4px;
-  height: 34px;
-  border-radius: 2px;
-  background-color: var(--color-border-strong);
-  transform: translateY(-50%);
-}
+  /* Ручка: absolute, отступ 4px от края, центр по вертикали */
+  .win__handle {
+    position: absolute;
+    z-index: 2;
+    top: 50%;
+    width: 4px;
+    height: 34px;
+    border-radius: 2px;
+    background-color: var(--color-border);
+    transform: translateY(-50%);
+  }
 
-.win__handle--right {
-  right: 6px;
-}
+  .win__handle--right {
+    right: 6px;
+  }
 
-.win__handle--left {
-  left: 6px;
-}
+  .win__handle--left {
+    left: 6px;
+  }
 
-/* Линии оси открывания поверх стекла */
-.win__axis {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  inset: 0;
-  pointer-events: none;
-}
+  /* Линии оси открывания поверх стекла */
+  .win__axis {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    inset: 0;
+    pointer-events: none;
+  }
 
-.win__axis-line {
-  stroke: var(--color-accent);
-  stroke-width: 1;
-}
+  .win__axis-line {
+    stroke: var(--color-accent);
+    stroke-width: 1;
+  }

@@ -8,7 +8,7 @@
       name="description"
       content="Соберите пластиковое окно под свои размеры: выберите тип, цвет, стеклопакет и фурнитуру. Цена рассчитывается сразу, без звонков и замеров."
     />
-    <link rel="icon" href="images/favicons/favicon.svg" type="image/svg+xml" />
+    <!-- TODO: favicon добавим позже (images/favicons/) -->
     <link rel="preload" href="fonts/InterVariable.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="stylesheet" href="styles/main.css" />
   </head>
@@ -193,8 +193,7 @@
           <div class="constructor__layout">
             <!-- ЛЕВАЯ КОЛОНКА: превью + корзина (единый sticky-блок) -->
             <div class="constructor__aside">
-              <!-- <div class="constructor__sticky"> -->
-              <!-- Превью окна (SVG отрисует JS) -->
+              <!-- Превью окна -->
               <div class="preview">
                 <h3 class="preview__title">Предпросмотр</h3>
 
@@ -217,7 +216,6 @@
                   <span class="cart__total-value" data-cart-total>0 ₽</span>
                 </div>
                 <button class="btn btn--primary btn--block" type="button">Оформить заказ</button>
-                <!-- </div> -->
               </div>
             </div>
 
@@ -278,13 +276,7 @@
               <a class="footer__link" href="tel:+79991234567">+7 (999) 123-45-67</a>
             </li>
             <li>
-              <a
-                class="footer__link"
-                href="/cdn-cgi/l/email-protection#264f48404966494d49484f4d47085453"
-                ><span class="__cf_email__" data-cfemail="4920272f260926222627202228673b3c"
-                  >[email&#160;protected]</span
-                ></a
-              >
+              <a class="footer__link" href="mailto:info@okonika.ru">info@okonika.ru</a>
             </li>
             <li class="footer__muted">г. Москва, ул. Примерная, 1</li>
             <li class="footer__muted">Пн–Сб, 9:00–20:00</li>
