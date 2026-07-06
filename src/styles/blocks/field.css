@@ -1,435 +1,182 @@
 /* =============================================================================
-   BLOCK: field — поле панели конструктора (карточка: заголовок + опции)
+   BLOCK: field — поле панели конструктора (карточка: заголовок + опции).
+   Здесь база полей и карточки-опции (с модификаторами type/opening/profile/
+   card/wide). Специфичные компоненты вынесены: size.css, swatch.css.
    ============================================================================= */
 
-.field {
-  padding: var(--space-6);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  background-color: var(--color-surface);
-  box-shadow: var(--shadow-sm);
-}
+   .field {
+    padding: var(--space-6);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    background-color: var(--color-surface);
+    box-shadow: var(--shadow-sm);
+  }
 
-.field__label {
-  margin-bottom: var(--space-4);
-  font-size: var(--fs-base);
-  font-weight: var(--fw-bold);
-}
+  .field__label {
+    margin-bottom: var(--space-4);
+    font-size: var(--fs-base);
+    font-weight: var(--fw-bold);
+  }
 
-/* --------------------------- Сетка опций ---------------------------------- */
-.options {
-  display: grid;
-  gap: var(--space-3);
-}
+  /* Разделитель внутри поля (напр. между профилем и цветом) */
+  .field__divider {
+    height: 1px;
+    margin: var(--space-6) 0;
+    border: none;
+    background-color: var(--color-border);
+  }
 
-.options--type {
-  align-items: stretch;
-  grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
-}
+  /* --------------------------- Сетка опций ---------------------------------- */
+  .options {
+    display: grid;
+    gap: var(--space-3);
+  }
 
-/* --------------------------- Карточка-опция ------------------------------- */
-.option {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-  height: 100%;
-  padding: var(--space-4) var(--space-3);
-  border: 1.5px solid var(--color-border);
-  border-radius: var(--radius-sm);
-  background-color: var(--color-surface);
-  cursor: pointer;
-  transition:
-    border-color var(--transition-fast),
-    background-color var(--transition-fast),
-    box-shadow var(--transition-fast);
-}
-
-.option:hover {
-  border-color: var(--color-accent);
-}
-
-.option__icon {
-  display: flex;
-  align-self: center;
-  width: 68px;
-  height: 40px;
-  color: var(--color-text-secondary);
-}
-
-.option__icon-svg {
-  width: 100%;
-  height: 100%;
-}
-
-.option__title {
-  font-family: var(--font-heading);
-  font-size: var(--fs-base);
-  font-weight: var(--fw-semibold);
-  text-align: center;
-}
-
-.option__desc {
-  color: var(--color-text-muted);
-  font-size: var(--fs-sm);
-  line-height: 1.35;
-  text-align: left;
-}
-
-/* Активное состояние */
-.option__input:checked + .option {
-  border-color: var(--color-accent);
-  background-color: var(--color-accent-soft);
-  box-shadow: 0 4px 12px var(--color-accent-glow);
-}
-
-.option__input:checked + .option .option__icon {
-  color: var(--color-accent);
-}
-
-.option__input:focus-visible + .option {
-  outline: 2px solid var(--color-accent);
-  outline-offset: 2px;
-}
-
-/* Недоступная опция */
-.option--disabled {
-  opacity: 0.55;
-  cursor: not-allowed;
-}
-
-.option--disabled:hover {
-  border-color: var(--color-border);
-}
-
-.option__badge {
-  position: absolute;
-  top: var(--space-2);
-  right: var(--space-2);
-  padding: 2px var(--space-2);
-  border-radius: var(--radius-pill);
-  background-color: var(--color-surface-2);
-  color: var(--color-text-secondary);
-  font-size: 10px;
-  font-weight: var(--fw-semibold);
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-}
-
-/* ============================ РАЗМЕРЫ ==================================== */
-
-/* Ряд из двух карточек-слайдеров (Ширина, Высота) */
-.size-cards {
-  display: grid;
-  gap: var(--space-4);
-  grid-template-columns: 1fr 1fr;
-}
-
-/* Карточка одного размера */
-.size-card {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-6);
-  padding: var(--space-4);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  background-color: var(--color-surface);
-}
-
-/* Заголовок: имя + значение */
-.size-card__head {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: var(--space-2);
-}
-
-.size-card__name {
-  color: var(--color-text-secondary);
-  font-size: var(--fs-sm);
-  font-weight: var(--fw-medium);
-}
-
-/* Значение с обводкой (понятно, что можно вписать) */
-.size-card__value {
-  display: inline-flex;
-  align-items: baseline;
-  gap: 2px;
-  padding: var(--space-1) var(--space-2);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
-  background-color: var(--color-surface);
-  transition: border-color var(--transition-fast);
-}
-
-.size-card__value:focus-within {
-  border-color: var(--color-accent);
-}
-
-.size-card__input {
-  width: 3.5ch;
-  border: none;
-  background: none;
-  color: var(--color-text);
-  font-family: var(--font-heading);
-  font-weight: var(--fw-bold);
-  text-align: right;
-  appearance: textfield; /* убирает стрелки в Firefox */
-}
-
-.size-card__input:focus {
-  outline: none;
-}
-
-/* Убираем нативные стрелки у input[type=number] в WebKit */
-.size-card__input::-webkit-outer-spin-button,
-.size-card__input::-webkit-inner-spin-button {
-  margin: 0;
-  appearance: none;
-}
-
-.size-card__unit {
-  color: var(--color-text-muted);
-  font-size: var(--fs-sm);
-}
-
-/* Ряд управления: [−] [линейка] [＋] */
-.size-card__controls {
-  display: flex;
-  align-items: center;
-  gap: var(--space-1);
-}
-
-/* Кнопки −/＋ */
-.stepper {
-  display: grid;
-  flex-shrink: 0;
-  width: 32px;
-  height: 32px;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
-  background-color: var(--color-surface);
-  color: var(--color-text-secondary);
-  font-size: 20px;
-  line-height: 1;
-  transition:
-    border-color var(--transition-fast),
-    color var(--transition-fast);
-  place-items: center;
-}
-
-.stepper:hover {
-  border-color: var(--color-accent);
-  color: var(--color-accent);
-}
-
-/* --------------------------- Слайдер-линейка ------------------------------ */
-
-/* Без заполнения: по треку бегает только thumb-ромб. Насечки — под треком. */
-.slider {
-  position: relative;
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  justify-content: flex-end;
-  padding: var(--space-1);
-  border: 2px solid transparent;
-  cursor: col-resize;
-  touch-action: none;
-}
-
-/* Трек — однотонная полоса */
-.slider__track {
-  width: 100%;
-  height: 6px;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-xs);
-  background-color: var(--color-accent-soft);
-  box-shadow: var(--shadow-xs);
-}
-
-/* Бегунок-ромб (квадрат под 45°), выезжает вверх на hover */
-.slider__thumb {
-  position: absolute;
-  top: 4px;
-  left: 50%;
-  width: 8px;
-  border-radius: 4px;
-  background-color: var(--color-accent);
-  transition:
-    transform 0.3s cubic-bezier(0.5, -1, 0.5, 1.25),
-    border-radius 0.5s;
-  transform: translateY(-1px) rotate(45deg);
-  aspect-ratio: 1 / 1;
-}
-
-.size-card__controls:hover .slider__thumb {
-  transition:
-    transform 0.3s cubic-bezier(0.5, -0.25, 0.5, 2),
-    border-radius 0.5s;
-  transform: translateY(-20px) rotate(45deg) scale(2);
-  border-bottom-right-radius: 1px;
-}
-
-/* Линейка: min + бары + max в одном flex-ряду */
-.slider__ruller {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-}
-
-.slider__bar {
-  width: 2px;
-  margin-top: 4px;
-  border-radius: 1px;
-  background-color: var(--color-border);
-}
-
-/* Крайние насечки маленькие (чётные позиции), каждая вторая — большая */
-.slider__bar:nth-child(even) {
-  height: 5px;
-}
-
-.slider__bar:nth-child(odd) {
-  height: 8px;
-  background-color: var(--color-border-strong);
-}
-
-.slider__min,
-.slider__max {
-  color: var(--color-text-muted);
-  font-size: var(--fs-xs);
-  font-weight: var(--fw-semibold);
-  line-height: var(--lh-tight);
-}
-
-.slider:focus-visible {
-  border-color: var(--color-accent);
-  border-radius: var(--radius-xs);
-  outline: none;
-}
-
-/* ======================= СПОСОБ ОТКРЫВАНИЯ ============================== */
-.sash-groups {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-5);
-}
-
-.sash-group__title {
-  display: block;
-  margin-bottom: var(--space-3);
-  color: var(--color-text-secondary);
-  font-size: var(--fs-sm);
-  font-weight: var(--fw-semibold);
-}
-
-.options--opening {
-  grid-template-columns: repeat(3, 1fr);
-}
-
-/* Широкая карточка: заголовок + описание, выравнивание влево */
-.option--wide {
-  align-items: flex-start;
-  text-align: left;
-}
-
-.option--wide .option__title {
-  text-align: left;
-}
-
-/* ======================= ПРОФИЛЬ + ЦВЕТ ================================= */
-.options--profile {
-  grid-template-columns: repeat(3, 1fr);
-}
-
-.option--profile {
-  align-items: flex-start;
-  text-align: left;
-}
-
-.option--profile .option__title {
-  text-align: left;
-}
-
-/* Мета-строка профиля (число камер) */
-.option__meta {
-  color: var(--color-accent-active);
-  font-size: var(--fs-xs);
-  font-weight: var(--fw-semibold);
-}
-
-/* Разделитель между профилем и цветом */
-.field__divider {
-  height: 1px;
-  margin: var(--space-6) 0;
-  border: none;
-  background-color: var(--color-border);
-}
-
-/* Образцы цвета */
-.swatches {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-3);
-}
-
-.swatch {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
-  padding: var(--space-2) var(--space-3) var(--space-2) var(--space-2);
-  border: 1.5px solid var(--color-border);
-  border-radius: var(--radius-pill);
-  background-color: var(--color-surface);
-  cursor: pointer;
-  transition:
-    border-color var(--transition-fast),
-    box-shadow var(--transition-fast);
-}
-
-.swatch:hover {
-  border-color: var(--color-accent);
-}
-
-.swatch__dot {
-  width: 22px;
-  height: 22px;
-  border: 1px solid hsl(var(--neutral-hue) 15% 80%);
-  border-radius: 50%;
-}
-
-.swatch__name {
-  font-size: var(--fs-sm);
-  font-weight: var(--fw-medium);
-}
-
-.swatch__input:checked + .swatch {
-  border-color: var(--color-accent);
-  box-shadow: 0 4px 12px var(--color-accent-glow);
-}
-
-.swatch__input:focus-visible + .swatch {
-  outline: 2px solid var(--color-accent);
-  outline-offset: 2px;
-}
-
-/* ===================== КАРТОЧКИ СПИСКОМ (стеклопакет, фурнитура) ========= */
-.options--card {
-  grid-template-columns: 1fr;
-}
-
-/* --------------------------------- Адаптив -------------------------------- */
-@media (width <= 600px) {
   .options--type {
-    grid-template-columns: repeat(2, 1fr);
+    align-items: stretch;
+    grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
   }
 
-  .options--opening {
+  .options--opening,
+  .options--profile {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  /* Карточки списком (стеклопакет, фурнитура) */
+  .options--card {
     grid-template-columns: 1fr;
   }
 
-  .size-cards {
-    grid-template-columns: 1fr;
+  /* --------------------------- Карточка-опция ------------------------------- */
+  .option {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    height: 100%;
+    padding: var(--space-4) var(--space-3);
+    border: 1.5px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background-color: var(--color-surface);
+    cursor: pointer;
+    transition:
+      border-color var(--transition-fast),
+      background-color var(--transition-fast),
+      box-shadow var(--transition-fast);
   }
-}
+
+  .option:hover {
+    border-color: var(--color-accent);
+  }
+
+  .option__icon {
+    display: flex;
+    align-self: center;
+    width: 68px;
+    height: 40px;
+    color: var(--color-text-secondary);
+  }
+
+  .option__icon-svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .option__title {
+    font-family: var(--font-heading);
+    font-size: var(--fs-base);
+    font-weight: var(--fw-semibold);
+    text-align: center;
+  }
+
+  .option__desc {
+    color: var(--color-text-muted);
+    font-size: var(--fs-sm);
+    line-height: 1.35;
+    text-align: left;
+  }
+
+  /* Мета-строка (напр. число камер у профиля) */
+  .option__meta {
+    color: var(--color-accent-active);
+    font-size: var(--fs-xs);
+    font-weight: var(--fw-semibold);
+  }
+
+  /* Широкая карточка: контент выровнен влево (открывание, профиль) */
+  .option--wide,
+  .option--profile {
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .option--wide .option__title,
+  .option--profile .option__title {
+    text-align: left;
+  }
+
+  /* Активное состояние */
+  .option__input:checked + .option {
+    border-color: var(--color-accent);
+    background-color: var(--color-accent-soft);
+    box-shadow: 0 4px 12px var(--color-accent-glow);
+  }
+
+  .option__input:checked + .option .option__icon {
+    color: var(--color-accent);
+  }
+
+  .option__input:focus-visible + .option {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+
+  /* Недоступная опция */
+  .option--disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+
+  .option--disabled:hover {
+    border-color: var(--color-border);
+  }
+
+  .option__badge {
+    position: absolute;
+    top: var(--space-2);
+    right: var(--space-2);
+    padding: 2px var(--space-2);
+    border-radius: var(--radius-pill);
+    background-color: var(--color-surface-2);
+    color: var(--color-text-secondary);
+    font-size: 10px;
+    font-weight: var(--fw-semibold);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  /* ------------------------- Группы створок (открывание) -------------------- */
+  .sash-groups {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+  }
+
+  .sash-group__title {
+    display: block;
+    margin-bottom: var(--space-3);
+    color: var(--color-text-secondary);
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-semibold);
+  }
+
+  /* --------------------------------- Адаптив -------------------------------- */
+  @media (width <= 600px) {
+    .options--type {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .options--opening {
+      grid-template-columns: 1fr;
+    }
+  }

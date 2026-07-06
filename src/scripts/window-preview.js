@@ -59,7 +59,7 @@
     * Строит DOM окна.
     * @returns {HTMLElement}
     */
-   export function buildWindowEl({ width, height, sashes, frameColor, openings, stage }) {
+   export function buildWindowEl({ width, height, sashes, frameColor, openings, avail }) {
      const frame = el('div', {
        className: 'win',
        attrs: {
@@ -69,21 +69,15 @@
      });
 
      // Вписываем окно в доступную область сцены с сохранением пропорций.
-     // Доступную ширину/высоту берём из clientWidth/Height МИНУС реальный
-     // padding сцены (читаем из computed styles — без магических чисел).
+     // avail = { w, h } — размеры ПУСТОЙ сцены (замерены до вставки окна,
+     // поэтому нет обратной связи «окно раздувает сцену → сцена раздувает окно»).
      const aspectRatio = width / height;
-     if (stage) {
-       const cs = getComputedStyle(stage);
-       const padX = parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight);
-       const padY = parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom);
-       const availW = stage.clientWidth - padX;
-       const availH = stage.clientHeight - padY;
-
-       let winW = availH * aspectRatio;
-       let winH = availH;
-       if (winW > availW) {
-         winW = availW;
-         winH = availW / aspectRatio;
+     if (avail && avail.w > 0 && avail.h > 0) {
+       let winW = avail.h * aspectRatio;
+       let winH = avail.h;
+       if (winW > avail.w) {
+         winW = avail.w;
+         winH = avail.w / aspectRatio;
        }
        frame.style.width = `${winW}px`;
        frame.style.height = `${winH}px`;
@@ -129,15 +123,25 @@
      const type = data.windowTypes.find((t) => t.id === state.typeId) || data.windowTypes[0];
      const color = data.colors.find((c) => c.id === state.colorId) || data.colors[0];
 
+     // Сначала очищаем сцену, ЗАТЕМ замеряем её (пустую) — так окно внутри не
+     // раздувает контейнер, и нет порочного цикла при ресайзе.
+     container.innerHTML = '';
+     const cs = getComputedStyle(container);
+     const padX = parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight);
+     const padY = parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom);
+     const avail = {
+       w: container.clientWidth - padX,
+       h: container.clientHeight - padY,
+     };
+
      const win = buildWindowEl({
        width: state.width,
        height: state.height,
        sashes: type.sashes || 1,
        frameColor: color.hex,
        openings: state.openings,
-       stage: container, // контейнер передаётся, а не ищется querySelector'ом
+       avail,
      });
 
-     container.innerHTML = '';
      container.append(win);
    }

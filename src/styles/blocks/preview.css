@@ -3,72 +3,73 @@
    Заголовок + stage (polka dot фон + окно) + место под quick actions.
    ============================================================================= */
 
-.preview {
-  padding: var(--space-6);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  background-color: var(--color-surface);
-  box-shadow: var(--shadow-sm);
-}
+   .preview {
+    padding: var(--space-6);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    background-color: var(--color-surface);
+    box-shadow: var(--shadow-sm);
+  }
 
-.preview__title {
-  margin-bottom: var(--space-4);
-  font-size: var(--fs-base);
-  font-weight: var(--fw-bold);
-}
+  .preview__title {
+    margin-bottom: var(--space-4);
+    font-size: var(--fs-base);
+    font-weight: var(--fw-bold);
+  }
 
-/* Сцена: фиксированная высота, свой padding (окно не на всю ширину),
-     polka dot фон (многослойный, разной плотности и прозрачности). */
-.preview__stage {
-  display: grid;
-  padding: var(--space-8);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  background-color: var(--color-surface-2);
-  background-image:
-    radial-gradient(rgb(0 0 0 / 0.05) 1px, transparent 1px),
-    radial-gradient(rgb(0 0 0 / 0.1) 1px, transparent 1px),
-    radial-gradient(rgb(0 0 0 / 0.2) 1px, transparent 1px),
-    radial-gradient(rgb(0 0 0 / 0.4) 1px, transparent 1px),
-    radial-gradient(rgb(0 0 0 / 0.3) 1px, transparent 1px),
-    radial-gradient(rgb(0 0 0 / 0.1) 1px, transparent 1px),
-    radial-gradient(rgb(0 0 0 / 0.2) 1px, transparent 1px),
-    radial-gradient(rgb(0 0 0 / 0.1) 1px, transparent 1px),
-    radial-gradient(rgb(0 0 0 / 0.4) 1px, transparent 1px),
-    radial-gradient(rgb(0 0 0 / 0.1) 1px, transparent 1px);
-  background-position:
-    40px 30px,
-    100px 80px,
-    30px 50px,
-    80px 60px,
-    20px 10px,
-    90px 90px,
-    70px 100px,
-    60px 40px,
-    50px 20px,
-    10px 70px;
-  background-size:
-    10px 10px,
-    30px 30px,
-    50px 50px,
-    90px 90px,
-    70px 70px,
-    30px 30px,
-    50px 50px,
-    30px 30px,
-    90px 90px,
-    30px 30px;
-  background-repeat: repeat;
-  aspect-ratio: 1 / 1;
-  place-items: center;
-}
+  /* Сцена: фиксированная высота, свой padding (окно не на всю ширину),
+       polka dot фон (многослойный, разной плотности и прозрачности). */
+  .preview__stage {
+    display: grid;
+    height: 360px; /* фикс. высота: сцена не «прыгает» и задаёт масштаб окну */
+    padding: var(--space-8);
+    overflow: hidden; /* окно не распирает сцену → нет цикла при ресайзе */
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background-color: var(--color-surface-2);
+    background-image:
+      radial-gradient(rgb(0 0 0 / 0.05) 1px, transparent 1px),
+      radial-gradient(rgb(0 0 0 / 0.1) 1px, transparent 1px),
+      radial-gradient(rgb(0 0 0 / 0.2) 1px, transparent 1px),
+      radial-gradient(rgb(0 0 0 / 0.4) 1px, transparent 1px),
+      radial-gradient(rgb(0 0 0 / 0.3) 1px, transparent 1px),
+      radial-gradient(rgb(0 0 0 / 0.1) 1px, transparent 1px),
+      radial-gradient(rgb(0 0 0 / 0.2) 1px, transparent 1px),
+      radial-gradient(rgb(0 0 0 / 0.1) 1px, transparent 1px),
+      radial-gradient(rgb(0 0 0 / 0.4) 1px, transparent 1px),
+      radial-gradient(rgb(0 0 0 / 0.1) 1px, transparent 1px);
+    background-position:
+      40px 30px,
+      100px 80px,
+      30px 50px,
+      80px 60px,
+      20px 10px,
+      90px 90px,
+      70px 100px,
+      60px 40px,
+      50px 20px,
+      10px 70px;
+    background-size:
+      10px 10px,
+      30px 30px,
+      50px 50px,
+      90px 90px,
+      70px 70px,
+      30px 30px,
+      50px 50px,
+      30px 30px,
+      90px 90px,
+      30px 30px;
+    background-repeat: repeat;
+    place-items: center;
+  }
 
-/* Место под будущие quick actions */
-.preview__actions {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: var(--space-2);
-  min-height: 8px;
-  margin-top: var(--space-4);
-}
+  /* Место под будущие quick actions */
+  .preview__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-2);
+    min-height: 8px;
+    margin-top: var(--space-4);
+  }

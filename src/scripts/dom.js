@@ -40,15 +40,3 @@ export function el(tag, props = {}, children = []) {
 
   return node;
 }
-
-/**
- * Разбирает строку SVG в живой SVG-элемент (для иконок из данных/шаблонов).
- * @param {string} markup - строка вида '<svg ...>...</svg>'
- * @returns {SVGElement|null}
- */
-export function svgFromString(markup) {
-  const wrapper = document.createElement('div');
-  wrapper.innerHTML = markup.trim();
-  const svg = wrapper.querySelector('svg');
-  return svg;
-}
