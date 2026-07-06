@@ -1,0 +1,92 @@
+/* =============================================================================
+   ADAPTIVE — весь адаптив проекта в одном месте.
+   Единые брейкпоинты (media по ширине окна):
+     - 1024px — планшет: конструктор в одну колонку
+     - 768px  — мобайл: hero/футер перестраиваются
+     - 560px  — узкий мобайл: все сетки в одну колонку
+   Примечание: @media не поддерживает CSS-переменные в условии, поэтому
+   значения брейкпоинтов зафиксированы числами (держим их одинаковыми ниже).
+   ============================================================================= */
+
+/* ============================ ≤ 1024px (планшет) ========================= */
+@media (width <= 1024px) {
+  /* Конструктор: одна колонка, превью перестаёт «липнуть» */
+  .constructor__layout {
+    grid-template-columns: 1fr;
+  }
+
+  .constructor__aside {
+    position: static;
+  }
+
+  /* Преимущества: 2 в ряд */
+  .hero__advantages {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ============================ ≤ 768px (мобайл) =========================== */
+@media (width <= 768px) {
+  /* Hero: текст и CTA в одну колонку */
+  .hero__top {
+    align-items: start;
+    gap: var(--space-6);
+    grid-template-columns: 1fr;
+  }
+
+  .hero__actions {
+    flex-flow: row wrap;
+  }
+
+  /* Карточки типов: 2 в ряд */
+  .options--type {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Открывание: одна колонка */
+  .options--opening {
+    grid-template-columns: 1fr;
+  }
+
+  /* Профиль: одна колонка */
+  .options--profile {
+    grid-template-columns: 1fr;
+  }
+
+  /* Размеры: карточки в столбик */
+  .size-cards {
+    grid-template-columns: 1fr;
+  }
+
+  /* Доп. опции: одна колонка */
+  .extras {
+    grid-template-columns: 1fr;
+  }
+
+  /* Футер: бренд на всю ширину, разделы+контакты рядом */
+  .footer__inner {
+    gap: var(--space-8);
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .footer__brand {
+    grid-column: 1 / -1;
+  }
+}
+
+/* ========================= ≤ 560px (узкий мобайл) ======================= */
+@media (width <= 560px) {
+  /* Всё в одну колонку */
+  .hero__advantages,
+  .options--type,
+  .footer__inner {
+    grid-template-columns: 1fr;
+  }
+
+  /* Нижняя строка футера — в столбик */
+  .footer__bottom {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-2);
+  }
+}

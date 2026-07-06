@@ -124,3 +124,9 @@ ol {
 :focus:not(:focus-visible) {
   outline: none;
 }
+
+/* Во время перетаскивания слайдера — запрещаем выделение текста и меняем курсор */
+body.is-dragging {
+  cursor: col-resize;
+  user-select: none;
+}

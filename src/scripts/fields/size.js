@@ -106,19 +106,52 @@ function createSizeCard({ name, min, max, value, onInput }) {
     return curMin + ratio * (curMax - curMin);
   }
 
-  // Перетаскивание (кликаем по всей области слайдера)
+  // Перетаскивание (кликаем по всей области слайдера).
+  // rAF-троттлинг: не чаще одного пересчёта на кадр (убирает лаги).
   let dragging = false;
+  let pendingX = null;
+  let rafId = null;
+
+  function flushMove() {
+    rafId = null;
+    if (pendingX !== null) {
+      apply(valueFromPointer(pendingX));
+      pendingX = null;
+    }
+  }
+
+  function stopDrag() {
+    dragging = false;
+    document.body.classList.remove('is-dragging');
+    if (rafId) {
+      cancelAnimationFrame(rafId);
+      rafId = null;
+    }
+  }
+
   slider.addEventListener('pointerdown', (e) => {
     dragging = true;
     slider.setPointerCapture(e.pointerId);
+    // убираем выделение текста на время перетаскивания
+    document.body.classList.add('is-dragging');
     apply(valueFromPointer(e.clientX));
   });
+
   slider.addEventListener('pointermove', (e) => {
-    if (dragging) apply(valueFromPointer(e.clientX));
+    if (!dragging) return;
+    // Если кнопка мыши уже не зажата (потеряли pointerup) — прекращаем drag
+    if (e.buttons === 0) {
+      stopDrag();
+      return;
+    }
+    // Троттлинг через requestAnimationFrame
+    pendingX = e.clientX;
+    if (!rafId) rafId = requestAnimationFrame(flushMove);
   });
-  slider.addEventListener('pointerup', () => {
-    dragging = false;
-  });
+
+  slider.addEventListener('pointerup', stopDrag);
+  slider.addEventListener('pointercancel', stopDrag);
+  slider.addEventListener('lostpointercapture', stopDrag);
 
   // Клавиши на слайдере
   slider.addEventListener('keydown', (e) => {

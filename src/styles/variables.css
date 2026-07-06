@@ -36,8 +36,8 @@
   --fs-h3: clamp(1.15rem, 1.05rem + 0.5vw, 1.35rem);
   --fs-lead: clamp(1.05rem, 1rem + 0.3vw, 1.2rem); /* подзаголовок */
   --fs-base: 1rem; /* 16px базовый */
-  --fs-sm: 0.875rem; /* 14px */
-  --fs-xs: 0.75rem; /* 12px */
+  --fs-sm: 0.9375rem; /* 15px — подписи/описания (крупнее для читаемости) */
+  --fs-xs: 0.8125rem; /* 13px — мелкие подписи (крупнее прежнего 12px) */
   --fw-regular: 400;
   --fw-medium: 500;
   --fw-semibold: 600;

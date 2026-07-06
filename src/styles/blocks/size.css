@@ -193,10 +193,3 @@
   border-radius: var(--radius-xs);
   outline: none;
 }
-
-/* --------------------------------- Адаптив -------------------------------- */
-@media (width <= 600px) {
-  .size-cards {
-    grid-template-columns: 1fr;
-  }
-}

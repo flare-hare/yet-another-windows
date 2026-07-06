@@ -42,15 +42,3 @@
   align-self: start;
   gap: var(--space-5);
 }
-
-/* --------------------------------- Адаптив -------------------------------- */
-@media (width <= 1000px) {
-  .constructor__layout {
-    grid-template-columns: 1fr;
-  }
-
-  /* На узких экранах превью не липнет, идёт обычным потоком сверху */
-  .constructor__aside {
-    position: static;
-  }
-}

@@ -49,26 +49,3 @@
 .hero__advantages {
   grid-template-columns: repeat(4, 1fr);
 }
-
-/* --------------------------------- Адаптив -------------------------------- */
-@media (width <= 900px) {
-  .hero__top {
-    align-items: start;
-    gap: var(--space-6);
-    grid-template-columns: 1fr;
-  }
-
-  .hero__actions {
-    flex-flow: row wrap;
-  }
-
-  .hero__advantages {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (width <= 560px) {
-  .hero__advantages {
-    grid-template-columns: 1fr;
-  }
-}
