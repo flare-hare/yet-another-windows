@@ -85,7 +85,7 @@ function createSizeCard({ name, min, max, value, onInput }) {
   //  чтобы не мешать вводу и не двигать курсор).
   function paint(force = false) {
     const percent = curMax === curMin ? 0 : ((curVal - curMin) / (curMax - curMin)) * 100;
-    thumb.style.left = `calc(${percent}% - (${8 / 100}px * ${percent}) + ${(5 - (percent / 100) * 10)}px`;
+    thumb.style.left = `calc(${percent}% - (${8 / 100}px * ${percent}) + ${5 - (percent / 100) * 10}px`;
     if (force || document.activeElement !== valueInput) {
       valueInput.value = String(curVal);
     }
