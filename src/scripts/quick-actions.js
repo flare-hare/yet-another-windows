@@ -1,9 +1,8 @@
 /* =============================================================================
    МОДУЛЬ: quick-actions — быстрые действия под превью.
-   Для каждой створки: способ открывания + сторона ручки.
-   + кнопки «Сбросить» и «Добавить в корзину» (заглушка).
-   Источник правды — state (openings, handleSides). Синхронизируется с панелью:
-   пишет в state и перерисовывается при внешних изменениях (подписка).
+   Показывает настройки АКТИВНОЙ створки (state.activeSash): способ открывания
+   + сторона ручки. Активная створка выбирается шестернёй на превью.
+   + кнопки «Сбросить» и «В корзину». Источник правды — state, синхрон с панелью.
    ============================================================================= */
 
    import { el } from './dom.js';
@@ -14,100 +13,96 @@
      { id: 'right', name: 'Справа' },
    ];
 
-   /**
-    * Строит панель быстрых действий.
-    * @param {HTMLElement} container - [data-quick-actions]
-    * @param {Object} data - данные (windowTypes, openingTypes)
-    * @param {Object} handlers - { onReset: fn, onAddToCart: fn }
-    */
    export function setupQuickActions(container, data, handlers = {}) {
      if (!container) return;
 
      function render(state) {
        const type = data.windowTypes.find((t) => t.id === state.typeId) || data.windowTypes[0];
        const sashes = type.sashes || 1;
+       const active = Math.min(state.activeSash ?? 0, sashes - 1);
 
        container.innerHTML = '';
 
-       // Группы по створкам
-       const groups = el('div', { className: 'quick__groups' });
-       for (let i = 0; i < sashes; i += 1) {
-         groups.append(buildSashControls(i, sashes, state, data));
-       }
-       container.append(groups);
+       // Заголовок активной створки
+       const openId = state.openings[active] ?? data.openingTypes[0]?.id;
+       const isFixed = openId === 'fixed';
+       const side = state.handleSides[active] ?? (active === 0 ? 'right' : 'left');
 
-       // Действия
-       const actions = el('div', { className: 'quick__actions' }, [
-         el('button', {
-           className: 'btn btn--ghost quick__btn',
-           textContent: 'Сбросить',
-           attrs: { type: 'button' },
-           onclick: () => handlers.onReset?.(),
+       const head = el('div', { className: 'quick__head' }, [
+         el('span', {
+           className: 'quick__head-title',
+           textContent: sashes > 1 ? `Створка ${active + 1}` : 'Створка',
          }),
-         el('button', {
-           className: 'btn btn--primary quick__btn',
-           textContent: 'В корзину',
-           attrs: { type: 'button' },
-           onclick: () => handlers.onAddToCart?.(),
+         el('span', {
+           className: 'quick__head-hint',
+           textContent: sashes > 1 ? 'выберите шестернёй на окне' : '',
          }),
        ]);
-       container.append(actions);
-     }
+       container.append(head);
 
-     /** Контролы одной створки: открывание (segmented) + сторона ручки. */
-     function buildSashControls(index, sashCount, state, data) {
-       const group = el('div', { className: 'quick__group' });
+       // Открывание
+       const body = el('div', { className: 'quick__body' });
+       body.append(el('span', { className: 'quick__label', textContent: 'Открывание' }));
+       body.append(
+         buildSegment(
+           data.openingTypes.map((o) => ({ id: o.id, name: o.name })),
+           openId,
+           (id) => {
+             const openings = [...getState().openings];
+             openings[active] = id;
+             setState({ openings });
+           }
+         )
+       );
 
-       if (sashCount > 1) {
-         group.append(
-           el('span', { className: 'quick__group-title', textContent: `Створка ${index + 1}` })
+       // Сторона ручки — только для открывающихся
+       if (!isFixed) {
+         body.append(el('span', { className: 'quick__label', textContent: 'Сторона ручки' }));
+         body.append(
+           buildSegment(SIDES, side, (id) => {
+             const handleSides = [...getState().handleSides];
+             handleSides[active] = id;
+             setState({ handleSides });
+           })
          );
        }
+       container.append(body);
 
-       // Открывание — сегментированный переключатель
-       const openId = state.openings[index] ?? data.openingTypes[0]?.id;
-       const openSeg = buildSegment(
-         data.openingTypes.map((o) => ({ id: o.id, name: o.name })),
-         openId,
-         (id) => {
-           const openings = [...getState().openings];
-           openings[index] = id;
-           setState({ openings });
-         }
+       // Кнопки действий
+       container.append(
+         el('div', { className: 'quick__actions' }, [
+           el('button', {
+             className: 'btn btn--ghost quick__btn',
+             textContent: 'Сбросить',
+             attrs: { type: 'button' },
+             onclick: () => handlers.onReset?.(),
+           }),
+           el('button', {
+             className: 'btn btn--primary quick__btn',
+             textContent: 'В корзину',
+             attrs: { type: 'button' },
+             onclick: () => handlers.onAddToCart?.(),
+           }),
+         ])
        );
-       group.append(el('div', { className: 'quick__row' }, [openSeg]));
-
-       // Сторона ручки — только для открывающихся створок
-       if (openId !== 'fixed') {
-         const side = state.handleSides[index] ?? (index === 0 ? 'right' : 'left');
-         const sideSeg = buildSegment(SIDES, side, (id) => {
-           const handleSides = [...getState().handleSides];
-           handleSides[index] = id;
-           setState({ handleSides });
-         });
-         const label = el('span', { className: 'quick__hint', textContent: 'Ручка' });
-         group.append(el('div', { className: 'quick__row' }, [label, sideSeg]));
-       }
-
-       return group;
      }
 
-     /** Сегментированный переключатель (набор кнопок, одна активна). */
+     /** Сегментированный переключатель (кнопки, одна активна). */
      function buildSegment(items, activeId, onSelect) {
        const seg = el('div', { className: 'segment', attrs: { role: 'group' } });
        items.forEach((item) => {
-         const btn = el('button', {
-           className: `segment__btn${item.id === activeId ? ' segment__btn--active' : ''}`,
-           textContent: item.name,
-           attrs: { type: 'button', 'aria-pressed': String(item.id === activeId) },
-           onclick: () => onSelect(item.id),
-         });
-         seg.append(btn);
+         seg.append(
+           el('button', {
+             className: `segment__btn${item.id === activeId ? ' segment__btn--active' : ''}`,
+             textContent: item.name,
+             attrs: { type: 'button', 'aria-pressed': String(item.id === activeId) },
+             onclick: () => onSelect(item.id),
+           })
+         );
        });
        return seg;
      }
 
-     // Первичная отрисовка + подписка на изменения state (синхрон с панелью)
      render(getState());
      subscribe(render);
    }

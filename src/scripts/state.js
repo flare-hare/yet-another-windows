@@ -10,6 +10,7 @@
  * @property {number} height    - высота, см
  * @property {string[]} openings - id способа открывания по каждой створке
  * @property {string[]} handleSides - сторона ручки по каждой створке ('left'|'right')
+ * @property {number} activeSash - индекс активной створки (для quick actions)
  * @property {string} profileId - id профиля
  * @property {string} colorId   - id цвета
  * @property {string} glazingId - id стеклопакета
@@ -24,6 +25,7 @@ const state = {
   height: 0,
   openings: [],
   handleSides: [],
+  activeSash: 0,
   profileId: null,
   colorId: null,
   glazingId: null,

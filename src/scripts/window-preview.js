@@ -66,6 +66,8 @@
      frameColor,
      openings,
      handleSides = [],
+     activeSash = 0,
+     onSashSelect,
      avail,
    }) {
      const frame = el('div', {
@@ -95,20 +97,19 @@
      for (let i = 0; i < sashes; i += 1) {
        const openingId = openings[i] ?? 'fixed';
        const isFixed = openingId === 'fixed';
-
-       // Сторона ручки: временно — 1-я створка справа, остальные слева
        const handleSide = handleSides[i] ?? (i === 0 ? 'right' : 'left');
+       const isActive = i === activeSash;
 
        const glass = el('div', { className: 'win__glass' });
        glass.append(createAxisSvg(openingId, handleSide));
 
+       // Внутренняя часть створки (стекло [+ рамка створки, ручка])
+       let sashInner;
        if (isFixed) {
-         // Глухое: стекло прямо в раме
-         frame.append(glass);
+         sashInner = glass; // глухое: стекло прямо в проёме
        } else {
-         // Открывающееся: створка → стекло + ручка
          const handle = el('div', { className: `win__handle win__handle--${handleSide}` });
-         const sash = el(
+         sashInner = el(
            'div',
            {
              className: `win__sash win__sash--${openingId}`,
@@ -116,8 +117,33 @@
            },
            [glass, handle]
          );
-         frame.append(sash);
        }
+
+       // Кнопка-шестерня для выбора активной створки
+       const gear = el('button', {
+         className: 'win__gear',
+         attrs: {
+           type: 'button',
+           'aria-label': `Настроить створку ${i + 1}`,
+           'aria-pressed': String(isActive),
+         },
+       });
+       gear.innerHTML =
+         '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>';
+       if (typeof onSashSelect === 'function') {
+         gear.addEventListener('click', () => onSashSelect(i));
+       }
+
+       // Ячейка створки: стекло/створка + шестерня под ней
+       const cell = el(
+         'div',
+         {
+           className: `win__cell${isActive ? ' win__cell--active' : ''}`,
+           dataset: { sash: String(i) },
+         },
+         [sashInner, gear]
+       );
+       frame.append(cell);
      }
 
      return frame;
@@ -126,7 +152,7 @@
    /**
     * Рендерит окно в контейнер по состоянию.
     */
-   export function renderWindowPreview(container, state, data) {
+   export function renderWindowPreview(container, state, data, onSashSelect) {
      if (!container) return;
      const type = data.windowTypes.find((t) => t.id === state.typeId) || data.windowTypes[0];
      const color = data.colors.find((c) => c.id === state.colorId) || data.colors[0];
@@ -149,6 +175,8 @@
        frameColor: color.hex,
        openings: state.openings,
        handleSides: state.handleSides,
+       activeSash: state.activeSash ?? 0,
+       onSashSelect,
        avail,
      });
 

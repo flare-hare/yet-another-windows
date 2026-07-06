@@ -5,94 +5,141 @@
    --frame-color — цвет профиля (из JS). --pad — профиль, --gap — промежуток.
    ============================================================================= */
 
-.win {
-  --pad: 12px;
-  --gap: 8px;
-  --profile: rgb(from var(--frame-color) r g b / 1);
-  --depth: hsl(var(--neutral-hue) 25% 20% / 0.22);
+   .win {
+    --pad: 12px;
+    --gap: 8px;
+    --profile: rgb(from var(--frame-color) r g b / 1);
+    --depth: hsl(var(--neutral-hue) 25% 20% / 0.22);
 
-  display: flex;
-  gap: var(--gap);
-  min-width: 100px;
-  max-width: 100%;
-  max-height: 100%;
-  padding: var(--pad);
-  border: 1px solid var(--color-border-strong);
-  border-radius: 12px;
+    display: flex;
+    gap: var(--gap);
+    min-width: 100px;
+    max-width: 100%;
+    max-height: 100%;
+    padding: var(--pad);
+    border: 1px solid var(--color-border-strong);
+    border-radius: 12px;
 
-  /* inset «профиль» рамы (spread = pad + 2px) цвета профиля + объёмная тень */
-  box-shadow:
-    inset 0 0 0 calc(var(--pad) + 2px) var(--profile),
-    0 12px 28px var(--depth);
-}
+    /* inset «профиль» рамы (spread = pad + 2px) цвета профиля + объёмная тень */
+    box-shadow:
+      inset 0 0 0 calc(var(--pad) + 2px) var(--profile),
+      0 12px 28px var(--depth);
+  }
 
-/* Створка: flex:1, свой профиль (inset) + shadow(gap) закрывает промежуток */
-.win__sash {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  flex: 1;
-  min-width: 0;
-  padding: var(--pad);
-  border: 1px solid var(--color-border-strong);
-  border-radius: 8px;
-  box-shadow:
-    var(--shadow-sm),
-    inset 0 0 0 calc(var(--pad) + 2px) var(--profile),
-    0 0 0 calc(var(--gap)) var(--profile);
-}
+  /* Ячейка створки — колонка: стекло/створка (растягивается) + шестерня снизу */
+  .win__cell {
+    position: relative;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
+    border-radius: 8px;
+  }
 
-/* Стекло: flex:1, margin 4px, shadow(gap) закрывает промежуток рамы */
-.win__glass {
-  position: relative;
-  flex: 1;
-  min-width: 0;
-  margin: 4px;
-  overflow: hidden;
-  border: 1px solid var(--color-border-strong);
-  border-radius: 4px;
-  background: linear-gradient(
-    225deg,
-    rgb(230 255 255 / 0.15) 0%,
-    rgb(61 198 198 / 0.05) 50%,
-    rgb(230 255 255 / 0.15) 100%
-  );
-  box-shadow:
-    var(--shadow-xs),
-    0 0 0 calc(var(--gap) + 4px) var(--profile);
-  backdrop-filter: blur(1.5px);
-}
+  /* Подсветка активной створки */
+  .win__cell--active {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+  }
 
-/* Ручка: absolute, отступ 4px от края, центр по вертикали */
-.win__handle {
-  position: absolute;
-  z-index: 2;
-  top: 50%;
-  width: 4px;
-  height: 34px;
-  border-radius: 2px;
-  background-color: var(--color-border);
-  transform: translateY(-50%);
-}
+  /* Кнопка-шестерня под створкой */
+  .win__gear {
+    display: grid;
+    align-self: center;
+    width: 28px;
+    height: 28px;
+    border: 1px solid var(--color-border);
+    border-radius: 50%;
+    background-color: var(--color-surface);
+    box-shadow: var(--shadow-sm);
+    color: var(--color-text-secondary);
+    transition:
+      color var(--transition-fast),
+      border-color var(--transition-fast),
+      transform var(--transition-fast);
+    place-items: center;
+  }
 
-.win__handle--right {
-  right: 6px;
-}
+  .win__gear:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+    transform: rotate(45deg);
+  }
 
-.win__handle--left {
-  left: 6px;
-}
+  .win__cell--active .win__gear {
+    border-color: var(--color-accent);
+    background-color: var(--color-accent-soft);
+    color: var(--color-accent-active);
+  }
 
-/* Линии оси открывания поверх стекла */
-.win__axis {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  inset: 0;
-  pointer-events: none;
-}
+  /* Створка: flex:1, свой профиль (inset) + shadow(gap) закрывает промежуток */
+  .win__sash {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex: 1;
+    min-width: 0;
+    padding: var(--pad);
+    border: 1px solid var(--color-border-strong);
+    border-radius: 8px;
+    box-shadow:
+      var(--shadow-sm),
+      inset 0 0 0 calc(var(--pad) + 2px) var(--profile),
+      0 0 0 calc(var(--gap)) var(--profile);
+  }
 
-.win__axis-line {
-  stroke: var(--color-accent);
-  stroke-width: 1;
-}
+  /* Стекло: flex:1, margin 4px, shadow(gap) закрывает промежуток рамы */
+  .win__glass {
+    position: relative;
+    flex: 1;
+    min-width: 0;
+    margin: 4px;
+    overflow: hidden;
+    border: 1px solid var(--color-border-strong);
+    border-radius: 4px;
+    background: linear-gradient(
+      225deg,
+      rgb(230 255 255 / 0.15) 0%,
+      rgb(61 198 198 / 0.05) 50%,
+      rgb(230 255 255 / 0.15) 100%
+    );
+    box-shadow:
+      var(--shadow-xs),
+      0 0 0 calc(var(--gap) + 4px) var(--profile);
+    backdrop-filter: blur(1.5px);
+  }
+
+  /* Ручка: absolute, отступ 4px от края, центр по вертикали */
+  .win__handle {
+    position: absolute;
+    z-index: 2;
+    top: 50%;
+    width: 4px;
+    height: 34px;
+    border-radius: 2px;
+    background-color: var(--color-border);
+    transform: translateY(-50%);
+  }
+
+  .win__handle--right {
+    right: 6px;
+  }
+
+  .win__handle--left {
+    left: 6px;
+  }
+
+  /* Линии оси открывания поверх стекла */
+  .win__axis {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .win__axis-line {
+    stroke: var(--color-accent);
+    stroke-width: 1;
+  }

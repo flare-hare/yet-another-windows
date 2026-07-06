@@ -16,6 +16,11 @@
    import { setupHowto } from './howto.js';
    import { setupQuickActions } from './quick-actions.js';
 
+   /** Сторона ручки по умолчанию для каждой створки. */
+   function defaultHandleSides(count) {
+     return Array.from({ length: count }, (_, i) => (i === 0 ? 'right' : 'left'));
+   }
+
    /**
     * Инициализация конструктора.
     */
@@ -30,118 +35,111 @@
          return;
        }
 
-       panel.innerHTML = '';
+       /**
+        * Строит (или пересобирает) все поля панели с дефолтными значениями
+        * и выставляет стартовое состояние. Вызывается при старте и при сбросе.
+        */
+       function buildPanel() {
+         panel.innerHTML = '';
 
-       // Первый доступный тип — стартовый
-       const startType = data.windowTypes.find((t) => t.available !== false) || data.windowTypes[0];
+         const startType = data.windowTypes.find((t) => t.available !== false) || data.windowTypes[0];
 
-       // Поле «Размеры» (умеет менять диапазоны при смене типа)
-       const sizeField = createSizeField(startType, (size) => {
-         setState({ width: size.width, height: size.height });
-       });
+         const sizeField = createSizeField(startType, (size) => {
+           setState({ width: size.width, height: size.height });
+         });
 
-       // Поле «Способ открывания» (по створкам)
-       const openingField = createOpeningField(startType, data.openingTypes, (openings) => {
-         setState({ openings });
-       });
+         const openingField = createOpeningField(startType, data.openingTypes, (openings) => {
+           setState({ openings });
+         });
 
-       // Поле «Профиль + Цвет»
-       const profileField = createProfileField(data.profiles, data.colors, (sel) => {
-         setState({ profileId: sel.profileId, colorId: sel.colorId });
-       });
+         const profileField = createProfileField(data.profiles, data.colors, (sel) => {
+           setState({ profileId: sel.profileId, colorId: sel.colorId });
+         });
 
-       // Поле «Стеклопакет»
-       const glazingField = createCardField({
-         label: 'Стеклопакет',
-         name: 'glazing',
-         items: data.glazings,
-         onChange: (id) => setState({ glazingId: id }),
-       });
+         const glazingField = createCardField({
+           label: 'Стеклопакет',
+           name: 'glazing',
+           items: data.glazings,
+           onChange: (id) => setState({ glazingId: id }),
+         });
 
-       // Поле «Фурнитура»
-       const hardwareField = createCardField({
-         label: 'Фурнитура',
-         name: 'hardware',
-         items: data.hardware,
-         onChange: (id) => setState({ hardwareId: id }),
-       });
+         const hardwareField = createCardField({
+           label: 'Фурнитура',
+           name: 'hardware',
+           items: data.hardware,
+           onChange: (id) => setState({ hardwareId: id }),
+         });
 
-       // Поле «Дополнительные опции»
-       const currency = data.meta?.currency ?? '₽';
-       const extrasField = createExtrasField(data.extras, currency, (extras) => {
-         setState({ extras });
-       });
+         const currency = data.meta?.currency ?? '₽';
+         const extrasField = createExtrasField(data.extras, currency, (extras) => {
+           setState({ extras });
+         });
 
-       // Поле «Тип окна»
-       const windowTypeField = createWindowTypeField(data.windowTypes, (typeId) => {
-         const type = data.windowTypes.find((t) => t.id === typeId);
-         setState({ typeId });
-         sizeField.setType(type); // размеры подстраиваются под новый тип
-         openingField.setType(type); // группы створок пересобираются
-       });
+         const windowTypeField = createWindowTypeField(data.windowTypes, (typeId) => {
+           const type = data.windowTypes.find((t) => t.id === typeId);
+           setState({ typeId });
+           sizeField.setType(type);
+           openingField.setType(type);
+         });
 
-       panel.append(
-         windowTypeField,
-         sizeField.field,
-         openingField.field,
-         profileField.field,
-         glazingField.field,
-         hardwareField.field,
-         extrasField.field
-       );
+         panel.append(
+           windowTypeField,
+           sizeField.field,
+           openingField.field,
+           profileField.field,
+           glazingField.field,
+           hardwareField.field,
+           extrasField.field
+         );
 
-       // Стартовое состояние
-       const startSize = sizeField.getSize();
-       const startProfile = profileField.getValue();
-       setState({
-         typeId: startType.id,
-         width: startSize.width,
-         height: startSize.height,
-         openings: openingField.getOpenings(),
-         handleSides: openingField.getOpenings().map((_, i) => (i === 0 ? 'right' : 'left')),
-         profileId: startProfile.profileId,
-         colorId: startProfile.colorId,
-         glazingId: glazingField.getValue(),
-         hardwareId: hardwareField.getValue(),
-         extras: extrasField.getValue(),
-       });
+         // Стартовое состояние
+         const startSize = sizeField.getSize();
+         const startProfile = profileField.getValue();
+         const openings = openingField.getOpenings();
+         setState({
+           typeId: startType.id,
+           width: startSize.width,
+           height: startSize.height,
+           openings,
+           handleSides: defaultHandleSides(openings.length),
+           profileId: startProfile.profileId,
+           colorId: startProfile.colorId,
+           glazingId: glazingField.getValue(),
+           hardwareId: hardwareField.getValue(),
+           extras: extrasField.getValue(),
+         });
 
-       // Корзина: на мобайле/планшете переезжает вниз страницы
+         // Синхрон: открывание из quick actions → панель
+         openingSyncUnsub?.();
+         openingSyncUnsub = subscribe((s) => openingField.syncFromState(s.openings));
+       }
+
+       // Отписка для синхрона открывания (пересоздаётся при каждом buildPanel)
+       let openingSyncUnsub = null;
+
+       // Первое построение
+       buildPanel();
+
+       // Корзина: на мобайле/планшете переезжает вниз
        setupCartPosition();
 
-       // Синхрон: если открывание меняют в quick actions — обновляем панель
-       subscribe((s) => openingField.syncFromState(s.openings));
-
-       // Quick actions под превью (открывание + сторона ручки по створкам)
+       // Quick actions под превью
        const quickContainer = document.querySelector('[data-quick-actions]');
        setupQuickActions(quickContainer, data, {
-         onReset: () => {
-           // Сброс размеров и открывания к дефолту текущего типа
-           const t = data.windowTypes.find((x) => x.id === getState().typeId) || data.windowTypes[0];
-           sizeField.setType(t);
-           openingField.setType(t);
-           const openings = openingField.getOpenings();
-           setState({
-             width: sizeField.getSize().width,
-             height: sizeField.getSize().height,
-             openings,
-             handleSides: openings.map((_, i) => (i === 0 ? 'right' : 'left')),
-           });
-         },
+         onReset: () => buildPanel(), // полный сброс = пересборка панели с дефолтами
          onAddToCart: () => {
-           // заглушка — логику корзины сделаем позже
            console.log('Добавить в корзину (заглушка):', getState());
          },
        });
 
-       // --- Превью окна: перерисовываем при изменении состояния и при ресайзе ---
+       // --- Превью окна: перерисовка при изменении state и при ресайзе ---
        const previewContainer = document.querySelector('[data-window-preview]');
-       const drawPreview = () => renderWindowPreview(previewContainer, getState(), data);
+       const selectSash = (index) => setState({ activeSash: index });
+       const drawPreview = () => renderWindowPreview(previewContainer, getState(), data, selectSash);
 
        subscribe(drawPreview);
-       drawPreview(); // первичная отрисовка
+       drawPreview();
 
-       // Пересчёт размеров окна при изменении ширины сцены (debounce через rAF)
        let resizeScheduled = false;
        window.addEventListener('resize', () => {
          if (resizeScheduled) return;
@@ -166,6 +164,6 @@
    }
 
    document.addEventListener('DOMContentLoaded', () => {
-     setupHowto(); // диалог не зависит от загрузки данных
+     setupHowto();
      initConstructor();
    });
