@@ -25,7 +25,7 @@
   }
 
   /* Обёртка: рама + ряд шестерён под ней. Тут же общие переменные, чтобы их
-       наследовали и рама (.win), и ряд шестерён (.win__gears). */
+         наследовали и рама (.win), и ряд шестерён (.win__gears). */
   .win-wrap {
     --pad: 12px;
     --gap: 8px;
@@ -47,38 +47,47 @@
     border-radius: 8px;
   }
 
-  /* Подсветка активной створки */
-  .win__cell--active {
-    outline: 2px solid var(--color-accent);
-    outline-offset: -1px;
-  }
+  /* Подсветка активной створки — через .win__glass--active (тени задаёшь сам) */
 
-  /* Ряд шестерён под рамой: каждая под своей створкой (flex:1) */
+  /* Ряд шестерён под рамой: колонки как у створок, кнопка по центру колонки */
   .win__gears {
-    display: flex;
+    display: grid;
     gap: var(--gap, 8px);
     width: 100%;
+    margin-top: -4px;
     padding: 0 var(--pad, 12px);
-    margin-top: -8px;
+    grid-auto-columns: 1fr;
+    grid-auto-flow: column;
+    justify-items: center;
   }
 
+  /* Шестерня — круглая кнопка с фоном, по центру под своей створкой */
   .win__gear {
     display: grid;
-    flex: 1;
-    height: 28px;
+    width: 32px;
+    height: 32px;
+    border: 1px solid var(--color-border);
+    border-radius: 50%;
+    background-color: var(--color-surface);
+    box-shadow: var(--shadow-sm);
     color: var(--color-text-secondary);
     transition:
       color var(--transition-fast),
+      border-color var(--transition-fast),
+      background-color var(--transition-fast),
       transform var(--transition-fast);
     place-items: center;
   }
 
   .win__gear:hover {
+    border-color: var(--color-accent);
     color: var(--color-accent);
     transform: rotate(45deg);
   }
 
   .win__gear--active {
+    border-color: var(--color-accent);
+    background-color: var(--color-accent-soft);
     color: var(--color-accent-active);
   }
 
@@ -117,6 +126,14 @@
       var(--shadow-xs),
       0 0 0 calc(var(--gap) + 4px) var(--profile);
     backdrop-filter: blur(1.5px);
+  }
+
+  .win__glass--active {
+    box-shadow:
+      var(--shadow-xs),
+      0 0 0 2px #fff,
+      0 0 0 4px var(--color-accent),
+      0 0 0 calc(var(--gap) + 4px) var(--profile);
   }
 
   /* Ручка: absolute, отступ 4px от края, центр по вертикали */

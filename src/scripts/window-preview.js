@@ -106,7 +106,9 @@
        const handleSide = handleSides[i] ?? (i === 0 ? 'right' : 'left');
        const isActive = i === activeSash;
 
-       const glass = el('div', { className: 'win__glass' });
+       const glass = el('div', {
+         className: `win__glass${isActive ? ' win__glass--active' : ''}`,
+       });
        glass.append(createAxisSvg(openingId, handleSide));
 
        // Створка: глухая — стекло в проёме; открывающаяся — рамка+стекло+ручка
