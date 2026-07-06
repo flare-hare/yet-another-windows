@@ -2,97 +2,104 @@
    BLOCK: howto — модальное окно «Как это работает» (нативный <dialog>)
    ============================================================================= */
 
-   .howto {
-    width: min(560px, 92vw);
-    margin: auto; /* центрирование <dialog> */
-    padding: 0;
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
-    background-color: var(--color-surface);
-    box-shadow: var(--shadow-lg);
-  }
+.howto {
+  width: min(560px, 92vw);
+  margin: auto; /* центрирование <dialog> */
+  padding: 0;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-lg);
+}
 
-  .howto::backdrop {
-    background-color: hsl(var(--neutral-hue) 25% 15% / 0.5);
-    backdrop-filter: blur(2px);
-  }
+.howto::backdrop {
+  background-color: hsl(var(--neutral-hue) 25% 15% / 0.5);
+  backdrop-filter: blur(2px);
+}
 
-  .howto__inner {
-    position: relative;
-    padding: var(--space-8);
-  }
+.howto__inner {
+  position: relative;
+  padding: var(--space-8);
+}
 
-  .howto__close {
-    position: absolute;
-    top: var(--space-4);
-    right: var(--space-4);
-    display: grid;
-    width: 36px;
-    height: 36px;
-    border-radius: var(--radius-sm);
-    color: var(--color-text-secondary);
-    font-size: var(--fs-base);
-    transition:
-      background-color var(--transition-fast),
-      color var(--transition-fast);
-    place-items: center;
-  }
+.howto__close {
+  position: absolute;
+  top: var(--space-4);
+  right: var(--space-4);
+  display: grid;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-sm);
+  color: var(--color-text-secondary);
+  font-size: var(--fs-base);
+  transition:
+    background-color var(--transition-fast),
+    color var(--transition-fast);
+  place-items: center;
+}
 
-  .howto__close:hover {
-    background-color: var(--color-surface-2);
-    color: var(--color-text);
-  }
+.howto__close:hover {
+  background-color: var(--color-surface-2);
+  color: var(--color-text);
+}
 
-  .howto__title {
-    margin-bottom: var(--space-2);
-    font-size: var(--fs-h2);
-    font-weight: var(--fw-extrabold);
-  }
+.howto__title {
+  margin-bottom: var(--space-2);
+  font-size: var(--fs-h2);
+  font-weight: var(--fw-extrabold);
+}
 
-  .howto__lead {
-    margin-bottom: var(--space-6);
-    color: var(--color-text-secondary);
-  }
+.howto__lead {
+  margin-bottom: var(--space-6);
+  color: var(--color-text-secondary);
+}
 
-  .howto__steps {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-4);
-    margin-bottom: var(--space-8);
-  }
+.howto__steps {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  margin-bottom: var(--space-8);
+}
 
-  .howto__step {
-    display: flex;
-    align-items: flex-start;
-    gap: var(--space-4);
-  }
+.howto__step {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-4);
+}
 
-  .howto__num {
-    display: grid;
-    flex-shrink: 0;
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background: var(--grad-accent);
-    box-shadow: var(--shadow-accent);
-    color: var(--color-on-accent);
-    font-family: var(--font-heading);
-    font-weight: var(--fw-bold);
-    place-items: center;
-  }
+.howto__num {
+  display: grid;
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--grad-accent);
+  box-shadow: var(--shadow-accent);
+  color: var(--color-on-accent);
+  font-family: var(--font-heading);
+  font-weight: var(--fw-bold);
+  place-items: center;
+}
 
-  .howto__step-title {
-    margin-bottom: 2px;
-    font-size: var(--fs-base);
-    font-weight: var(--fw-bold);
-  }
+.howto__step-title {
+  margin-bottom: 2px;
+  font-size: var(--fs-base);
+  font-weight: var(--fw-bold);
+}
 
-  .howto__step-text {
-    color: var(--color-text-muted);
-    font-size: var(--fs-sm);
-    line-height: 1.4;
-  }
+.howto__step-text {
+  color: var(--color-text-muted);
+  font-size: var(--fs-sm);
+  line-height: 1.4;
+}
 
-  .howto__cta {
-    width: 100%;
-  }
+.howto__cta {
+  width: 100%;
+  padding: 0;
+}
+
+.howto--link {
+  width: 100%;
+  height: 100%;
+  padding: var(--space-3) var(--space-6);
+}
