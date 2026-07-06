@@ -13,6 +13,7 @@
    import { createExtrasField } from './fields/extras.js';
    import { renderWindowPreview } from './window-preview.js';
    import { setupCartPosition } from './cart-position.js';
+   import { setupHowto } from './howto.js';
 
    /**
     * Инициализация конструктора.
@@ -137,4 +138,7 @@
      }
    }
 
-   document.addEventListener('DOMContentLoaded', initConstructor);
+   document.addEventListener('DOMContentLoaded', () => {
+     setupHowto(); // диалог не зависит от загрузки данных
+     initConstructor();
+   });
