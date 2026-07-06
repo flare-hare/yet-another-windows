@@ -34,7 +34,8 @@
 
 .options--type {
   align-items: stretch;
-  grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  grid-auto-rows: auto;
 }
 
 .options--opening,

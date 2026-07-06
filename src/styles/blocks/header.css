@@ -12,8 +12,13 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: var(--space-6);
-  height: var(--header-height);
+  gap: var(--space-4);
+  min-height: var(--header-height);
+}
+
+/* Логотип не сжимается, остальное подстраивается */
+.header__logo {
+  flex-shrink: 0;
 }
 
 .logo {
@@ -43,7 +48,7 @@
 
 .nav__list {
   display: flex;
-  gap: var(--space-8);
+  gap: var(--space-6);
 }
 
 .nav__link {
