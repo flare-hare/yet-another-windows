@@ -6,8 +6,6 @@
    ============================================================================= */
 
    .win {
-    --pad: 12px;
-    --gap: 8px;
     --profile: rgb(from var(--frame-color) r g b / 1);
     --depth: hsl(var(--neutral-hue) 25% 20% / 0.22);
 
@@ -26,13 +24,25 @@
       0 12px 28px var(--depth);
   }
 
-  /* Ячейка створки — колонка: стекло/створка (растягивается) + шестерня снизу */
+  /* Обёртка: рама + ряд шестерён под ней. Тут же общие переменные, чтобы их
+       наследовали и рама (.win), и ряд шестерён (.win__gears). */
+  .win-wrap {
+    --pad: 12px;
+    --gap: 8px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-3);
+    max-width: 100%;
+    max-height: 100%;
+  }
+
+  /* Ячейка створки внутри рамы (flex:1, тянется по высоте рамы) */
   .win__cell {
     position: relative;
     display: flex;
     flex: 1;
-    flex-direction: column;
-    gap: 6px;
     min-width: 0;
     border-radius: 8px;
   }
@@ -40,36 +50,35 @@
   /* Подсветка активной створки */
   .win__cell--active {
     outline: 2px solid var(--color-accent);
-    outline-offset: 3px;
+    outline-offset: -1px;
   }
 
-  /* Кнопка-шестерня под створкой */
+  /* Ряд шестерён под рамой: каждая под своей створкой (flex:1) */
+  .win__gears {
+    display: flex;
+    gap: var(--gap, 8px);
+    width: 100%;
+    padding: 0 var(--pad, 12px);
+    margin-top: -8px;
+  }
+
   .win__gear {
     display: grid;
-    align-self: center;
-    width: 28px;
+    flex: 1;
     height: 28px;
-    border: 1px solid var(--color-border);
-    border-radius: 50%;
-    background-color: var(--color-surface);
-    box-shadow: var(--shadow-sm);
     color: var(--color-text-secondary);
     transition:
       color var(--transition-fast),
-      border-color var(--transition-fast),
       transform var(--transition-fast);
     place-items: center;
   }
 
   .win__gear:hover {
-    border-color: var(--color-accent);
     color: var(--color-accent);
     transform: rotate(45deg);
   }
 
-  .win__cell--active .win__gear {
-    border-color: var(--color-accent);
-    background-color: var(--color-accent-soft);
+  .win__gear--active {
     color: var(--color-accent-active);
   }
 

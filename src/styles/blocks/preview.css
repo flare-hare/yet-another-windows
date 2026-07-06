@@ -22,7 +22,7 @@
   .preview__stage {
     display: grid;
     height: 360px; /* фикс. высота: сцена не «прыгает» и задаёт масштаб окну */
-    padding: var(--space-8);
+    padding: var(--space-12) var(--space-12) var(--space-12) var(--space-8);
     overflow: hidden; /* окно не распирает сцену → нет цикла при ресайзе */
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);

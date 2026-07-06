@@ -70,6 +70,9 @@
      onSashSelect,
      avail,
    }) {
+     // Обёртка: рама сверху + ряд шестерён снизу (шестерни ВНЕ рамы)
+     const wrap = el('div', { className: 'win-wrap' });
+
      const frame = el('div', {
        className: 'win',
        attrs: {
@@ -94,6 +97,9 @@
      }
      frame.style.setProperty('--frame-color', frameColor);
 
+     // Ряд шестерён под рамой (flex, каждая под своей створкой)
+     const gears = el('div', { className: 'win__gears' });
+
      for (let i = 0; i < sashes; i += 1) {
        const openingId = openings[i] ?? 'fixed';
        const isFixed = openingId === 'fixed';
@@ -103,25 +109,33 @@
        const glass = el('div', { className: 'win__glass' });
        glass.append(createAxisSvg(openingId, handleSide));
 
-       // Внутренняя часть створки (стекло [+ рамка створки, ручка])
-       let sashInner;
+       // Створка: глухая — стекло в проёме; открывающаяся — рамка+стекло+ручка
+       let sash;
        if (isFixed) {
-         sashInner = glass; // глухое: стекло прямо в проёме
-       } else {
-         const handle = el('div', { className: `win__handle win__handle--${handleSide}` });
-         sashInner = el(
+         sash = el(
            'div',
            {
-             className: `win__sash win__sash--${openingId}`,
-             dataset: { opening: openingId, handle: handleSide },
+             className: `win__cell${isActive ? ' win__cell--active' : ''}`,
+             dataset: { sash: String(i) },
+           },
+           [glass]
+         );
+       } else {
+         const handle = el('div', { className: `win__handle win__handle--${handleSide}` });
+         sash = el(
+           'div',
+           {
+             className: `win__sash win__cell win__sash--${openingId}${isActive ? ' win__cell--active' : ''}`,
+             dataset: { opening: openingId, handle: handleSide, sash: String(i) },
            },
            [glass, handle]
          );
        }
+       frame.append(sash);
 
-       // Кнопка-шестерня для выбора активной створки
+       // Шестерня под этой створкой (в отдельном ряду под рамой)
        const gear = el('button', {
-         className: 'win__gear',
+         className: `win__gear${isActive ? ' win__gear--active' : ''}`,
          attrs: {
            type: 'button',
            'aria-label': `Настроить створку ${i + 1}`,
@@ -133,20 +147,11 @@
        if (typeof onSashSelect === 'function') {
          gear.addEventListener('click', () => onSashSelect(i));
        }
-
-       // Ячейка створки: стекло/створка + шестерня под ней
-       const cell = el(
-         'div',
-         {
-           className: `win__cell${isActive ? ' win__cell--active' : ''}`,
-           dataset: { sash: String(i) },
-         },
-         [sashInner, gear]
-       );
-       frame.append(cell);
+       gears.append(gear);
      }
 
-     return frame;
+     wrap.append(frame, gears);
+     return wrap;
    }
 
    /**
