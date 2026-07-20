@@ -29,6 +29,8 @@
 @import 'blocks/swatch.css';
 @import 'blocks/extras.css';
 @import 'blocks/footer.css';
+@import 'blocks/legal.css';
+@import 'blocks/cookie.css';
 @import 'blocks/howto.css';
 @import 'blocks/quick-actions.css';
 @import 'adaptive.css';
