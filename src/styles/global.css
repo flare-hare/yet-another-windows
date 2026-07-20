@@ -4,6 +4,12 @@
   box-sizing: border-box;
 }
 
+/* Атрибут hidden должен прятать элемент даже при заданном display в классе
+   (иначе .block { display: flex } переопределяет [hidden]). */
+[hidden] {
+  display: none !important;
+}
+
 *:not(dialog) {
   margin: 0;
   padding: 0;

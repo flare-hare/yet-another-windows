@@ -37,6 +37,12 @@
     display: none;
   }
 
+  /* Оформление заказа: состав и форма в одну колонку */
+  .checkout {
+    gap: var(--space-5);
+    grid-template-columns: 1fr;
+  }
+
   /* Hero: текст и CTA в одну колонку */
   .hero__top {
     align-items: start;

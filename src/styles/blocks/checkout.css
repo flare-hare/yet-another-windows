@@ -1,0 +1,155 @@
+/* =============================================================================
+   BLOCK: checkout — оформление заказа в диалоге (слева состав, справа форма)
+   + экран успеха. Поля формы (field-input) и чипы мессенджера.
+   ============================================================================= */
+
+   .checkout {
+    display: grid;
+    gap: var(--space-6);
+    grid-template-columns: 1fr 1fr;
+  }
+
+  /* Левая колонка — состав, со скроллом при большом количестве */
+  .checkout__cart {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  /* Правая колонка — форма */
+  .checkout__form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    min-width: 0;
+  }
+
+  .checkout__note {
+    margin: 0;
+    color: var(--color-text-muted);
+    font-size: var(--fs-xs);
+    line-height: 1.4;
+  }
+
+  /* Чипы выбора мессенджера */
+  .checkout__messenger {
+    display: flex;
+    gap: var(--space-2);
+    margin-bottom: var(--space-2);
+  }
+
+  .chip {
+    cursor: pointer;
+  }
+
+  .chip input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .chip__label {
+    display: inline-block;
+    padding: var(--space-2) var(--space-4);
+    border: 1.5px solid var(--color-border);
+    border-radius: var(--radius-pill);
+    font-size: var(--fs-sm);
+    transition:
+      border-color var(--transition-fast),
+      background-color var(--transition-fast),
+      color var(--transition-fast);
+  }
+
+  .chip input:checked + .chip__label {
+    border-color: var(--color-accent);
+    background-color: var(--color-accent-soft);
+    color: var(--color-accent-active);
+  }
+
+  .chip input:focus-visible + .chip__label {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+
+  /* --------------------------- Поле ввода ----------------------------------- */
+  .field-input {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .field-input__label {
+    color: var(--color-text-secondary);
+    font-size: var(--fs-sm);
+  }
+
+  .field-input__req {
+    color: var(--color-accent);
+  }
+
+  .field-input__control {
+    width: 100%;
+    padding: var(--space-3);
+    border: 1.5px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background-color: var(--color-surface);
+    color: var(--color-text);
+    font-family: inherit;
+    font-size: var(--fs-base);
+    transition:
+      border-color var(--transition-fast),
+      box-shadow var(--transition-fast);
+  }
+
+  .field-input__control:focus {
+    border-color: var(--color-accent);
+    outline: none;
+    box-shadow: 0 0 0 3px var(--color-accent-soft);
+  }
+
+  .field-input__control--area {
+    min-height: 68px;
+    resize: vertical;
+  }
+
+  .field-input__control--invalid {
+    border-color: var(--color-danger, #d64545);
+  }
+
+  .field-input__error {
+    min-height: 1em;
+    color: var(--color-danger, #d64545);
+    font-size: var(--fs-xs);
+  }
+
+  /* --------------------------- Экран успеха --------------------------------- */
+  .checkout-success {
+    padding: var(--space-6) var(--space-4);
+    text-align: center;
+  }
+
+  .checkout-success__icon {
+    display: grid;
+    width: 56px;
+    height: 56px;
+    margin: 0 auto var(--space-4);
+    border-radius: 50%;
+    background-color: var(--color-accent-soft);
+    color: var(--color-accent-active);
+    font-size: 1.75rem;
+    place-items: center;
+  }
+
+  .checkout-success__title {
+    margin-bottom: var(--space-2);
+    font-size: var(--fs-h3);
+    font-weight: var(--fw-bold);
+  }
+
+  .checkout-success__text {
+    max-width: 380px;
+    margin: 0 auto var(--space-5);
+    color: var(--color-text-secondary);
+    font-size: var(--fs-sm);
+    line-height: 1.5;
+  }
