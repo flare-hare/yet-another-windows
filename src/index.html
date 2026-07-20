@@ -207,14 +207,14 @@
               <!-- Корзина / итого -->
               <div class="cart" data-cart>
                 <h3 class="cart__title">Корзина</h3>
-                <div class="cart__items" data-cart-items>
-                  <p class="cart__empty">Пока пусто - добавьте окно из конструктора.</p>
-                </div>
+                <ul class="cart__items" data-cart-items>
+                  <p class="cart__empty">Пока пусто — соберите окно и нажмите «В корзину».</p>
+                </ul>
                 <div class="cart__total" data-cart-total-row hidden>
                   <span class="cart__total-label">Итого</span>
                   <span class="cart__total-value" data-cart-total>0 ₽</span>
                 </div>
-                <button class="btn btn--primary btn--block" type="button" disabled>
+                <button class="btn btn--primary btn--block" type="button" data-cart-checkout hidden>
                   Оформить заказ
                 </button>
               </div>
