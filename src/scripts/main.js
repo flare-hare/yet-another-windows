@@ -147,18 +147,14 @@
            dialogItems: document.querySelector('[data-cart-items]'),
            dialogTotal: document.querySelector('[data-cart-dialog-total]'),
            dialogClose: document.querySelector('[data-cart-dialog-close]'),
+           checkoutBtn: document.querySelector('[data-cart-checkout]'),
            successEl: document.querySelector('[data-checkout-success]'),
          },
          currency
        );
 
-       // Кнопка «Перейти к оформлению» (в сводке) — открывает диалог с составом и формой
-       const cartDialog = document.querySelector('[data-cart-dialog]');
-       document.querySelector('[data-cart-checkout]')?.addEventListener('click', () => {
-         cartDialog?.showModal?.();
-       });
-
        // Форма оформления заказа внутри диалога
+       const cartDialog = document.querySelector('[data-cart-dialog]');
        setupCheckout(
          {
            form: document.querySelector('[data-order-form]'),

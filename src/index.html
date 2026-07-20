@@ -434,26 +434,6 @@
               <span class="field-input__error" data-error-for="email"></span>
             </label>
 
-            <div class="field-input">
-              <span class="field-input__label">Мессенджер для связи</span>
-              <div class="checkout__messenger">
-                <label class="chip">
-                  <input type="radio" name="messenger" value="Telegram" checked />
-                  <span class="chip__label">Telegram</span>
-                </label>
-                <label class="chip">
-                  <input type="radio" name="messenger" value="MAX" />
-                  <span class="chip__label">MAX</span>
-                </label>
-              </div>
-              <input
-                class="field-input__control"
-                type="text"
-                name="messengerContact"
-                placeholder="@ник или номер"
-              />
-            </div>
-
             <label class="field-input">
               <span class="field-input__label">Комментарий</span>
               <textarea
@@ -464,12 +444,19 @@
               ></textarea>
             </label>
 
+            <label class="checkout__consent">
+              <input type="checkbox" name="consent" class="checkout__consent-input" required />
+              <span class="checkout__consent-text">
+                Я согласен на обработку персональных данных и принимаю
+                <a href="privacy.html" target="_blank" rel="noopener">политику конфиденциальности</a
+                >.
+              </span>
+            </label>
+            <span class="field-input__error" data-error-for="consent"></span>
+
             <button class="btn btn--primary btn--block" type="submit" data-order-submit>
               Отправить заявку
             </button>
-            <p class="checkout__note">
-              Нажимая «Отправить», вы соглашаетесь на обработку данных для связи по заказу.
-            </p>
           </form>
         </div>
 

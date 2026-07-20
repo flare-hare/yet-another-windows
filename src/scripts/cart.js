@@ -176,6 +176,7 @@
        dialogItems,
        dialogTotal,
        dialogClose,
+       checkoutBtn,
        successEl,
      } = refs;
 
@@ -185,8 +186,10 @@
      };
      const closeDialog = () => dialog?.close?.();
 
-     // Открытие диалога: клик по области сводки (кроме кнопки «Оформить заказ»).
+     // Открытие диалога: и клик по области сводки, и кнопка «Перейти к оформлению».
+     // ОБЕ точки идут через openDialog (с renderDialog), иначе состав не обновится.
      openEl?.addEventListener('click', openDialog);
+     checkoutBtn?.addEventListener('click', openDialog);
      dialogClose?.addEventListener('click', closeDialog);
      // Клик по подложке (вне inner) закрывает диалог.
      dialog?.addEventListener('click', (e) => {

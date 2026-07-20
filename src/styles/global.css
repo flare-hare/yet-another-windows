@@ -18,6 +18,31 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: calc(var(--header-height) + var(--space-4));
+  scrollbar-color: var(--color-text-muted) transparent;
+
+  /* Кастомный скроллбар (Firefox) */
+  scrollbar-width: thin;
+}
+
+/* Кастомный скроллбар (Chrome, Safari, Edge) — для всего сайта */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  border: 2px solid transparent;
+  border-radius: var(--radius-pill);
+  background-color: var(--color-text-muted);
+  background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-accent);
 }
 
 body {
