@@ -2,234 +2,282 @@
    BLOCK: cart — компактная сводка под превью + BLOCK cart-dialog (состав заказа)
    ============================================================================= */
 
-   .cart {
-    padding: var(--space-5);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
-    background-color: var(--color-surface);
-    box-shadow: var(--shadow-sm);
-  }
+.cart {
+  padding: var(--space-5);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+}
 
-  .cart__title {
-    margin-bottom: var(--space-4);
-    font-size: var(--fs-h3);
-    font-weight: var(--fw-bold);
-  }
+.cart__empty {
+  margin: 0;
+  padding-top: 60px;
+  padding-bottom: 40px;
+  color: var(--color-text-muted);
+  font-size: var(--fs-sm);
+  text-align: center;
+}
 
-  .cart__empty {
-    margin: 0;
-    color: var(--color-text-muted);
-    font-size: var(--fs-sm);
-    text-align: center;
-  }
+/* --------------------------- Компактная сводка ---------------------------- */
+.cart__summary {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  font-feature-settings: 'tnum';
+}
 
-  /* --------------------------- Компактная сводка ---------------------------- */
-  .cart__summary {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-3);
-    font-feature-settings: 'tnum';
-  }
+/* Кликабельная область: «Итого / N окон» + сумма. Открывает диалог. */
+.cart__open {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-3);
+  width: 100%;
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  background: none;
+  cursor: pointer;
+  text-align: left;
+  transition:
+    border-color var(--transition-fast),
+    background-color var(--transition-fast);
+}
 
-  /* Кликабельная область: «Итого / N окон» + сумма. Открывает диалог. */
-  .cart__open {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: var(--space-3);
-    width: 100%;
-    padding: var(--space-2) var(--space-3);
-    border: 1px solid transparent;
-    border-radius: var(--radius-sm);
-    background: none;
-    cursor: pointer;
-    text-align: left;
-    transition:
-      border-color var(--transition-fast),
-      background-color var(--transition-fast);
-  }
+.cart__open:hover {
+  border-color: var(--color-border);
+  background-color: var(--color-surface-2);
+}
 
-  .cart__open:hover {
-    border-color: var(--color-border);
-    background-color: var(--color-surface-2);
-  }
+.cart__summary-row {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
 
-  .cart__summary-row {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
+.cart__summary-label {
+  color: var(--color-text-secondary);
+  font-size: var(--fs-sm);
+}
 
-  .cart__summary-label {
-    color: var(--color-text-secondary);
-    font-size: var(--fs-sm);
-  }
+.cart__count {
+  color: var(--color-text-muted);
+  font-size: var(--fs-xs);
+}
 
-  .cart__count {
-    color: var(--color-text-muted);
-    font-size: var(--fs-xs);
-  }
+.cart__total-value {
+  font-family: var(--font-heading);
+  font-size: var(--fs-h2);
+  font-weight: var(--fw-extrabold);
+  white-space: nowrap;
+}
 
-  .cart__total-value {
-    font-family: var(--font-heading);
-    font-size: var(--fs-h2);
-    font-weight: var(--fw-extrabold);
-    white-space: nowrap;
-  }
+/* --------------------------- Диалог: состав заказа ------------------------ */
+.cart-dialog {
+  width: min(520px, 92vw);
+  margin: auto;
+  padding: 0;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-lg);
+}
 
-  /* --------------------------- Диалог: состав заказа ------------------------ */
-  .cart-dialog {
-    width: min(760px, 94vw);
-    margin: auto;
-    padding: 0;
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
-    background-color: var(--color-surface);
-    box-shadow: var(--shadow-lg);
-  }
+.cart-dialog::backdrop {
+  background-color: hsl(var(--neutral-hue) 25% 15% / 0.5);
+  backdrop-filter: blur(2px);
+}
 
-  .cart-dialog::backdrop {
-    background-color: hsl(var(--neutral-hue) 25% 15% / 0.5);
-    backdrop-filter: blur(2px);
-  }
+.cart-dialog__inner {
+  position: relative;
+  padding: var(--space-8);
+}
 
-  .cart-dialog__inner {
-    position: relative;
-    padding: var(--space-8);
-  }
+.cart-dialog__close {
+  position: absolute;
+  top: var(--space-4);
+  right: var(--space-4);
+  display: grid;
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: none;
+  cursor: pointer;
+  color: var(--color-text-secondary);
+  font-size: var(--fs-base);
+  transition:
+    background-color var(--transition-fast),
+    color var(--transition-fast);
+  place-items: center;
+}
 
-  .cart-dialog__close {
-    position: absolute;
-    top: var(--space-4);
-    right: var(--space-4);
-    display: grid;
-    width: 36px;
-    height: 36px;
-    border: none;
-    border-radius: var(--radius-sm);
-    background: none;
-    cursor: pointer;
-    color: var(--color-text-secondary);
-    font-size: var(--fs-base);
-    transition:
-      background-color var(--transition-fast),
-      color var(--transition-fast);
-    place-items: center;
-  }
+.cart-dialog__close:hover {
+  background-color: var(--color-surface-2);
+  color: var(--color-text);
+}
 
-  .cart-dialog__close:hover {
-    background-color: var(--color-surface-2);
-    color: var(--color-text);
-  }
+.cart-dialog__title {
+  margin-bottom: var(--space-5);
+  font-size: var(--fs-h3);
+  font-weight: var(--fw-bold);
+}
 
-  .cart-dialog__title {
-    margin-bottom: var(--space-5);
-    font-size: var(--fs-h3);
-    font-weight: var(--fw-bold);
-  }
+.cart-dialog__items {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  max-height: 50vh;
+  margin: 0 0 var(--space-4);
+  padding: 0;
+  overflow-y: auto;
+  list-style: none;
+}
 
-  .cart-dialog__items {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-3);
-    max-height: 50vh;
-    margin: 0 0 var(--space-4);
-    padding: 0;
-    overflow-y: auto;
-    list-style: none;
-  }
+.cart-dialog__empty {
+  color: var(--color-text-muted);
+  font-size: var(--fs-sm);
+}
 
-  .cart-dialog__empty {
-    color: var(--color-text-muted);
-    font-size: var(--fs-sm);
-  }
+.cart-dialog__total {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: var(--space-4);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-border);
+}
 
-  .cart-dialog__total {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    margin-bottom: var(--space-4);
-    padding-top: var(--space-4);
-    border-top: 1px solid var(--color-border);
-  }
+.cart-dialog__total-label {
+  color: var(--color-text-secondary);
+  font-size: var(--fs-sm);
+}
 
-  .cart-dialog__total-label {
-    color: var(--color-text-secondary);
-    font-size: var(--fs-sm);
-  }
+.cart-dialog__total-value {
+  font-family: var(--font-heading);
+  font-size: var(--fs-h2);
+  font-weight: var(--fw-extrabold);
+}
 
-  .cart-dialog__total-value {
-    font-family: var(--font-heading);
-    font-size: var(--fs-h2);
-    font-weight: var(--fw-extrabold);
-  }
+/* --------------------------- Позиция заказа (спойлер) --------------------- */
+.cart-item {
+  padding: var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-surface-2, var(--color-surface));
+}
 
-  /* --------------------------- Позиция заказа ------------------------------- */
-  .cart-item {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-2);
-    padding: var(--space-4);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-sm);
-    background-color: var(--color-surface-2, var(--color-surface));
-  }
+/* Шапка-спойлер: миниатюра + тип/размер + кнопка + цена */
+.cart-item__summary {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  cursor: pointer;
+  list-style: none;
+}
 
-  .cart-item__head {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: var(--space-3);
-  }
+/* Убираем стандартный маркер <summary> */
+.cart-item__summary::-webkit-details-marker {
+  display: none;
+}
 
-  .cart-item__info {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
+/* Мини-превью окна как иконка */
+.cart-item__thumb {
+  display: grid;
+  flex-shrink: 0;
+  width: 56px;
+  height: 56px;
+  padding: 4px;
+  border-radius: var(--radius-xs, 6px);
+  background-color: var(--color-surface);
+  place-items: center;
+}
 
-  .cart-item__title {
-    font-family: var(--font-heading);
-    font-size: var(--fs-base);
-    font-weight: var(--fw-semibold);
-  }
+/* Уменьшаем внутренности мини-окна: без шестерён, тоньше профиль */
+.cart-item__thumb .win-wrap {
+  --pad: 4px;
+  --gap: 3px;
+}
 
-  .cart-item__size {
-    color: var(--color-text-muted);
-    font-size: var(--fs-xs);
-  }
+.cart-item__thumb .win__gears {
+  display: none;
+}
 
-  .cart-item__price {
-    font-family: var(--font-heading);
-    font-size: var(--fs-base);
-    font-weight: var(--fw-bold);
-    white-space: nowrap;
-  }
+.cart-item__info {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
 
-  .cart-item__details {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
+.cart-item__title {
+  font-family: var(--font-heading);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-semibold);
+}
 
-  .cart-item__detail {
-    color: var(--color-text-secondary);
-    font-size: var(--fs-xs);
-    line-height: 1.5;
-  }
+.cart-item__size {
+  color: var(--color-text-muted);
+  font-size: var(--fs-xs);
+}
 
-  .cart-item__remove {
-    align-self: flex-start;
-    padding: 0;
-    border: none;
-    background: none;
-    cursor: pointer;
-    color: var(--color-text-muted);
-    font-size: var(--fs-xs);
-    text-decoration: underline;
-    transition: color var(--transition-fast);
-  }
+.cart-item__price {
+  font-family: var(--font-heading);
+  font-size: var(--fs-base);
+  font-weight: var(--fw-bold);
+  white-space: nowrap;
+}
 
-  .cart-item__remove:hover {
-    color: var(--color-accent);
-  }
+/* Кнопка-иконка удаления (слева от цены) */
+.cart-item__remove {
+  display: grid;
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: var(--radius-xs, 6px);
+  background: none;
+  cursor: pointer;
+  color: var(--color-text-muted);
+  transition:
+    color var(--transition-fast),
+    background-color var(--transition-fast);
+  place-items: center;
+}
+
+.cart-item__remove:hover {
+  background-color: var(--color-danger-soft, hsl(2 75% 95%));
+  color: var(--color-danger, #d64545);
+}
+
+/* Стрелка спойлера (через ::after у summary) */
+.cart-item__summary::after {
+  content: '';
+  flex-shrink: 0;
+  width: 8px;
+  height: 8px;
+  transition: transform var(--transition-fast);
+  transform: rotate(45deg);
+  border-bottom: 2px solid var(--color-text-muted);
+  border-right: 2px solid var(--color-text-muted);
+}
+
+.cart-item[open] .cart-item__summary::after {
+  transform: rotate(-135deg);
+}
+
+/* Детали под спойлером */
+.cart-item__details {
+  margin: var(--space-3) 0 0;
+  padding: var(--space-3) 0 0;
+  border-top: 1px solid var(--color-border);
+  list-style: none;
+}
+
+.cart-item__detail {
+  color: var(--color-text-secondary);
+  font-size: var(--fs-xs);
+  line-height: 1.6;
+}

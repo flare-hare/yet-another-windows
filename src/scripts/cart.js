@@ -6,229 +6,277 @@
    Позиция = снимок конфигурации + цена + человекочитаемое описание.
    ============================================================================= */
 
-   import { el } from './dom.js';
-   import { calcPrice, formatPrice } from './price.js';
+import { el } from './dom.js';
+import { calcPrice, formatPrice } from './price.js';
+import { buildWindowEl } from './window-preview.js';
 
-   const STORAGE_KEY = 'okonika-cart-v1';
+/** Иконка «корзина» (SVG) для кнопки удаления позиции. */
+const TRASH_SVG =
+  '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>';
 
-   /** @type {Array<Object>} */
-   let items = load();
+const STORAGE_KEY = 'okonika-cart-v1';
 
-   /** Подписчики на изменение корзины. */
-   const listeners = new Set();
+/** @type {Array<Object>} */
+let items = load();
 
-   function load() {
-     try {
-       const raw = localStorage.getItem(STORAGE_KEY);
-       const parsed = raw ? JSON.parse(raw) : [];
-       return Array.isArray(parsed) ? parsed : [];
-     } catch {
-       return [];
-     }
-   }
+/** Подписчики на изменение корзины. */
+const listeners = new Set();
 
-   function persist() {
-     try {
-       localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
-     } catch {
-       /* приватный режим/переполнение — работаем в памяти */
-     }
-   }
+function load() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    const parsed = raw ? JSON.parse(raw) : [];
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+}
 
-   function notify() {
-     listeners.forEach((fn) => fn(getItems()));
-   }
+function persist() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+  } catch {
+    /* приватный режим/переполнение — работаем в памяти */
+  }
+}
 
-   /** @returns {Array<Object>} копия списка позиций */
-   export function getItems() {
-     return items.map((it) => ({ ...it }));
-   }
+function notify() {
+  listeners.forEach((fn) => fn(getItems()));
+}
 
-   /** @returns {number} количество позиций */
-   export function getCount() {
-     return items.length;
-   }
+/** @returns {Array<Object>} копия списка позиций */
+export function getItems() {
+  return items.map((it) => ({ ...it }));
+}
 
-   /** @returns {number} сумма корзины */
-   export function getTotal() {
-     return items.reduce((sum, it) => sum + (it.price || 0), 0);
-   }
+/** @returns {number} количество позиций */
+export function getCount() {
+  return items.length;
+}
 
-   /**
-    * Подписаться на изменения корзины.
-    * @param {(items: Array<Object>) => void} fn
-    * @returns {() => void} отписка
-    */
-   export function subscribeCart(fn) {
-     listeners.add(fn);
-     return () => listeners.delete(fn);
-   }
+/** @returns {number} сумма корзины */
+export function getTotal() {
+  return items.reduce((sum, it) => sum + (it.price || 0), 0);
+}
 
-   /** Склонение «окно / окна / окон». */
-   function pluralWindows(n) {
-     const mod10 = n % 10;
-     const mod100 = n % 100;
-     if (mod10 === 1 && mod100 !== 11) return `${n} окно`;
-     if (mod10 >= 2 && mod10 <= 4 && (mod100 < 10 || mod100 >= 20)) return `${n} окна`;
-     return `${n} окон`;
-   }
+/**
+ * Подписаться на изменения корзины.
+ * @param {(items: Array<Object>) => void} fn
+ * @returns {() => void} отписка
+ */
+export function subscribeCart(fn) {
+  listeners.add(fn);
+  return () => listeners.delete(fn);
+}
 
-   /**
-    * Собирает позицию корзины из состояния конфигуратора.
-    * @param {import('./state.js').ConfigState} state
-    * @param {Object} data - windows.json
-    * @returns {Object}
-    */
-   export function buildCartItem(state, data) {
-     const byId = (list, id) => (Array.isArray(list) ? list.find((x) => x.id === id) : undefined);
-     const type = byId(data.windowTypes, state.typeId);
-     const profile = byId(data.profiles, state.profileId);
-     const glazing = byId(data.glazings, state.glazingId);
-     const color = byId(data.colors, state.colorId);
-     const hardware = byId(data.hardware, state.hardwareId);
+/** Склонение «окно / окна / окон». */
+function pluralWindows(n) {
+  const mod10 = n % 10;
+  const mod100 = n % 100;
+  if (mod10 === 1 && mod100 !== 11) return `${n} окно`;
+  if (mod10 >= 2 && mod10 <= 4 && (mod100 < 10 || mod100 >= 20)) return `${n} окна`;
+  return `${n} окон`;
+}
 
-     const { total } = calcPrice(state, data);
-     const hasOpening = (state.openings || []).some((o) => o && o !== 'fixed');
+/**
+ * Собирает позицию корзины из состояния конфигуратора.
+ * @param {import('./state.js').ConfigState} state
+ * @param {Object} data - windows.json
+ * @returns {Object}
+ */
+export function buildCartItem(state, data) {
+  const byId = (list, id) => (Array.isArray(list) ? list.find((x) => x.id === id) : undefined);
+  const type = byId(data.windowTypes, state.typeId);
+  const profile = byId(data.profiles, state.profileId);
+  const glazing = byId(data.glazings, state.glazingId);
+  const color = byId(data.colors, state.colorId);
+  const hardware = byId(data.hardware, state.hardwareId);
 
-     const details = [];
-     if (profile) details.push(`Профиль: ${profile.name}`);
-     if (glazing) details.push(`Стеклопакет: ${glazing.name}`);
-     if (color) details.push(`Цвет: ${color.name}`);
-     if (hasOpening && hardware) details.push(`Фурнитура: ${hardware.name}`);
+  const { total } = calcPrice(state, data);
+  const hasOpening = (state.openings || []).some((o) => o && o !== 'fixed');
 
-     return {
-       id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
-       title: type?.name ?? 'Окно',
-       size: `${state.width}×${state.height} см`,
-       price: total,
-       details,
-       config: { ...state },
-     };
-   }
+  const details = [];
+  if (profile) details.push(`Профиль: ${profile.name}`);
+  if (glazing) details.push(`Стеклопакет: ${glazing.name}`);
+  if (color) details.push(`Цвет: ${color.name}`);
+  if (hasOpening && hardware) details.push(`Фурнитура: ${hardware.name}`);
 
-   /** Добавляет позицию. */
-   export function addItem(item) {
-     items.push(item);
-     persist();
-     notify();
-   }
+  return {
+    id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+    title: type?.name ?? 'Окно',
+    size: `${state.width}×${state.height} см`,
+    price: total,
+    details,
+    // данные для мини-превью окна в карточке корзины
+    sashes: type?.sashes ?? 1,
+    frameColor: color?.hex ?? '#ffffff',
+    config: { ...state },
+  };
+}
 
-   /** Удаляет позицию по id. */
-   export function removeItem(id) {
-     items = items.filter((it) => it.id !== id);
-     persist();
-     notify();
-   }
+/** Добавляет позицию. */
+export function addItem(item) {
+  items.push(item);
+  persist();
+  notify();
+}
 
-   /** Полностью очищает корзину. */
-   export function clearCart() {
-     items = [];
-     persist();
-     notify();
-   }
+/** Удаляет позицию по id. */
+export function removeItem(id) {
+  items = items.filter((it) => it.id !== id);
+  persist();
+  notify();
+}
 
-   /**
-    * Настраивает компактную сводку под превью + диалог со списком.
-    * @param {Object} refs
-    * @param {HTMLElement} refs.emptyEl     - «Пока пусто…» [data-cart-empty]
-    * @param {HTMLElement} refs.summaryEl   - блок сводки [data-cart-summary]
-    * @param {HTMLElement} refs.openEl      - кликабельная область-кнопка [data-cart-open]
-    * @param {HTMLElement} refs.countEl     - счётчик [data-cart-count]
-    * @param {HTMLElement} refs.totalEl     - сумма в сводке [data-cart-total]
-    * @param {HTMLElement} refs.checkoutBtn - кнопка сводки [data-cart-checkout]
-    * @param {HTMLDialogElement} refs.dialog - диалог [data-cart-dialog]
-    * @param {HTMLElement} refs.dialogItems - список в диалоге [data-cart-items]
-    * @param {HTMLElement} refs.dialogTotal - сумма в диалоге [data-cart-dialog-total]
-    * @param {HTMLElement} refs.dialogClose - кнопка закрытия
-    * @param {HTMLElement} refs.dialogCheckout - кнопка оформления в диалоге
-    * @param {string} [currency='₽']
-    */
-   export function setupCart(refs, currency = '₽') {
-     const {
-       emptyEl,
-       summaryEl,
-       openEl,
-       countEl,
-       totalEl,
-       dialog,
-       dialogItems,
-       dialogTotal,
-       dialogClose,
-     } = refs;
+/** Полностью очищает корзину. */
+export function clearCart() {
+  items = [];
+  persist();
+  notify();
+}
 
-     const openDialog = () => {
-       renderDialog(getItems());
-       dialog?.showModal?.();
-     };
-     const closeDialog = () => dialog?.close?.();
+/**
+ * Настраивает компактную сводку под превью + диалог со списком.
+ * @param {Object} refs
+ * @param {HTMLElement} refs.emptyEl     - «Пока пусто…» [data-cart-empty]
+ * @param {HTMLElement} refs.summaryEl   - блок сводки [data-cart-summary]
+ * @param {HTMLElement} refs.openEl      - кликабельная область-кнопка [data-cart-open]
+ * @param {HTMLElement} refs.countEl     - счётчик [data-cart-count]
+ * @param {HTMLElement} refs.totalEl     - сумма в сводке [data-cart-total]
+ * @param {HTMLElement} refs.checkoutBtn - кнопка сводки [data-cart-checkout]
+ * @param {HTMLDialogElement} refs.dialog - диалог [data-cart-dialog]
+ * @param {HTMLElement} refs.dialogItems - список в диалоге [data-cart-items]
+ * @param {HTMLElement} refs.dialogTotal - сумма в диалоге [data-cart-dialog-total]
+ * @param {HTMLElement} refs.dialogClose - кнопка закрытия
+ * @param {HTMLElement} refs.dialogCheckout - кнопка оформления в диалоге
+ * @param {string} [currency='₽']
+ */
+export function setupCart(refs, currency = '₽') {
+  const {
+    emptyEl,
+    summaryEl,
+    openEl,
+    countEl,
+    totalEl,
+    dialog,
+    dialogItems,
+    dialogTotal,
+    dialogClose,
+    successEl,
+  } = refs;
 
-     // Открытие диалога: клик по области сводки (кроме кнопки «Оформить заказ»).
-     openEl?.addEventListener('click', openDialog);
-     dialogClose?.addEventListener('click', closeDialog);
-     // Клик по подложке (вне inner) закрывает диалог.
-     dialog?.addEventListener('click', (e) => {
-       if (e.target === dialog) closeDialog();
-     });
+  const openDialog = () => {
+    renderDialog(getItems());
+    dialog?.showModal?.();
+  };
+  const closeDialog = () => dialog?.close?.();
 
-     function renderSummary(list) {
-       const isEmpty = list.length === 0;
-       if (emptyEl) emptyEl.hidden = !isEmpty;
-       if (summaryEl) summaryEl.hidden = isEmpty;
-       if (countEl) countEl.textContent = pluralWindows(list.length);
-       if (totalEl) totalEl.textContent = formatPrice(getTotal(), currency);
-       // если диалог открыт — обновим и его
-       if (dialog?.open) renderDialog(list);
-     }
+  // Открытие диалога: клик по области сводки (кроме кнопки «Оформить заказ»).
+  openEl?.addEventListener('click', openDialog);
+  dialogClose?.addEventListener('click', closeDialog);
+  // Клик по подложке (вне inner) закрывает диалог.
+  dialog?.addEventListener('click', (e) => {
+    if (e.target === dialog) closeDialog();
+  });
 
-     function renderDialog(list) {
-       if (!dialogItems) return;
-       dialogItems.innerHTML = '';
-       if (list.length === 0) {
-         dialogItems.append(
-           el('li', { className: 'cart-dialog__empty', textContent: 'Корзина пуста.' })
-         );
-         // Диалог НЕ закрываем: после оформления заказа тут показывается экран
-         // «Спасибо» (см. checkout.js). Закрытие пустого диалога делает пользователь.
-       } else {
-         list.forEach((item) => dialogItems.append(renderItem(item, currency)));
-       }
-       if (dialogTotal) dialogTotal.textContent = formatPrice(getTotal(), currency);
-     }
+  function renderSummary(list) {
+    const isEmpty = list.length === 0;
+    if (emptyEl) emptyEl.hidden = !isEmpty;
+    if (summaryEl) summaryEl.hidden = isEmpty;
+    if (countEl) countEl.textContent = pluralWindows(list.length);
+    if (totalEl) totalEl.textContent = formatPrice(getTotal(), currency);
 
-     /** Подробная карточка позиции (в диалоге): тип, размер, детали, цена, удаление. */
-     function renderItem(item, cur) {
-       const head = el('div', { className: 'cart-item__head' }, [
-         el('div', { className: 'cart-item__info' }, [
-           el('span', { className: 'cart-item__title', textContent: item.title }),
-           el('span', { className: 'cart-item__size', textContent: item.size }),
-         ]),
-         el('span', { className: 'cart-item__price', textContent: formatPrice(item.price, cur) }),
-       ]);
+    // Корзина опустела при открытом диалоге:
+    //  • если показан экран «Спасибо» (после заказа) — оставляем его;
+    //  • если пользователь удалил последнюю позицию вручную — закрываем диалог.
+    if (isEmpty && dialog?.open) {
+      const successVisible = successEl && !successEl.hidden;
+      if (!successVisible) {
+        closeDialog();
+        return;
+      }
+    }
 
-       const children = [head];
+    // если диалог открыт — обновим состав
+    if (dialog?.open) renderDialog(list);
+  }
 
-       if (item.details?.length) {
-         children.push(
-           el(
-             'ul',
-             { className: 'cart-item__details' },
-             item.details.map((d) => el('li', { className: 'cart-item__detail', textContent: d }))
-           )
-         );
-       }
+  function renderDialog(list) {
+    if (!dialogItems) return;
+    dialogItems.innerHTML = '';
+    if (list.length === 0) {
+      // Пустой список показываем только если открыт экран «Спасибо» (после заказа).
+      // Закрытие пустого диалога при ручном удалении делает renderSummary.
+      dialogItems.append(
+        el('li', { className: 'cart-dialog__empty', textContent: 'Корзина пуста.' })
+      );
+    } else {
+      list.forEach((item) => dialogItems.append(renderItem(item, currency)));
+    }
+    if (dialogTotal) dialogTotal.textContent = formatPrice(getTotal(), currency);
+  }
 
-       children.push(
-         el('button', {
-           className: 'cart-item__remove',
-           textContent: 'Удалить',
-           attrs: { type: 'button', 'aria-label': `Удалить ${item.title} ${item.size}` },
-           onclick: () => removeItem(item.id),
-         })
-       );
+  /**
+   * Карточка позиции: [мини-превью] + <details>-спойлер.
+   * summary — тип, размер, кнопка-корзина и цена; внутри — детали конфигурации.
+   */
+  function renderItem(item, cur) {
+    // Мини-превью окна как иконка (переиспользуем отрисовку конструктора).
+    const thumb = el('div', { className: 'cart-item__thumb', attrs: { 'aria-hidden': 'true' } });
+    try {
+      const cfg = item.config || {};
+      const win = buildWindowEl({
+        width: item.config?.width ?? 100,
+        height: item.config?.height ?? 100,
+        sashes: item.sashes ?? 1,
+        frameColor: item.frameColor ?? '#ffffff',
+        openings: cfg.openings ?? [],
+        handleSides: cfg.handleSides ?? [],
+        avail: { w: 56, h: 56 },
+      });
+      thumb.append(win);
+    } catch {
+      /* если превью не построилось — просто пустая иконка */
+    }
 
-       return el('li', { className: 'cart-item' }, children);
-     }
+    // Кнопка-иконка удаления (слева от цены)
+    const removeBtn = el('button', {
+      className: 'cart-item__remove',
+      innerHTML: TRASH_SVG,
+      attrs: { type: 'button', 'aria-label': `Удалить ${item.title} ${item.size}` },
+    });
+    removeBtn.addEventListener('click', (e) => {
+      e.preventDefault(); // не переключать <details>
+      e.stopPropagation();
+      removeItem(item.id);
+    });
 
-     subscribeCart(renderSummary);
-     renderSummary(getItems());
-   }
+    // Шапка-спойлер: тип + размер, затем кнопка удаления и цена
+    const summary = el('summary', { className: 'cart-item__summary' }, [
+      thumb,
+      el('div', { className: 'cart-item__info' }, [
+        el('span', { className: 'cart-item__title', textContent: item.title }),
+        el('span', { className: 'cart-item__size', textContent: item.size }),
+      ]),
+      removeBtn,
+      el('span', { className: 'cart-item__price', textContent: formatPrice(item.price, cur) }),
+    ]);
+
+    const details = el('details', { className: 'cart-item' }, [summary]);
+
+    if (item.details?.length) {
+      details.append(
+        el(
+          'ul',
+          { className: 'cart-item__details' },
+          item.details.map((d) => el('li', { className: 'cart-item__detail', textContent: d }))
+        )
+      );
+    }
+
+    return el('li', {}, [details]);
+  }
+
+  subscribeCart(renderSummary);
+  renderSummary(getItems());
+}
