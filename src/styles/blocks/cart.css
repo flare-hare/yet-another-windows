@@ -1,37 +1,164 @@
 /* =============================================================================
-   BLOCK: cart — корзина / итоговая стоимость (каркас)
+   BLOCK: cart — компактная сводка под превью + BLOCK cart-dialog (состав заказа)
    ============================================================================= */
 
 .cart {
-  padding: var(--space-6);
+  padding: var(--space-5);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   background-color: var(--color-surface);
   box-shadow: var(--shadow-sm);
 }
 
-.cart__title {
-  margin-bottom: var(--space-4);
+.cart__empty {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: var(--fs-sm);
+  text-align: center;
+}
+
+/* --------------------------- Компактная сводка ---------------------------- */
+.cart__summary {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  font-feature-settings: 'tnum';
+}
+
+/* Кликабельная область: «Итого / N окон» + сумма. Открывает диалог. */
+.cart__open {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-3);
+  width: 100%;
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  background: none;
+  cursor: pointer;
+  text-align: left;
+  transition:
+    border-color var(--transition-fast),
+    background-color var(--transition-fast);
+}
+
+.cart__open:hover {
+  border-color: var(--color-border);
+  background-color: var(--color-surface-2);
+}
+
+.cart__summary-row {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.cart__summary-label {
+  color: var(--color-text-secondary);
+  font-size: var(--fs-sm);
+}
+
+.cart__count {
+  color: var(--color-text-muted);
+  font-size: var(--fs-xs);
+}
+
+.cart__total-value {
+  font-family: var(--font-heading);
+  font-size: var(--fs-h2);
+  font-weight: var(--fw-extrabold);
+  white-space: nowrap;
+}
+
+/* --------------------------- Диалог: состав заказа ------------------------ */
+.cart-dialog {
+  width: min(520px, 92vw);
+  margin: auto;
+  padding: 0;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-lg);
+}
+
+.cart-dialog::backdrop {
+  background-color: hsl(var(--neutral-hue) 25% 15% / 0.5);
+  backdrop-filter: blur(2px);
+}
+
+.cart-dialog__inner {
+  position: relative;
+  padding: var(--space-8);
+}
+
+.cart-dialog__close {
+  position: absolute;
+  top: var(--space-4);
+  right: var(--space-4);
+  display: grid;
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: none;
+  cursor: pointer;
+  color: var(--color-text-secondary);
+  font-size: var(--fs-base);
+  transition:
+    background-color var(--transition-fast),
+    color var(--transition-fast);
+  place-items: center;
+}
+
+.cart-dialog__close:hover {
+  background-color: var(--color-surface-2);
+  color: var(--color-text);
+}
+
+.cart-dialog__title {
+  margin-bottom: var(--space-5);
   font-size: var(--fs-h3);
   font-weight: var(--fw-bold);
 }
 
-.cart__empty {
+.cart-dialog__items {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  max-height: 50vh;
+  margin: 0 0 var(--space-4);
+  padding: 0;
+  overflow-y: auto;
+  list-style: none;
+}
+
+.cart-dialog__empty {
   color: var(--color-text-muted);
   font-size: var(--fs-sm);
 }
 
-/* Список позиций */
-.cart__items {
+.cart-dialog__total {
   display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
-  margin: 0;
-  padding: 0;
-  list-style: none;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: var(--space-4);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-border);
 }
 
-/* Позиция корзины (одно окно) */
+.cart-dialog__total-label {
+  color: var(--color-text-secondary);
+  font-size: var(--fs-sm);
+}
+
+.cart-dialog__total-value {
+  font-family: var(--font-heading);
+  font-size: var(--fs-h2);
+  font-weight: var(--fw-extrabold);
+}
+
+/* --------------------------- Позиция заказа ------------------------------- */
 .cart-item {
   display: flex;
   flex-direction: column;
@@ -39,7 +166,7 @@
   padding: var(--space-4);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-sm);
-  background-color: var(--color-bg, var(--color-surface));
+  background-color: var(--color-surface-2, var(--color-surface));
 }
 
 .cart-item__head {
@@ -99,24 +226,4 @@
 
 .cart-item__remove:hover {
   color: var(--color-accent);
-}
-
-.cart__total {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  margin: var(--space-5) 0 var(--space-4);
-  padding-top: var(--space-4);
-  border-top: 1px solid var(--color-border);
-}
-
-.cart__total-label {
-  color: var(--color-text-secondary);
-  font-size: var(--fs-sm);
-}
-
-.cart__total-value {
-  font-family: var(--font-heading);
-  font-size: var(--fs-h2);
-  font-weight: var(--fw-extrabold);
 }

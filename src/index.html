@@ -206,17 +206,21 @@
 
               <!-- Корзина / итого -->
               <div class="cart" data-cart>
-                <h3 class="cart__title">Корзина</h3>
-                <ul class="cart__items" data-cart-items>
-                  <p class="cart__empty">Пока пусто — соберите окно и нажмите «В корзину».</p>
-                </ul>
-                <div class="cart__total" data-cart-total-row hidden>
-                  <span class="cart__total-label">Итого</span>
-                  <span class="cart__total-value" data-cart-total>0 ₽</span>
+                <p class="cart__empty" data-cart-empty>
+                  Пока пусто — соберите окно и нажмите «В корзину».
+                </p>
+                <div class="cart__summary" data-cart-summary hidden>
+                  <button class="cart__open" type="button" data-cart-open>
+                    <span class="cart__summary-row">
+                      <span class="cart__summary-label">Итого</span>
+                      <span class="cart__count" data-cart-count>0 окон</span>
+                    </span>
+                    <span class="cart__total-value" data-cart-total>0 ₽</span>
+                  </button>
+                  <button class="btn btn--primary btn--block" type="button" data-cart-checkout>
+                    Оформить заказ
+                  </button>
                 </div>
-                <button class="btn btn--primary btn--block" type="button" data-cart-checkout hidden>
-                  Оформить заказ
-                </button>
               </div>
             </div>
 
@@ -359,6 +363,29 @@
 
         <button class="btn btn--primary howto__cta" type="button" data-close-howto>
           <a class="howto--link" href="#constructor">Понятно, к конструктору</a>
+        </button>
+      </div>
+    </dialog>
+
+    <!-- Диалог корзины: подробный состав заказа -->
+    <dialog class="cart-dialog" data-cart-dialog>
+      <div class="cart-dialog__inner">
+        <button
+          class="cart-dialog__close"
+          type="button"
+          data-cart-dialog-close
+          aria-label="Закрыть"
+        >
+          ✕
+        </button>
+        <h2 class="cart-dialog__title">Ваш заказ</h2>
+        <ul class="cart-dialog__items" data-cart-items></ul>
+        <div class="cart-dialog__total">
+          <span class="cart-dialog__total-label">Итого</span>
+          <span class="cart-dialog__total-value" data-cart-dialog-total>0 ₽</span>
+        </div>
+        <button class="btn btn--primary btn--block" type="button" data-cart-checkout-dialog>
+          Оформить заказ
         </button>
       </div>
     </dialog>

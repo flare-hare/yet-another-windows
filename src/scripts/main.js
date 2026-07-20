@@ -133,17 +133,32 @@ async function initConstructor() {
     // Корзина: на мобайле/планшете переезжает вниз
     setupCartPosition();
 
-    // Корзина: рендер позиций, итога, кнопки оформления (+ localStorage)
+    // Корзина: компактная сводка под превью + диалог с составом (+ localStorage)
     const currency = data.meta?.currency ?? '₽';
     setupCart(
       {
-        itemsEl: document.querySelector('[data-cart-items]'),
-        totalRow: document.querySelector('[data-cart-total-row]'),
+        emptyEl: document.querySelector('[data-cart-empty]'),
+        summaryEl: document.querySelector('[data-cart-summary]'),
+        openEl: document.querySelector('[data-cart-open]'),
+        countEl: document.querySelector('[data-cart-count]'),
         totalEl: document.querySelector('[data-cart-total]'),
-        checkoutBtn: document.querySelector('[data-cart-checkout]'),
+        dialog: document.querySelector('[data-cart-dialog]'),
+        dialogItems: document.querySelector('[data-cart-items]'),
+        dialogTotal: document.querySelector('[data-cart-dialog-total]'),
+        dialogClose: document.querySelector('[data-cart-dialog-close]'),
       },
       currency
     );
+
+    // Кнопки «Оформить заказ» (в сводке и в диалоге) — заглушки до формы заявки.
+    const checkoutHandler = () => {
+      // TODO: следующий шаг — форма заявки (имя, телефон) + отправка
+      console.log('Оформить заказ (заглушка)');
+    };
+    document.querySelector('[data-cart-checkout]')?.addEventListener('click', checkoutHandler);
+    document
+      .querySelector('[data-cart-checkout-dialog]')
+      ?.addEventListener('click', checkoutHandler);
 
     // Quick actions под превью
     const quickContainer = document.querySelector('[data-quick-actions]');
