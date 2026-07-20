@@ -20,6 +20,10 @@ const paths = {
     src: 'src/*.html',
     dest: 'dist/',
   },
+  php: {
+    src: 'src/*.php',
+    dest: 'dist/',
+  },
   styles: {
     src: 'src/styles/main.css',
     watch: 'src/styles/**/*.css',
@@ -66,6 +70,11 @@ function html() {
     .pipe(imgToPicture())
     .pipe(isDev ? through() : htmlmin({ collapseWhitespace: true, removeComments: true }))
     .pipe(dest(paths.html.dest));
+}
+
+// Копируем PHP-бэкенд как есть (без обработки) в корень сборки.
+function php() {
+  return src(paths.php.src, { allowEmpty: true }).pipe(dest(paths.php.dest));
 }
 
 function imgToPicture() {
@@ -213,6 +222,7 @@ function server() {
 
   watch(paths.styles.watch, styles);
   watch(paths.html.src, series(html, reload));
+  watch(paths.php.src, series(php, reload));
   watch(paths.scripts.src, series(scripts, reload));
   watch(paths.images.src, series(images, reload));
   watch(paths.data.src, series(data, reload));
@@ -223,12 +233,13 @@ function reload(done) {
   done();
 }
 
-const build = series(clean, parallel(styles, scripts, fonts, data, series(images, html)));
+const build = series(clean, parallel(styles, scripts, fonts, data, php, series(images, html)));
 const dev = series(build, server);
 
 exports.clean = clean;
 exports.styles = styles;
 exports.html = html;
+exports.php = php;
 exports.scripts = scripts;
 exports.images = images;
 exports.fonts = fonts;
