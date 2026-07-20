@@ -95,6 +95,7 @@
   /* Всё в одну колонку */
   .hero__advantages,
   .options--type,
+  .options--row,
   .footer__inner {
     grid-template-columns: 1fr;
   }

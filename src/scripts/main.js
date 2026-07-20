@@ -12,7 +12,6 @@
    import { createCardField } from './fields/card-field.js';
    import { createExtrasField } from './fields/extras.js';
    import { renderWindowPreview } from './window-preview.js';
-   import { calcPrice, formatPrice } from './price.js';
    import { setupCartPosition } from './cart-position.js';
    import { setupHowto } from './howto.js';
    import { setupQuickActions } from './quick-actions.js';
@@ -68,6 +67,7 @@
            label: 'Фурнитура',
            name: 'hardware',
            items: data.hardware,
+           modifier: 'options--row',
            onChange: (id) => setState({ hardwareId: id }),
          });
 
@@ -110,9 +110,16 @@
            extras: extrasField.getValue(),
          });
 
-         // Синхрон: открывание из quick actions → панель
+         // Синхрон: открывание из quick actions → панель + скрытие фурнитуры,
+         // когда все створки глухие (открывать нечего → фурнитура не нужна).
          openingSyncUnsub?.();
-         openingSyncUnsub = subscribe((s) => openingField.syncFromState(s.openings));
+         openingSyncUnsub = subscribe((s) => {
+           openingField.syncFromState(s.openings);
+           const hasOpening = (s.openings || []).some((o) => o && o !== 'fixed');
+           hardwareField.field.hidden = !hasOpening;
+         });
+         // Применяем сразу для стартового состояния (подписка выше сработает позже).
+         hardwareField.field.hidden = !openings.some((o) => o && o !== 'fixed');
        }
 
        // Отписка для синхрона открывания (пересоздаётся при каждом buildPanel)
@@ -128,22 +135,13 @@
        // Quick actions под превью
        const quickContainer = document.querySelector('[data-quick-actions]');
        setupQuickActions(quickContainer, data, {
-         onReset: () => buildPanel(), // полный сброс = пересборка панели с дефолтами
          onAddToCart: () => {
            console.log('Добавить в корзину (заглушка):', getState());
          },
        });
 
-       // --- Живой расчёт цены: «Итого» обновляется при любом изменении ---
-       const currency = data.meta?.currency ?? '₽';
-       const totalEl = document.querySelector('[data-cart-total]');
-       const updateTotal = (s) => {
-         if (!totalEl) return;
-         const { total } = calcPrice(s, data);
-         totalEl.textContent = formatPrice(total, currency);
-       };
-       subscribe(updateTotal);
-       updateTotal(getState());
+       // Цена текущего окна теперь показывается в quick-actions (под превью),
+       // а не в корзине — корзина суммирует только ДОБАВЛЕННЫЕ окна (см. далее).
 
        // --- Превью окна: перерисовка при изменении state и при ресайзе ---
        const previewContainer = document.querySelector('[data-window-preview]');

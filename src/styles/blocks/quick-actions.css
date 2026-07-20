@@ -2,81 +2,104 @@
    BLOCK: quick — быстрые действия под превью (настройки активной створки).
    ============================================================================= */
 
-.preview__actions {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-4);
-  margin-top: var(--space-5);
-}
+   .preview__actions {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    margin-top: var(--space-5);
+  }
 
-.quick__head {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: var(--space-2);
-}
+  .quick__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--space-2);
+  }
 
-.quick__head-title {
-  font-size: var(--fs-base);
-  font-weight: var(--fw-bold);
-}
+  .quick__head-title {
+    font-size: var(--fs-base);
+    font-weight: var(--fw-bold);
+  }
 
-.quick__head-hint {
-  color: var(--color-text-muted);
-  font-size: var(--fs-xs);
-}
+  .quick__head-hint {
+    color: var(--color-text-muted);
+    font-size: var(--fs-xs);
+  }
 
-.quick__body {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-}
+  .quick__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
 
-.quick__label {
-  color: var(--color-text-secondary);
-  font-size: var(--fs-sm);
-  font-weight: var(--fw-medium);
-}
+  .quick__label {
+    color: var(--color-text-secondary);
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-medium);
+  }
 
-/* Сегментированный переключатель */
-.segment {
-  display: flex;
-  gap: 3px;
-  padding: 3px;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
-  background-color: var(--color-surface-2);
-}
+  /* Сегментированный переключатель */
+  .segment {
+    display: flex;
+    gap: 3px;
+    padding: 3px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background-color: var(--color-surface-2);
+  }
 
-.segment__btn {
-  flex: 1;
-  padding: var(--space-2);
-  border-radius: var(--radius-xs);
-  color: var(--color-text-secondary);
-  font-size: var(--fs-sm);
-  font-weight: var(--fw-medium);
-  transition:
-    background-color var(--transition-fast),
-    color var(--transition-fast);
-}
+  .segment__btn {
+    flex: 1;
+    padding: var(--space-2);
+    border-radius: var(--radius-xs);
+    color: var(--color-text-secondary);
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-medium);
+    transition:
+      background-color var(--transition-fast),
+      color var(--transition-fast);
+  }
 
-.segment__btn:hover {
-  color: var(--color-accent);
-}
+  .segment__btn:hover {
+    color: var(--color-accent);
+  }
 
-.segment__btn--active {
-  background-color: var(--color-surface);
-  box-shadow: var(--shadow-xs);
-  color: var(--color-accent-active);
-  font-weight: var(--fw-semibold);
-}
+  .segment__btn--active {
+    background-color: var(--color-surface);
+    box-shadow: var(--shadow-xs);
+    color: var(--color-accent-active);
+    font-weight: var(--fw-semibold);
+  }
 
-/* Кнопки действий */
-.quick__actions {
-  display: flex;
-  gap: var(--space-3);
-}
+  /* Кнопки действий */
+  .quick__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+  }
 
-.quick__btn {
-  flex: 1;
-}
+  .quick__btn {
+    flex: 2;
+  }
+
+  /* Цена текущего окна (слева от кнопки «В корзину») */
+  .quick__price {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    flex: 1;
+    font-feature-settings: "tnum";
+  }
+
+  .quick__price-label {
+    color: var(--color-text-muted);
+    font-size: var(--fs-xs);
+  }
+
+  .quick__price-value {
+    color: var(--color-text);
+    font-family: var(--font-heading);
+    font-size: var(--fs-h3);
+    font-weight: var(--fw-bold);
+    white-space: nowrap;
+  }

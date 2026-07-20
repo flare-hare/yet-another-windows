@@ -19,6 +19,7 @@
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
   background-color: var(--color-surface);
+  font-feature-settings: "tnum";
 }
 
 /* Заголовок: имя + значение */
