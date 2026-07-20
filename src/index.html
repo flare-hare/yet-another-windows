@@ -379,15 +379,110 @@
         >
           ✕
         </button>
-        <h2 class="cart-dialog__title">Ваш заказ</h2>
-        <ul class="cart-dialog__items" data-cart-items></ul>
-        <div class="cart-dialog__total">
-          <span class="cart-dialog__total-label">Итого</span>
-          <span class="cart-dialog__total-value" data-cart-dialog-total>0 ₽</span>
+
+        <!-- Оформление: слева состав, справа форма -->
+        <div class="checkout" data-checkout>
+          <div class="checkout__cart">
+            <h2 class="cart-dialog__title">Ваш заказ</h2>
+            <ul class="cart-dialog__items" data-cart-items></ul>
+            <div class="cart-dialog__total">
+              <span class="cart-dialog__total-label">Итого</span>
+              <span class="cart-dialog__total-value" data-cart-dialog-total>0 ₽</span>
+            </div>
+          </div>
+
+          <form class="checkout__form" data-order-form novalidate>
+            <h2 class="cart-dialog__title">Оформление</h2>
+
+            <label class="field-input">
+              <span class="field-input__label">Имя <span class="field-input__req">*</span></span>
+              <input
+                class="field-input__control"
+                type="text"
+                name="name"
+                autocomplete="name"
+                required
+              />
+              <span class="field-input__error" data-error-for="name"></span>
+            </label>
+
+            <label class="field-input">
+              <span class="field-input__label"
+                >Телефон <span class="field-input__req">*</span></span
+              >
+              <input
+                class="field-input__control"
+                type="tel"
+                name="phone"
+                autocomplete="tel"
+                placeholder="+7 900 000-00-00"
+                required
+              />
+              <span class="field-input__error" data-error-for="phone"></span>
+            </label>
+
+            <label class="field-input">
+              <span class="field-input__label">Email <span class="field-input__req">*</span></span>
+              <input
+                class="field-input__control"
+                type="email"
+                name="email"
+                autocomplete="email"
+                placeholder="you@example.ru"
+                required
+              />
+              <span class="field-input__error" data-error-for="email"></span>
+            </label>
+
+            <div class="field-input">
+              <span class="field-input__label">Мессенджер для связи</span>
+              <div class="checkout__messenger">
+                <label class="chip">
+                  <input type="radio" name="messenger" value="Telegram" checked />
+                  <span class="chip__label">Telegram</span>
+                </label>
+                <label class="chip">
+                  <input type="radio" name="messenger" value="MAX" />
+                  <span class="chip__label">MAX</span>
+                </label>
+              </div>
+              <input
+                class="field-input__control"
+                type="text"
+                name="messengerContact"
+                placeholder="@ник или номер"
+              />
+            </div>
+
+            <label class="field-input">
+              <span class="field-input__label">Комментарий</span>
+              <textarea
+                class="field-input__control field-input__control--area"
+                name="comment"
+                rows="3"
+                placeholder="Адрес, пожелания, удобное время звонка…"
+              ></textarea>
+            </label>
+
+            <button class="btn btn--primary btn--block" type="submit" data-order-submit>
+              Отправить заявку
+            </button>
+            <p class="checkout__note">
+              Нажимая «Отправить», вы соглашаетесь на обработку данных для связи по заказу.
+            </p>
+          </form>
         </div>
-        <button class="btn btn--primary btn--block" type="button" data-cart-checkout-dialog>
-          Оформить заказ
-        </button>
+
+        <!-- Экран успеха (после отправки) -->
+        <div class="checkout-success" data-checkout-success hidden>
+          <div class="checkout-success__icon" aria-hidden="true">✓</div>
+          <h2 class="checkout-success__title">Заявка принята!</h2>
+          <p class="checkout-success__text">
+            Номер заказа <strong data-order-number>—</strong>. Мы свяжемся с вами в ближайшее время.
+            Подтверждение отправлено на почту.
+          </p>
+          <button class="btn btn--primary" type="button" data-success-close>Готово</button>
+        </div>
       </div>
     </dialog>
 
