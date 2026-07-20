@@ -203,12 +203,6 @@
   ],
   "hardware": [
     {
-      "id": "basic",
-      "name": "Базовая",
-      "description": "Стандартный надёжный комплект.",
-      "pricePerSash": 0
-    },
-    {
       "id": "comfort",
       "name": "Комфорт",
       "description": "Более плавный ход и мягкое закрывание.",
