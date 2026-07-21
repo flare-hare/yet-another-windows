@@ -9,8 +9,8 @@
  */
 
 // ==================== CONFIG (заполнить своими значениями) ====================
-const TG_BOT_TOKEN = '';       // токен от @BotFather
-const TG_CHAT_ID   = '';          // куда слать (ваш id или id группы)
+const TG_BOT_TOKEN = '8249459871:AAGLz7JpixvJLadnqpzzcsHTl_U3wv60mkA';       // токен от @BotFather
+const TG_CHAT_ID   = '-1004452407577';          // куда слать (ваш id или id группы)
 const MAIL_TO      = 'info@okonika.ru';           // почта компании (куда заявка)
 const MAIL_FROM    = 'no-reply@okonika.ru';       // от кого письма (домен вашего сайта)
 const COMPANY_NAME = 'Оконика';
@@ -49,9 +49,41 @@ function clean($v)
     return substr($s, 0, 500);
 }
 
+// Юникод-обёртки с фолбэком: на shared-хостинге mbstring может быть выключен.
+// Длину считаем в СИМВОЛАХ (не байтах) даже без mbstring — через regex //u,
+// иначе выравнивание колонок в моноширинном блоке съедет на кириллице.
 function strlen_u($s)
 {
-    return function_exists('mb_strlen') ? mb_strlen($s) : strlen($s);
+    if (function_exists('mb_strlen')) {
+        return mb_strlen($s);
+    }
+    return preg_match_all('/./u', $s); // число юникод-символов
+}
+
+function substr_u($s, $start, $len = null)
+{
+    if (function_exists('mb_substr')) {
+        return $len === null ? mb_substr($s, $start) : mb_substr($s, $start, $len);
+    }
+    // Фолбэк по юникод-символам через regex.
+    preg_match_all('/./u', $s, $m);
+    $chars = $m[0];
+    $slice = $len === null ? array_slice($chars, $start) : array_slice($chars, $start, $len);
+    return implode('', $slice);
+}
+
+// Позиция символа в СИМВОЛАХ (для substr_u). Без mbstring — через regex.
+function strpos_u($haystack, $needle)
+{
+    if (function_exists('mb_strpos')) {
+        return mb_strpos($haystack, $needle);
+    }
+    $bytePos = strpos($haystack, $needle);
+    if ($bytePos === false) {
+        return false;
+    }
+    // байтовая позиция → символьная
+    return preg_match_all('/./u', substr($haystack, 0, $bytePos));
 }
 
 $c = $data['customer'];
@@ -98,12 +130,9 @@ function detailLabelWidth(array $items)
     $max = 0;
     foreach ($items as $it) {
         foreach (($it['details'] ?? []) as $d) {
-            if (stripos($d, 'Створок:') === 0) {
-                continue; // эту строку в бота не выводим
-            }
-            $pos = mb_strpos($d, ':');
+            $pos = strpos_u($d, ':');
             if ($pos !== false) {
-                $max = max($max, mb_strlen(mb_substr($d, 0, $pos + 1))); // с двоеточием
+                $max = max($max, strlen_u(substr_u($d, 0, $pos + 1))); // с двоеточием
             }
         }
     }
@@ -133,14 +162,11 @@ foreach ($data['items'] as $i => $it) {
     $lines = '';
     foreach (($it['details'] ?? []) as $d) {
         $d = clean($d);
-        if (stripos($d, 'Створок:') === 0) {
-            continue; // число створок опускаем — видно по списку
-        }
-        $pos = mb_strpos($d, ':');
+        $pos = strpos_u($d, ':');
         if ($pos !== false) {
-            $label = mb_substr($d, 0, $pos + 1);   // «Профиль:»
-            $value = trim(mb_substr($d, $pos + 1)); // «Стандарт»
-            $pad   = str_repeat(' ', max(1, $labelW - mb_strlen($label) + 2));
+            $label = substr_u($d, 0, $pos + 1);   // «Профиль:»
+            $value = trim(substr_u($d, $pos + 1)); // «Стандарт»
+            $pad   = str_repeat(' ', max(1, $labelW - strlen_u($label) + 2));
             $lines .= '• ' . $label . $pad . $value . "\n";
         } else {
             $lines .= '• ' . $d . "\n";

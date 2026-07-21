@@ -111,7 +111,6 @@ export function buildCartItem(state, data) {
 
   // Подробный состав позиции (используется и в корзине, и в заявке боту/на почту)
   const details = [];
-  details.push(`Створок: ${sashes}`);
   for (let i = 0; i < sashes; i += 1) {
     const opId = openings[i] ?? 'fixed';
     const isFixed = opId === 'fixed';
