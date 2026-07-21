@@ -434,12 +434,13 @@
             <h2 class="cart-dialog__title">Оформление</h2>
 
             <label class="field-input">
-              <span class="field-input__label">Имя <span class="field-input__req">*</span></span>
+              <span class="field-input__label">ФИО <span class="field-input__req">*</span></span>
               <input
                 class="field-input__control"
                 type="text"
                 name="name"
                 autocomplete="name"
+                placeholder="Иванов Иван Иванович"
                 required
               />
               <span class="field-input__error" data-error-for="name"></span>
@@ -454,7 +455,8 @@
                 type="tel"
                 name="phone"
                 autocomplete="tel"
-                placeholder="+7 900 000-00-00"
+                inputmode="tel"
+                placeholder="+7 (999) 999-99-99"
                 required
               />
               <span class="field-input__error" data-error-for="phone"></span>

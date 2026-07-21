@@ -65,11 +65,40 @@ async function submitOrder(payload) {
  * @param {HTMLDialogElement} refs.dialog    - диалог (для закрытия)
  * @param {string} [currency='₽']
  */
+/**
+ * Форматирует ввод телефона в маску «+7 (999) 999-99-99».
+ * Оставляет только цифры, нормализует ведущую 8/7 к +7, ограничивает 11 цифрами.
+ * @param {string} value - сырой ввод
+ * @returns {string} отформатированная строка
+ */
+function maskPhone(value) {
+  let digits = (value || '').replace(/\D/g, '');
+  // ведущая 8 или 7 → это код страны, дальше 10 цифр номера
+  if (digits.startsWith('8')) digits = '7' + digits.slice(1);
+  if (!digits.startsWith('7')) digits = '7' + digits;
+  digits = digits.slice(0, 11); // 7 + 10 цифр
+
+  const d = digits.slice(1); // без кода страны
+  let out = '+7';
+  if (d.length > 0) out += ' (' + d.slice(0, 3);
+  if (d.length >= 3) out += ')';
+  if (d.length > 3) out += ' ' + d.slice(3, 6);
+  if (d.length > 6) out += '-' + d.slice(6, 8);
+  if (d.length > 8) out += '-' + d.slice(8, 10);
+  return out;
+}
+
 export function setupCheckout(refs, currency = '₽') {
   const { form, checkout, success, orderNumberEl, successCloseBtn, dialog } = refs;
   if (!form) return;
 
   const submitBtn = form.querySelector('[data-order-submit]');
+
+  // Маска телефона: при вводе форматируем в «+7 (999) 999-99-99».
+  const phoneInput = form.querySelector('[name="phone"]');
+  phoneInput?.addEventListener('input', () => {
+    phoneInput.value = maskPhone(phoneInput.value);
+  });
 
   /** Показывает ошибку под полем. */
   function setError(name, message) {
@@ -85,7 +114,7 @@ export function setupCheckout(refs, currency = '₽') {
     let ok = true;
 
     if (!data.name || data.name.trim().length < 2) {
-      setError('name', 'Укажите имя');
+      setError('name', 'Укажите ФИО');
       ok = false;
     } else setError('name', '');
 
