@@ -81,15 +81,17 @@ if ($orderNumber === '') {
     $orderNumber = 'ОК-' . date('ymd') . '-' . random_int(1000, 9999);
 }
 
-$totalFormatted = clean($data['totalFormatted'] ?? ($data['total'] ?? '0') . ' ₽');
+// Итог: берём отформатированный из клиента (уже со знаком «≈»),
+// иначе строим fallback тоже со знаком «≈» (цена на сайте примерная).
+$totalFormatted = clean($data['totalFormatted'] ?? '≈ ' . ($data['total'] ?? '0') . ' ₽');
 
-// --- Формируем список позиций текстом ---
+// --- Формируем список позиций текстом (цены примерные → знак «≈») ---
 $itemsText = '';
 foreach ($data['items'] as $i => $it) {
     $title = clean($it['title'] ?? 'Окно');
     $size  = clean($it['size'] ?? '');
     $price = clean(($it['price'] ?? '') . '');
-    $itemsText .= ($i + 1) . ". {$title}, {$size} — {$price} ₽\n";
+    $itemsText .= ($i + 1) . ". {$title}, {$size} — ≈ {$price} ₽\n";
     if (!empty($it['details']) && is_array($it['details'])) {
         foreach ($it['details'] as $d) {
             $itemsText .= '   • ' . clean($d) . "\n";

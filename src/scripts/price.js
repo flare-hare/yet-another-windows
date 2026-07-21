@@ -130,12 +130,15 @@ export function calcPrice(state, data) {
 }
 
 /**
- * Форматирует сумму в рубли: «25 986 ₽» (неразрывные пробелы-разделители).
+ * Форматирует сумму в рубли: «≈ 25 986 ₽» (неразрывные пробелы-разделители).
+ * Знак ≈ — потому что цена на сайте примерная (см. сноску в оформлении заказа).
  * @param {number} amount
  * @param {string} [currency='₽']
+ * @param {boolean} [approx=true] - добавлять знак «≈» перед суммой
  * @returns {string}
  */
-export function formatPrice(amount, currency = '₽') {
+export function formatPrice(amount, currency = '₽', approx = true) {
   const rounded = Math.round(amount || 0);
-  return `${rounded.toLocaleString('ru-RU')}\u00A0${currency}`;
+  const sum = `${rounded.toLocaleString('ru-RU')}\u00A0${currency}`;
+  return approx ? `≈\u00A0${sum}` : sum;
 }

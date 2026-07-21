@@ -14,9 +14,9 @@
 
     <!-- Favicon-набор -->
     <link rel="icon" href="images/favicons/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/svg+xml" href="images/favicons/favicon.svg" />
     <link rel="icon" type="image/png" sizes="32x32" href="images/favicons/favicon-32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="images/favicons/favicon-16.png" />
-    <link rel="icon" type="image/svg+xml" href="images/favicons/favicon.svg" />
     <link rel="apple-touch-icon" href="images/favicons/apple-touch-icon.png" />
     <link rel="manifest" href="site.webmanifest" />
     <meta name="theme-color" content="#528d98" />
@@ -421,9 +421,13 @@
             <h2 class="cart-dialog__title">Ваш заказ</h2>
             <ul class="cart-dialog__items" data-cart-items></ul>
             <div class="cart-dialog__total">
-              <span class="cart-dialog__total-label">Итого</span>
+              <span class="cart-dialog__total-label">Итого*</span>
               <span class="cart-dialog__total-value" data-cart-dialog-total>0 ₽</span>
             </div>
+            <p class="cart-dialog__note">
+              * Цена предварительная и может отличаться примерно на ±500 ₽ за позицию. Точную
+              стоимость подтвердит менеджер после замера.
+            </p>
           </div>
 
           <form class="checkout__form" data-order-form novalidate>
