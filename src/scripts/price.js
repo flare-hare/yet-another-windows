@@ -32,7 +32,7 @@ function byId(list, id) {
  * @param {string[]} openings - id открывания по каждой створке ('fixed' = глухая)
  * @returns {{ area:number, profileMeters:number, openSashes:number }}
  */
-export function windowGeometry(widthCm, heightCm, sashes, openings) {
+function windowGeometry(widthCm, heightCm, sashes, openings) {
   const W = (widthCm || 0) / 100; // м
   const H = (heightCm || 0) / 100; // м
   const N = Math.max(1, sashes || 1);

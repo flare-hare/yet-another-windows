@@ -130,8 +130,7 @@ ol {
   width: 100%;
   max-width: var(--container-max);
   margin: 0 auto;
-  padding-right: var(--container-pad);
-  padding-left: var(--container-pad);
+  padding-inline: var(--container-pad);
 }
 
 .visually-hidden {

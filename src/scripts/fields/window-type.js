@@ -8,7 +8,6 @@ import { el } from '../dom.js';
 
 const SPRITE = 'images/svg/sprite.svg';
 const SVGNS = 'http://www.w3.org/2000/svg';
-const XLINKNS = 'http://www.w3.org/1999/xlink';
 
 /**
  * Создаёт SVG-иконку, ссылающуюся на <symbol> в спрайте.
@@ -21,10 +20,7 @@ function spriteIcon(iconId) {
   svg.setAttribute('aria-hidden', 'true');
 
   const use = document.createElementNS(SVGNS, 'use');
-  const href = `${SPRITE}#${iconId}`;
-  use.setAttribute('href', href);
-  // Fallback для старых браузеров (Safari)
-  use.setAttributeNS(XLINKNS, 'xlink:href', href);
+  use.setAttribute('href', `${SPRITE}#${iconId}`);
 
   svg.append(use);
   return svg;

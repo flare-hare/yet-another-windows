@@ -96,8 +96,6 @@
 
 .cart-dialog__close {
   position: absolute;
-  top: var(--space-4);
-  right: var(--space-4);
   display: grid;
   width: 36px;
   height: 36px;
@@ -110,6 +108,8 @@
   transition:
     background-color var(--transition-fast),
     color var(--transition-fast);
+  inset-block-start: var(--space-4);
+  inset-inline-end: var(--space-4);
   place-items: center;
 }
 

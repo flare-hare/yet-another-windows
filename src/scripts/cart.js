@@ -11,7 +11,6 @@ import { calcPrice, formatPrice } from './price.js';
 
 const SPRITE = 'images/svg/sprite.svg';
 const SVGNS = 'http://www.w3.org/2000/svg';
-const XLINKNS = 'http://www.w3.org/1999/xlink';
 
 /** Иконка типа окна из спрайта (те же symbol id, что в карточках выбора). */
 function spriteIcon(iconId) {
@@ -19,9 +18,7 @@ function spriteIcon(iconId) {
   svg.setAttribute('class', 'cart-item__thumb-svg');
   svg.setAttribute('aria-hidden', 'true');
   const use = document.createElementNS(SVGNS, 'use');
-  const href = `${SPRITE}#${iconId}`;
-  use.setAttribute('href', href);
-  use.setAttributeNS(XLINKNS, 'xlink:href', href);
+  use.setAttribute('href', `${SPRITE}#${iconId}`);
   svg.append(use);
   return svg;
 }
@@ -65,11 +62,6 @@ export function getItems() {
   return items.map((it) => ({ ...it }));
 }
 
-/** @returns {number} количество позиций */
-export function getCount() {
-  return items.length;
-}
-
 /** @returns {number} сумма корзины */
 export function getTotal() {
   return items.reduce((sum, it) => sum + (it.price || 0), 0);
@@ -80,7 +72,7 @@ export function getTotal() {
  * @param {(items: Array<Object>) => void} fn
  * @returns {() => void} отписка
  */
-export function subscribeCart(fn) {
+function subscribeCart(fn) {
   listeners.add(fn);
   return () => listeners.delete(fn);
 }
@@ -136,7 +128,7 @@ export function addItem(item) {
 }
 
 /** Удаляет позицию по id. */
-export function removeItem(id) {
+function removeItem(id) {
   items = items.filter((it) => it.id !== id);
   persist();
   notify();

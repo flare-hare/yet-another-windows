@@ -2,64 +2,64 @@
    BLOCK: legal — типовая текстовая страница (политика, оферта и т.п.)
    ============================================================================= */
 
-   .legal {
-    padding: var(--space-10) 0 var(--space-12);
-  }
+.legal {
+  padding: var(--space-10) 0 var(--space-12);
+}
 
-  .legal__inner {
-    max-width: 760px;
-  }
+.legal__inner {
+  max-width: 760px;
+}
 
-  .legal__back {
-    display: inline-block;
-    margin-bottom: var(--space-5);
-    color: var(--color-text-secondary);
-    font-size: var(--fs-sm);
-    text-decoration: none;
-    transition: color var(--transition-fast);
-  }
+.legal__back {
+  display: inline-block;
+  margin-bottom: var(--space-5);
+  color: var(--color-text-secondary);
+  font-size: var(--fs-sm);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
 
-  .legal__back:hover {
-    color: var(--color-accent);
-  }
+.legal__back:hover {
+  color: var(--color-accent);
+}
 
-  .legal__title {
-    margin-bottom: var(--space-2);
-    font-size: var(--fs-h1);
-    font-weight: var(--fw-extrabold);
-  }
+.legal__title {
+  margin-bottom: var(--space-2);
+  font-size: var(--fs-h1);
+  font-weight: var(--fw-extrabold);
+}
 
-  .legal__updated {
-    margin-bottom: var(--space-8);
-    color: var(--color-text-muted);
-    font-size: var(--fs-sm);
-  }
+.legal__updated {
+  margin-bottom: var(--space-8);
+  color: var(--color-text-muted);
+  font-size: var(--fs-sm);
+}
 
-  .legal__section {
-    margin-bottom: var(--space-7);
-  }
+.legal__section {
+  margin-bottom: var(--space-7);
+}
 
-  .legal__heading {
-    margin-bottom: var(--space-3);
-    font-size: var(--fs-h3);
-    font-weight: var(--fw-bold);
-  }
+.legal__heading {
+  margin-bottom: var(--space-3);
+  font-size: var(--fs-h3);
+  font-weight: var(--fw-bold);
+}
 
-  .legal__text {
-    margin-bottom: var(--space-3);
-    color: var(--color-text-secondary);
-    font-size: var(--fs-base);
-    line-height: 1.7;
-  }
+.legal__text {
+  margin-bottom: var(--space-3);
+  color: var(--color-text-secondary);
+  font-size: var(--fs-base);
+  line-height: 1.7;
+}
 
-  .legal__list {
-    margin: 0 0 var(--space-3);
-    padding-left: var(--space-5);
-    color: var(--color-text-secondary);
-    font-size: var(--fs-base);
-    line-height: 1.7;
-  }
+.legal__list {
+  margin: 0 0 var(--space-3);
+  color: var(--color-text-secondary);
+  font-size: var(--fs-base);
+  line-height: 1.7;
+  padding-inline-start: var(--space-5);
+}
 
-  .legal__list li {
-    margin-bottom: var(--space-1);
-  }
+.legal__list li {
+  margin-bottom: var(--space-1);
+}

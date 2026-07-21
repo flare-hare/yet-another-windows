@@ -63,12 +63,12 @@
 
 /* Цена — прижата вправо */
 .extra__price {
-  margin-left: auto;
   color: var(--color-text-secondary);
   font-family: var(--font-heading);
   font-size: var(--fs-sm);
   font-weight: var(--fw-semibold);
   white-space: nowrap;
+  margin-inline-start: auto;
 }
 
 /* -------------------------- Активное состояние ---------------------------- */
@@ -87,13 +87,13 @@
 .extra__input:checked + .extra .extra__check::after {
   content: '';
   position: absolute;
-  top: 3px;
-  left: 7px;
   width: 5px;
   height: 10px;
   border: solid var(--color-on-accent);
   border-width: 0 2px 2px 0;
   transform: rotate(45deg);
+  inset-block-start: 3px;
+  inset-inline-start: 7px;
 }
 
 .extra__input:checked + .extra .extra__price {

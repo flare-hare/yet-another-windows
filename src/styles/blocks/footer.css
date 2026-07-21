@@ -23,7 +23,7 @@
 
 /* --------------------------------- Бренд ---------------------------------- */
 .footer__logo {
-  color: #fff;
+  color: var(--color-text-on-dark);
 }
 
 .footer__tagline {
@@ -37,7 +37,7 @@
 /* ------------------------- Заголовки колонок ------------------------------ */
 .footer__heading {
   margin-bottom: var(--space-4);
-  color: #fff;
+  color: var(--color-text-on-dark);
   font-size: var(--fs-sm);
   font-weight: var(--fw-bold);
   letter-spacing: 0.06em;

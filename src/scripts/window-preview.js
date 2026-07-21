@@ -98,7 +98,7 @@ function createDimLine({ axis, value }) {
  * Строит DOM окна.
  * @returns {HTMLElement}
  */
-export function buildWindowEl({
+function buildWindowEl({
   width,
   height,
   sashes,
