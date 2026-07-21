@@ -234,19 +234,16 @@
   width: 32px;
   height: 32px;
   border: none;
-  border-radius: var(--radius-xs, 6px);
+  border-radius: var(--radius-xs);
   background: none;
   cursor: pointer;
-  color: var(--color-text-muted);
-  transition:
-    color var(--transition-fast),
-    background-color var(--transition-fast);
+  color: var(--color-danger);
+  transition: background-color var(--transition-fast);
   place-items: center;
 }
 
 .cart-item__remove:hover {
-  background-color: var(--color-danger-soft, hsl(2 75% 95%));
-  color: var(--color-danger, #d64545);
+  background-color: var(--color-danger-soft);
 }
 
 /* Стрелка спойлера (через ::after у summary) */

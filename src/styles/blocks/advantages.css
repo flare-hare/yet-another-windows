@@ -20,6 +20,14 @@
   border-radius: var(--radius-md);
   background-color: var(--color-surface);
   box-shadow: var(--shadow-sm);
+  transition:
+    box-shadow var(--transition-fast),
+    transform var(--transition-fast);
+}
+
+.advantage:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-3px);
 }
 
 .advantage__icon {

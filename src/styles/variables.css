@@ -2,9 +2,7 @@
   --accent-hue: 180;
   --accent-sat: 30%;
   --neutral-hue: 180;
-  --neutral-sat: 10%;
   --color-accent: hsl(var(--accent-hue) var(--accent-sat) 59%);
-  --color-accent-hover: hsl(var(--accent-hue) var(--accent-sat) 52%);
   --color-accent-active: hsl(var(--accent-hue) var(--accent-sat) 46%);
   --color-accent-soft: hsl(var(--accent-hue) 70% 94%);
   --color-accent-glow: hsl(var(--accent-hue) var(--accent-sat) 59% / 0.35);
@@ -14,7 +12,6 @@
   --color-surface-2: hsl(var(--neutral-hue) 20% 96%); /* второстепенные */
   --color-border: hsl(var(--neutral-hue) 18% 90%);
   --color-border-strong: hsl(var(--neutral-hue) 16% 82%);
-  --color-border-soft: hsl(var(--accent-hue) 60% 85%);
   --color-text: hsl(var(--neutral-hue) 22% 16%); /* основной */
   --color-text-secondary: hsl(var(--neutral-hue) 12% 38%); /* вторичный */
   --color-text-muted: hsl(var(--neutral-hue) 10% 52%); /* приглушённый */
@@ -23,11 +20,6 @@
   --color-success-soft: hsl(145 50% 94%);
   --color-danger: hsl(2 70% 55%);
   --color-danger-soft: hsl(2 75% 95%);
-  --window-frame: hsl(var(--neutral-hue) 20% 94%); /* белый профиль */
-  --window-frame-edge: hsl(var(--neutral-hue) 14% 80%);
-  --window-glass-top: hsl(200 35% 92%);
-  --window-glass-bottom: hsl(205 30% 84%);
-  --window-handle: hsl(var(--neutral-hue) 10% 62%);
   --font-heading: 'Manrope', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', roboto, sans-serif;
   --fs-display: clamp(2rem, 1.4rem + 3vw, 3.25rem); /* крупный H1 */
@@ -81,8 +73,6 @@
   --container-max: 1300px;
   --container-pad: 24px;
   --transition-fast: 0.15s ease;
-  --transition: 0.2s ease;
   --header-height: 68px;
   --z-header: 100;
-  --z-modal: 1000;
 }
