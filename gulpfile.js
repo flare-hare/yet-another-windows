@@ -174,6 +174,8 @@ async function images() {
 
   for (const file of files) {
     const ext = path.extname(file).toLowerCase();
+    // *-master.svg — только исходники для генерации иконок, в сборку не идут.
+    if (path.basename(file).endsWith('-master.svg')) continue;
     const relative = path.relative(IMAGES_SRC_DIR, file);
     const destPath = path.join(IMAGES_DEST_DIR, relative);
     await fsp.mkdir(path.dirname(destPath), { recursive: true });
