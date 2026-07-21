@@ -24,6 +24,10 @@ const paths = {
     src: 'src/*.php',
     dest: 'dist/',
   },
+  root: {
+    src: 'src/*.webmanifest',
+    dest: 'dist/',
+  },
   styles: {
     src: 'src/styles/main.css',
     watch: 'src/styles/**/*.css',
@@ -75,6 +79,11 @@ function html() {
 // Копируем PHP-бэкенд как есть (без обработки) в корень сборки.
 function php() {
   return src(paths.php.src, { allowEmpty: true }).pipe(dest(paths.php.dest));
+}
+
+// Корневые статичные файлы (site.webmanifest и т.п.)
+function root() {
+  return src(paths.root.src, { allowEmpty: true }).pipe(dest(paths.root.dest));
 }
 
 function imgToPicture() {
@@ -223,6 +232,7 @@ function server() {
   watch(paths.styles.watch, styles);
   watch(paths.html.src, series(html, reload));
   watch(paths.php.src, series(php, reload));
+  watch(paths.root.src, series(root, reload));
   watch(paths.scripts.src, series(scripts, reload));
   watch(paths.images.src, series(images, reload));
   watch(paths.data.src, series(data, reload));
@@ -233,13 +243,17 @@ function reload(done) {
   done();
 }
 
-const build = series(clean, parallel(styles, scripts, fonts, data, php, series(images, html)));
+const build = series(
+  clean,
+  parallel(styles, scripts, fonts, data, php, root, series(images, html))
+);
 const dev = series(build, server);
 
 exports.clean = clean;
 exports.styles = styles;
 exports.html = html;
 exports.php = php;
+exports.root = root;
 exports.scripts = scripts;
 exports.images = images;
 exports.fonts = fonts;

@@ -3,19 +3,55 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Оконика — конструктор пластиковых окон онлайн</title>
+    <title>Оконика - онлайн конструктор пластиковых окон</title>
     <meta
       name="description"
-      content="Соберите пластиковое окно под свои размеры: выберите тип, цвет, стеклопакет и фурнитуру. Цена рассчитывается сразу, без звонков и замеров."
+      content="Онлайн конструктор пластиковых окон без звонков и навязчивых консультаций."
+
     />
-    <!-- TODO: favicon добавим позже (images/favicons/) -->
+
+    <!-- Канонический адрес (замените на ваш домен) -->
+    <link rel="canonical" href="https://okonika.ru/" />
+
+    <!-- Favicon-набор -->
+    <link rel="icon" href="images/favicons/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/svg+xml" href="images/favicons/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicons/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicons/favicon-16.png" />
+    <link rel="apple-touch-icon" href="images/favicons/apple-touch-icon.png" />
+    <link rel="manifest" href="site.webmanifest" />
+    <meta name="theme-color" content="#528d98" />
+
+    <!-- Open Graph (превью при шаринге в мессенджерах/соцсетях) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Оконика" />
+    <meta property="og:title" content="Оконика - онлайн конструктор пластиковых окон" />
+    <meta
+      property="og:description"
+      content="Онлайн конструктор пластиковых окон без звонков и навязчивых консультаций."
+    />
+    <meta property="og:url" content="https://okonika.ru/" />
+    <meta property="og:image" content="https://okonika.ru/images/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="ru_RU" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Оконика - онлайн конструктор пластиковых окон" />
+    <meta
+      name="twitter:description"
+      content="Онлайн конструктор пластиковых окон без звонков и навязчивых консультаций."
+    />
+    <meta name="twitter:image" content="https://okonika.ru/images/og-image.png" />
+
     <link rel="preload" href="fonts/InterVariable.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="stylesheet" href="styles/main.css" />
   </head>
   <body class="page">
     <header class="header">
       <div class="container header__inner">
-        <a class="logo header__logo" href="/" aria-label="Оконика — на главную">
+        <a class="logo header__logo" href="/" aria-label="Оконика - на главную">
           <span class="logo__mark" aria-hidden="true">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
               <rect
@@ -79,7 +115,7 @@
             </div>
           </div>
 
-          <!-- Преимущества (о компании) — на всю ширину под текстом -->
+          <!-- Преимущества (о компании) - на всю ширину под текстом -->
           <ul class="advantages hero__advantages">
             <li class="advantages__item advantage">
               <span class="advantage__icon" aria-hidden="true">
@@ -200,7 +236,7 @@
                   <!-- сюда JS вставит окно (div-иерархия) -->
                 </div>
 
-                <!-- Место под быстрые действия (quick actions) — позже -->
+                <!-- Место под быстрые действия (quick actions) - позже -->
                 <div class="preview__actions" data-quick-actions></div>
               </div>
 
@@ -241,7 +277,7 @@
       <div class="container footer__inner">
         <!-- Бренд -->
         <div class="footer__brand">
-          <a class="logo footer__logo" href="/" aria-label="Оконика — на главную">
+          <a class="logo footer__logo" href="/" aria-label="Оконика - на главную">
             <span class="logo__mark" aria-hidden="true">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                 <rect
@@ -465,7 +501,7 @@
           <div class="checkout-success__icon" aria-hidden="true">✓</div>
           <h2 class="checkout-success__title">Заявка принята!</h2>
           <p class="checkout-success__text">
-            Номер заказа <strong data-order-number>—</strong>. Мы свяжемся с вами в ближайшее время.
+            Номер заказа <strong data-order-number>-</strong>. Мы свяжемся с вами в ближайшее время.
             Подтверждение отправлено на почту.
           </p>
           <button class="btn btn--primary" type="button" data-success-close>Готово</button>
