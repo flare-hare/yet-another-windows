@@ -85,18 +85,71 @@ if ($orderNumber === '') {
 // иначе строим fallback тоже со знаком «≈» (цена на сайте примерная).
 $totalFormatted = clean($data['totalFormatted'] ?? '≈ ' . ($data['total'] ?? '0') . ' ₽');
 
-// --- Формируем список позиций текстом (цены примерные → знак «≈») ---
-$itemsText = '';
-foreach ($data['items'] as $i => $it) {
-    $title = clean($it['title'] ?? 'Окно');
-    $size  = clean($it['size'] ?? '');
-    $price = clean(($it['price'] ?? '') . '');
-    $itemsText .= ($i + 1) . ". {$title}, {$size} — ≈ {$price} ₽\n";
-    if (!empty($it['details']) && is_array($it['details'])) {
-        foreach ($it['details'] as $d) {
-            $itemsText .= '   • ' . clean($d) . "\n";
+// Экранирование для Telegram HTML (имя/комментарий могут содержать < > &).
+function esc($s)
+{
+    return htmlspecialchars((string) $s, ENT_QUOTES, 'UTF-8');
+}
+
+// Ширина «метки» детали (в символах) для выравнивания колонки в моноширинном
+// блоке: «• Профиль:    Стандарт». Считаем по самой длинной метке всех позиций.
+function detailLabelWidth(array $items)
+{
+    $max = 0;
+    foreach ($items as $it) {
+        foreach (($it['details'] ?? []) as $d) {
+            if (stripos($d, 'Створок:') === 0) {
+                continue; // эту строку в бота не выводим
+            }
+            $pos = mb_strpos($d, ':');
+            if ($pos !== false) {
+                $max = max($max, mb_strlen(mb_substr($d, 0, $pos + 1))); // с двоеточием
+            }
         }
     }
+    return $max;
+}
+
+// --- Состав позиций: для Telegram (HTML) и для писем (plain) ---
+$labelW = detailLabelWidth($data['items']);
+$itemsHtml  = ''; // цитаты-блоки для бота
+$itemsPlain = ''; // без разметки для email
+foreach ($data['items'] as $i => $it) {
+    $n     = $i + 1;
+    $title = clean($it['title'] ?? 'Окно');
+    $size  = clean($it['size'] ?? '');
+    // Цена с разделителем тысяч: 24471 → «24 471» (неразрывный пробел)
+    $price = number_format((int) ($it['price'] ?? 0), 0, '', "\u{00A0}");
+
+    // Шапка позиции (цитата)
+    $head = "<b>{$n}.  " . esc($title) . '</b>'
+        . "\n📐  " . esc($size)
+        . "\n💸  ≈ {$price} ₽";
+
+    // Письмо (plain): заголовок позиции
+    $itemsPlain .= "{$n}. {$title}, {$size} — ≈ {$price} руб.\n";
+
+    // Детали в моноширинном блоке с выровненными колонками
+    $lines = '';
+    foreach (($it['details'] ?? []) as $d) {
+        $d = clean($d);
+        if (stripos($d, 'Створок:') === 0) {
+            continue; // число створок опускаем — видно по списку
+        }
+        $pos = mb_strpos($d, ':');
+        if ($pos !== false) {
+            $label = mb_substr($d, 0, $pos + 1);   // «Профиль:»
+            $value = trim(mb_substr($d, $pos + 1)); // «Стандарт»
+            $pad   = str_repeat(' ', max(1, $labelW - mb_strlen($label) + 2));
+            $lines .= '• ' . $label . $pad . $value . "\n";
+        } else {
+            $lines .= '• ' . $d . "\n";
+        }
+        $itemsPlain .= '   - ' . $d . "\n";
+    }
+
+    $mono = $lines !== '' ? "\n<code>" . esc(rtrim($lines, "\n")) . '</code>' : '';
+    $itemsHtml .= "<blockquote expandable>{$head}{$mono}</blockquote>\n";
 }
 
 // ==================== 1. Лог в файл (сначала — надёжно) ====================
@@ -135,13 +188,23 @@ function sendTelegram($text)
     return $res !== false;
 }
 
-$tgText = "<b>Новая заявка {$orderNumber}</b>\n\n"
-    . "👤 {$name}\n"
-    . "📞 {$phone}\n"
-    . "✉️ {$email}\n"
-    . ($comment ? "💬 {$comment}\n" : '')
-    . "\n<b>Состав:</b>\n" . $itemsText
-    . "\n<b>Итого: {$totalFormatted}</b>";
+// Дата и время заявки (по времени сервера)
+$dateStr = date('d.m.Y');
+$timeStr = date('H:i');
+
+// Контакты — цитатой, НЕкликабельные (просто текст).
+$contacts = "<blockquote>🧑🏻‍💼  " . esc($name) . "\n"
+    . "☎️  " . esc($phone) . "\n"
+    . "✉️  " . esc($email)
+    . ($comment ? "\n💭  " . esc($comment) : '')
+    . '</blockquote>';
+
+$tgText = "<b><i>№ {$orderNumber}</i></b>\n"
+    . "📅  {$dateStr}       🕝  {$timeStr}\n\n"
+    . $contacts . "\n"
+    . "📋  <b>Состав заказа:</b>\n\n"
+    . $itemsHtml
+    . "\n💸  <b>Итого: {$totalFormatted}</b>";
 $tgOk = sendTelegram($tgText);
 
 // ==================== 3. Письмо компании ====================
@@ -151,7 +214,7 @@ $headersCompany = "From: {$company} <" . MAIL_FROM . ">\r\n"
 $bodyCompany = "Новая заявка {$orderNumber}\n\n"
     . "Имя: {$name}\nТелефон: {$phone}\nEmail: {$email}\n"
     . ($comment ? "Комментарий: {$comment}\n" : '')
-    . "\nСостав:\n{$itemsText}\nИтого: {$totalFormatted}\n";
+    . "\nСостав:\n{$itemsPlain}\nИтого: {$totalFormatted}\n";
 $mailCompanyOk = @mail(MAIL_TO, "Заявка {$orderNumber} — {$company}", $bodyCompany, $headersCompany);
 
 // ==================== 4. Письмо-подтверждение клиенту ====================
@@ -160,7 +223,7 @@ $headersClient = "From: {$company} <" . MAIL_FROM . ">\r\n"
 $bodyClient = "Здравствуйте, {$name}!\n\n"
     . "Спасибо за заявку в «{$company}». Ваш номер заказа: {$orderNumber}.\n"
     . "Мы свяжемся с вами в ближайшее время.\n\n"
-    . "Состав заказа:\n{$itemsText}\nИтого: {$totalFormatted}\n\n"
+    . "Состав заказа:\n{$itemsPlain}\nИтого: {$totalFormatted}\n\n"
     . "С уважением, команда «{$company}».";
 @mail($email, "Ваш заказ {$orderNumber} принят — {$company}", $bodyClient, $headersClient);
 

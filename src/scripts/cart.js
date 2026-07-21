@@ -101,13 +101,32 @@ export function buildCartItem(state, data) {
   const hardware = byId(data.hardware, state.hardwareId);
 
   const { total } = calcPrice(state, data);
-  const hasOpening = (state.openings || []).some((o) => o && o !== 'fixed');
+  const sashes = type?.sashes ?? 1;
+  const openings = state.openings || [];
+  const handleSides = state.handleSides || [];
+  const hasOpening = openings.some((o) => o && o !== 'fixed');
 
+  const sideName = (s) => (s === 'left' ? 'ручка слева' : 'ручка справа');
+  const openingName = (id) => byId(data.openingTypes, id)?.name ?? 'Глухое';
+
+  // Подробный состав позиции (используется и в корзине, и в заявке боту/на почту)
   const details = [];
+  details.push(`Створок: ${sashes}`);
+  for (let i = 0; i < sashes; i += 1) {
+    const opId = openings[i] ?? 'fixed';
+    const isFixed = opId === 'fixed';
+    const label = sashes > 1 ? `Створка ${i + 1}` : 'Створка';
+    // Сторону ручки показываем только у открывающихся створок
+    details.push(`${label}: ${openingName(opId)}${isFixed ? '' : `, ${sideName(handleSides[i])}`}`);
+  }
   if (profile) details.push(`Профиль: ${profile.name}`);
   if (glazing) details.push(`Стеклопакет: ${glazing.name}`);
   if (color) details.push(`Цвет: ${color.name}`);
   if (hasOpening && hardware) details.push(`Фурнитура: ${hardware.name}`);
+
+  // Доп. опции (extras — массив id)
+  const extraNames = (state.extras || []).map((id) => byId(data.extras, id)?.name).filter(Boolean);
+  if (extraNames.length) details.push(`Доп. опции: ${extraNames.join(', ')}`);
 
   return {
     id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
