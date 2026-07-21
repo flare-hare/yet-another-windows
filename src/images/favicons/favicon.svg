@@ -1,8 +1,14 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="14" fill="#528d98" />
-  <g fill="none" stroke="#ffffff" stroke-width="4.5" stroke-linecap="round">
-    <rect x="16" y="16" width="32" height="32" rx="3.5" />
-    <line x1="32" y1="16" x2="32" y2="48" />
-    <line x1="16" y1="32" x2="48" y2="32" />
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#88bfbf" />
+      <stop offset="1" stop-color="#60a9a9" />
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="14" fill="url(#g)" />
+  <g fill="none" stroke="#ffffff" stroke-width="4" stroke-linecap="round">
+    <rect x="17" y="17" width="30" height="30" rx="3" />
+    <line x1="32" y1="17" x2="32" y2="47" />
+    <line x1="17" y1="32" x2="47" y2="32" />
   </g>
 </svg>
